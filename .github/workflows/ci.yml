@@ -1,0 +1,53 @@
+# .github/workflows/ci.yml
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [25.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      # Cache npm dependencies to speed up subsequent runs
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        id: cache-npm
+        with:
+          path: ~/.npm # Path to cache (npm’s global cache directory)
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}-${{ github.ref_name }}-v1
+          restore-keys: |
+            ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}-v1  
+            ${{ runner.os }}-npm-v1
+
+      - name: Install dependencies
+        if: steps.cache-npm.outputs.cache-hit != 'true'
+        run: npm install
+      - name: Debug cache
+        run: echo "Cache hit ${{ steps.cache-npm.outputs.cache-hit }}"
+
+      - name: Run tests
+        run: npm run test
+
+      - name: Run format
+        run: npm run format
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run build
+        run: npm run build
