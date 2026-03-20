@@ -26,21 +26,21 @@ jobs:
           cache: "npm"
 
       # Cache npm dependencies to speed up subsequent runs
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        id: cache-npm
-        with:
-          path: ~/.npm # Path to cache (npm’s global cache directory)
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}-${{ github.ref_name }}-v1
-          restore-keys: |
-            ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}-v1  
-            ${{ runner.os }}-npm-v1
+      #- name: Cache dependencies
+      #  uses: actions/cache@v3
+      #  id: cache-npm
+      #  with:
+      #    path: ~/.npm # Path to cache (npm’s global cache directory)
+      #    key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}-${{ github.ref_name }}-v1
+      #    restore-keys: |
+      #      ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}-v1
+      #      ${{ runner.os }}-npm-v1
 
       - name: Install dependencies
-        if: steps.cache-npm.outputs.cache-hit != 'true'
+        #  if: steps.cache-npm.outputs.cache-hit != 'true'
         run: npm install
-      - name: Debug cache
-        run: echo "Cache hit ${{ steps.cache-npm.outputs.cache-hit }}"
+      #- name: Debug cache
+      #  run: echo "Cache hit ${{ steps.cache-npm.outputs.cache-hit }}"
 
       - name: Run tests
         run: npm run test
