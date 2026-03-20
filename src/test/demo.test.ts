@@ -8,6 +8,6 @@ describe('sum test', () => {
 
 describe("Hello world", () => {
   it("Add hello and world to be hello world", () => {
-    expect("Hello " + "World").toBe("Hello World!")
+    expect("Hello " + "World!").toBe("Hello World!")
   })
 })
