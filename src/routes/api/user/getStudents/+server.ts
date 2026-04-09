@@ -6,7 +6,7 @@
 //initial commit
 
 export async function GET() {
-    // Insert of test DB,
+    // Insert of test Data,
     const { Users } = await import("$lib/index");
     
     // Filters through users who has the student role, then maps the Id to an array of numbers
