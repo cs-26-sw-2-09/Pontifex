@@ -10,8 +10,7 @@ import type { User } from "$lib/types.js";
 // Return allowed data
 export async function GET({ params }) {
 	const { Users } = await import("$lib/index");
-	console.log(params.slug);
-	//need to check if number, else invalid
+	// Checks if Id is number else returns response Id not number, 
 	const Id = Number(params.slug);
 	if (isNaN(Id)) {
 		// Return new Response();
@@ -27,7 +26,7 @@ export async function GET({ params }) {
 	// Find the right user
 	const User: User | undefined = Users.find((User) => User.Id === Id);
 
-	// Check if User is valid or undefined
+	// Check if User is valid else return user not found.
 	if (!User) {
 		return new Response(
 			JSON.stringify({
