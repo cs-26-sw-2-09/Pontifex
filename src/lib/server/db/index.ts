@@ -13,6 +13,6 @@ export const db = drizzle(client, { schema });
 // This gets all fields
 // db.select().from(schema.user).where(eq(schema.user.Name, "John Doe"))
 // If you only want specific fields, this is the same but with only certain fields
-// let user: {id: number, courses: number[]} = db.select({id: schema.user.id, courses: schema.user.Courses()}).from(schema.user).where(eq(schema.user.Name, "John Doe"))
+// let user: { id: number, courses: number[] } = db.select({ id: schema.User.id, courses: schema.User.Courses() }).from(schema.User).where(eq(schema.User.Name, "John Doe"))
 // 
 //

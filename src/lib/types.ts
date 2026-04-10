@@ -1,4 +1,4 @@
-export interface User {
+export interface UserType {
   Id: number;
   Name: string;
   Attributes: Map<string, string>;
