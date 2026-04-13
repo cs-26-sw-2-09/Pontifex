@@ -1,11 +1,11 @@
-import type { User, Resource, Relations } from "$lib/types.js";
+import { Action, type User, type Resource, type Relations, Role } from "$lib/types.js";
 
-export function hasAccess(user: User, resource: Resource, relation : Relations): boolean {
+export function hasAccess(user: User, resource: Resource, relation : Relations, action : Action): boolean {
 	// Check if the user and the requested resource belong to the same school if not return false
 	if (Number(user.Attributes.get("SchoolID")) !== resource.SchoolID) {
 		return false;
 	}
-	if (user.Role === "Admin") { return true; }
+	if (user.Role === Role.Admin) { return true; }
 
 	switch( resource.type ){
 		// All sub authorization modules and functions.
@@ -31,6 +31,4 @@ export function hasAccess(user: User, resource: Resource, relation : Relations):
 		//throw error and return false
 		return false;
 	}
-	
-	return true;
 }

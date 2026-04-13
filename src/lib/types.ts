@@ -58,3 +58,11 @@ export type Relations = {
 	teaches: { teacherId: string; courseId: string }[];
 	enrolled: { studentId: string; courseId: string }[];
 };
+
+//All Actions must be logged somewere som how.
+export enum Action{
+	Read, //Able to view the specific requested Resource
+	Write, //Able to modify and add to existing data
+	Create, //Being able to create new data
+	Delete //Being able to delete existing Data
+}
