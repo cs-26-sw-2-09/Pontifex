@@ -36,7 +36,13 @@ export interface Course {
 }
 
 //adding Resource instead of course for better flexibility in the future,
-export type ResourceType = "Grade" | "Assignment" | "Profile" | "Schedule";
+export enum ResourceType {
+	Course,
+	Profile,
+	Grades,
+	Assingments, 
+	Schedule
+}
 
 export type Resource = {
 	type: ResourceType;

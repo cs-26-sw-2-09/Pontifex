@@ -11,6 +11,9 @@ export function hasAccess(user: User, resource: Resource, relation : Relations):
 		// All sub authorization modules and functions.
 		// One for each type of reasource
 		
+		// Check if users is allow to see a specifi Course
+		
+
 		// Check if User is allow to see, another profile,
 
 
