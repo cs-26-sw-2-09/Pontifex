@@ -36,7 +36,7 @@ export interface Course {
 }
 
 //adding Resource instead of course for better flexibility in the future,
-export type ResourceType = "Grade" | "Assignment" | "Profile" | "Other";
+export type ResourceType = "Grade" | "Assignment" | "Profile" | "Schedule";
 
 export type Resource = {
 	type: ResourceType;
