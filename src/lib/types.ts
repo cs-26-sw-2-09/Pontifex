@@ -1,17 +1,21 @@
-export interface UserType {
-  Id: number;
-  Name: string;
-  Attributes: Map<string, string>;
-  Courses: number[];
-  Role: Role;
-  // Tottaly fine, I swear
-  Gender: Genders;
-  Email: string;
-  PhoneNumber: string;
-  Birthdate: Date;
-  CPR: string;
-  Address: string;
-}
+import { User } from "$lib/server/db/schema"
+
+export type UserType = typeof User.$inferInsert
+
+//export interface UserType {
+//	Id: number;
+//	Name: string;
+//	Attributes: Map<string, string>;
+//	Courses: number[];
+//	Role: Role;
+//	// Tottaly fine, I swear
+//	Gender: Genders;
+//	Email: string;
+//	PhoneNumber: string;
+//	Birthdate: Date;
+//	CPR: string;
+//	Address: string;
+//}
 
 export enum Role {
   Student = "Student",
@@ -29,8 +33,7 @@ export enum Genders {
 export enum actions {
   Read,
   Write,
-  Delete,
-
+  Delete
 }
 
 export interface Course {
