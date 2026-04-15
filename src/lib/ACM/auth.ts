@@ -26,8 +26,10 @@ export function hasAccess(user: User, resource: Resource, relation : Relations, 
 	// Get user Permisions from DataBase
 	// db.select().from(schema.user).where(eq(schema.user.Name, "John Doe"))
 	// needs changing
+
+
 	// Access Database, select from (table) where feild user id === current user.Id
-	// permisions [] = db.select().from(PgSchema.permisions()).where(eq(PgSchema.user.Id, user.Id))
+	// permisions [] = db.select().from(schema.permisions()).where(eq(schema.user.Id, user.Id))
 	
 	//validate if permisions is empty
 	//if(permisions undefined)

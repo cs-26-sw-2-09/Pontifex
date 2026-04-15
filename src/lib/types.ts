@@ -45,11 +45,11 @@ export enum ResourceType {
 }
 
 export type Resource = {
+	ResourceID: string;
 	type: ResourceType;
 	SchoolID: number;
 	Name: string;
 	OwnerID: number;
-	CourseID?: number;
 	//evt
 	//Attributes: Map<string, string>;
 };
