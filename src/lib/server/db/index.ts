@@ -1,16 +1,14 @@
 import { drizzle } from "drizzle-orm/postgres-js";
-import { getTableColumns } from "drizzle-orm"
-import postgres from "postgres";
-import * as schema from "./schema";
+//import postgres from "postgres";
+//import * as schema from "./schema";
+import { relations } from "./relations";
 import { env } from "$env/dynamic/private";
-import type { UserType } from "$lib/types";
 
 if (!env.DATABASE_URL) throw new Error("DATABASE_URL is not set");
 
-const client = postgres(env.DATABASE_URL);
+//const client = postgres(env.DATABASE_URL);
 
-export const db = drizzle(client, { schema });
-
+export const db = drizzle(env.DATABASE_URL, { relations });
 
 // TODO: An example of how to query the database for an user user with the name "John Doe"
 // This gets all fields
@@ -18,16 +16,14 @@ export const db = drizzle(client, { schema });
 // If you only want specific fields, this is the same but with only certain fields
 // let user: { id: number, courses: number[] } = db.select({ id: schema.User.id, courses: schema.User.Courses() }).from(schema.User).where(eq(schema.User.Name, "John Doe"))
 
-
-export function CheckForPermission(User: UserType) {
-}
-
-export async function GetUserFromId(Id: number) {
-  let temp = await db.query.User.findFirst({
-    with: {
-      UserInfo: true
-    },
-    where: (user, { eq }) => eq(user.Id, Id)
-  })
-  return temp
+export async function GetUserFromId(Id: number, withUserInfo: boolean = false) {
+	return await db.query.User.findFirst({
+		where: {
+			Id: Id
+		},
+		with: {
+			UserInfo: withUserInfo,
+			Course: true
+		}
+	});
 }

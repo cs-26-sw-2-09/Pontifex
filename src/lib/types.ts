@@ -1,6 +1,6 @@
-import { User } from "$lib/server/db/schema"
+import { User } from "$lib/server/db/schema";
 
-export type UserType = typeof User.$inferInsert
+export type UserType = typeof User.$inferInsert;
 
 //export interface UserType {
 //	Id: number;
@@ -18,27 +18,27 @@ export type UserType = typeof User.$inferInsert
 //}
 
 export enum Role {
-  Student = "Student",
-  Teacher = "Teacher",
-  Admin = "Admin"
+	Student = "Student",
+	Teacher = "Teacher",
+	Admin = "Admin"
 }
 
 export enum Genders {
-  Male,
-  Female,
-  NonBinary,
-  Other
+	Male,
+	Female,
+	NonBinary,
+	Other
 }
 
 export enum actions {
-  Read,
-  Write,
-  Delete
+	Read,
+	Write,
+	Delete
 }
 
 export interface Course {
-  Id: number;
-  Name: string;
-  Description: string;
-  Teacher: number;
+	Id: number;
+	Name: string;
+	Description: string;
+	Teacher: number;
 }
