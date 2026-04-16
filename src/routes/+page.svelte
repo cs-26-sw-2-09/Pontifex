@@ -9,7 +9,7 @@
 
 	<div class="mt-10 flex gap-6">
 		<button
-			on:click={() => goto(resolve("/student"))}
+			on:click={() => goto(resolve("/students"))}
 			class="transform rounded-xl border border-blue-400 px-8 py-4
            text-blue-400 shadow-md
            transition duration-300 hover:-translate-y-1 hover:bg-blue-400
@@ -19,7 +19,7 @@
 		</button>
 
 		<button
-			on:click={() => goto(resolve("/student"))}
+			on:click={() => goto(resolve("/students"))}
 			class="transform rounded-xl border border-blue-400 px-8 py-4
            text-blue-400 shadow-md
            transition duration-300 hover:-translate-y-1 hover:bg-blue-400
