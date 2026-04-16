@@ -10,7 +10,7 @@ import type { User } from "$lib/types.js";
 // Return allowed data
 export async function GET({ params }) {
 	const { Users } = await import("$lib/index");
-	// Checks if Id is number else returns response Id not number, 
+	// Checks if Id is number else returns response Id not number,
 	const Id = Number(params.slug);
 	if (isNaN(Id)) {
 		// Return new Response();
