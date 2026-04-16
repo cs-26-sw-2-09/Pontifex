@@ -3,17 +3,15 @@ import * as schema from "./schema";
 
 export const relations = defineRelations(schema, (r) => ({
 	Course: {
-		Teacher: r.one.User({
-			from: r.Course.TeacherId,
-			to: r.User.Id
-		}),
-		Students: r.many.User({ alias: "student" })
+		Users: r.many.User({
+			from: r.Course.Id.through(r.UserToCourses.CourseId),
+			to: r.User.Id.through(r.UserToCourses.UserId)
+		})
 	},
 	User: {
-		Course: r.many.Course(),
-		Lessons: r.many.Course({
-			from: r.User.Id.through(r.StudentsToCourses.UserId),
-			to: r.Course.Id.through(r.StudentsToCourses.CourseId)
+		Course: r.many.Course({
+			from: r.User.Id.through(r.UserToCourses.UserId),
+			to: r.Course.Id.through(r.UserToCourses.CourseId)
 		}),
 		Permissions: r.many.Permissions(),
 		UserInfo: r.many.UserInfo()

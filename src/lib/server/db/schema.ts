@@ -37,14 +37,12 @@ export const UserInfo = pgTable("user_info", {
 export const Course = pgTable("courses", {
 	Id: serial().primaryKey(),
 	Name: text().notNull(),
-	Description: text(),
-	// TODO: Now with foreignKeys. Havent done this yet, cus no wifi, cus plane ✈️
-	TeacherId: integer().references(() => User.Id)
-	// Students: foreignKey()
+	Description: text()
+	// TeacherId: integer().references(() => User.Id) // OLD, teachers just go to the course table
 });
 
-export const StudentsToCourses = pgTable(
-	"students_to_courses",
+export const UserToCourses = pgTable(
+	"user_to_courses",
 	{
 		UserId: integer()
 			.notNull()

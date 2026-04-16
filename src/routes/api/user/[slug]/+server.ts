@@ -28,7 +28,6 @@ export async function GET({ params }) {
 
 	const ResUser = await GetUserFromId(Id, true);
 	console.log(ResUser);
-	//return new Response("balls");
 
 	// Check if User is valid else return user not found.
 	if (!ResUser) {
