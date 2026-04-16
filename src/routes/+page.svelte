@@ -1,8 +1,9 @@
-<script lang="ts">
-	let World: string = "world";
+<script>
+  import { goto } from '$app/navigation';
 </script>
 
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
-<p>{World}</p>
-<div>HEJ</div>
+<h1>Welcome to Lectio</h1>
+<h2>Choose your role to continue</h2>
+<button on:click={() => goto('/student')}>Student</button>
+<button on:click={() => goto('/teacher')}>Teacher</button>
+<button on:click={() => goto('/admin')}>Admin</button>
