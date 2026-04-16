@@ -1,15 +1,15 @@
 import { drizzle } from "drizzle-orm/postgres-js";
-import { getTableColumns } from "drizzle-orm"
-import postgres from "postgres";
-import * as schema from "./schema";
+//import postgres from "postgres";
+//import * as schema from "./schema";
+import { relations } from "./relations";
 import { env } from "$env/dynamic/private";
 import type { UserType } from "$lib/types";
 
 if (!env.DATABASE_URL) throw new Error("DATABASE_URL is not set");
 
-const client = postgres(env.DATABASE_URL);
+//const client = postgres(env.DATABASE_URL);
 
-export const db = drizzle(client, { schema });
+export const db = drizzle(env.DATABASE_URL, { relations });
 
 
 // TODO: An example of how to query the database for an user user with the name "John Doe"
@@ -22,12 +22,15 @@ export const db = drizzle(client, { schema });
 export function CheckForPermission(User: UserType) {
 }
 
-export async function GetUserFromId(Id: number) {
+export async function GetUserFromId(Id: number, withUserInfo: boolean = false) {
   let temp = await db.query.User.findFirst({
-    with: {
-      UserInfo: true
+    where: {
+      Id: Id
     },
-    where: (user, { eq }) => eq(user.Id, Id)
+    with: {
+      UserInfo: withUserInfo,
+      Course: true
+    }
   })
   return temp
 }

@@ -5,10 +5,7 @@
 // Get the info about the user
 // Check if the user is allowed the info
 
-import { db, GetUserFromId } from "$lib/server/db/index.js";
-import { User } from "$lib/server/db/schema.js";
-//import type { UserType } from "$lib/types.js";
-import { eq } from "drizzle-orm";
+import { GetUserFromId } from "$lib/server/db/index.js";
 
 // Return allowed data
 export async function GET({ params }) {
@@ -29,9 +26,9 @@ export async function GET({ params }) {
   // Find the right user
   //const User: User | undefined = Users.find((User) => User.Id === Id);
 
-  const ResUser = await GetUserFromId(Id);
+  const ResUser = await GetUserFromId(Id, true);
   console.log(ResUser);
-  return new Response("balls");
+  //return new Response("balls");
 
   // Check if User is valid else return user not found.
   if (!ResUser) {
@@ -47,7 +44,7 @@ export async function GET({ params }) {
   // Check for allowed data (later)
 
   // Return data
-  return new Response(JSON.stringify(User), {
+  return new Response(JSON.stringify(ResUser), {
     headers: { "Content-Type": "application/json" }
   });
 }
