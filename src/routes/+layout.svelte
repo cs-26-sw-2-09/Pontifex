@@ -2,6 +2,7 @@
 	import "./layout.css";
 	import favicon from "$lib/assets/favicon.svg";
 	import "@tailwindplus/elements";
+	import { resolve } from "$app/paths";
 	let { children } = $props();
 </script>
 
@@ -116,7 +117,7 @@
 							>Settings</a
 						>
 						<a
-							href="#"
+							href={resolve("/")}
 							class="block px-4 py-2 text-sm text-gray-200 focus:bg-white/5 focus:outline-hidden"
 							>Sign out</a
 						>
