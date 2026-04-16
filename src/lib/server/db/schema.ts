@@ -7,14 +7,15 @@ export const ActionsEnum = pgEnum("actions", ["Read", "Write", "Delete"]);
 
 export const User = pgTable("users", {
   Id: serial().primaryKey(),
-  Name: text().notNull()
+  Name: text().notNull(),
+  Role: RoleEnum().notNull(),
   // TODO: Drizzle (ie. prostgress) does not support maps, hence we need to figure out an other way
   // Attributes: ,
 });
 
 export const UserInfo = pgTable("user_info", {
+  Id: serial().primaryKey(),
   UserId: integer().references(() => User.Id, { onDelete: "cascade" }).notNull(),
-  Role: RoleEnum().notNull(),
   Gender: GendersEnum().notNull(),
   Email: text().notNull(),
   PhoneNumber: char({ length: 8 }).notNull(),

@@ -22,12 +22,12 @@ export const db = drizzle(client, { schema });
 export function CheckForPermission(User: UserType) {
 }
 
-export async function GetUserFromId(Id: number, UserInfo: boolean) {
+export async function GetUserFromId(Id: number) {
   let temp = await db.query.User.findFirst({
     with: {
-      Courses: true,
       UserInfo: true
-    }
+    },
+    where: (user, { eq }) => eq(user.Id, Id)
   })
   return temp
 }
