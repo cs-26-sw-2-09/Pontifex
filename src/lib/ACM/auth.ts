@@ -1,6 +1,5 @@
 import {Action, type User, type Resource, type Relations, Role } from "$lib/types.js";
 import {db} from "$lib/server/db/index.js"
-import { User } from '../types';
 import { PgSchema } from "drizzle-orm/pg-core";
 import { permission } from "process";
 
@@ -18,13 +17,14 @@ export function hasAccess(user: User, resource: Resource, relation : Relations, 
 	if (user.Role === Role.Admin) { return true; }
 
 	/*
-	If resource.type === skema && resource.ownerID == user.ID  return true;
+	If resource.type === "skema" && resource.ownerID == user.ID  return true;
 
 	*/
 
-
-	// Get user Permisions from DataBase
+	// Get user Permisions from DataBase based on what action, resource and user/relation
 	// db.select().from(schema.user).where(eq(schema.user.Name, "John Doe"))
+	
+	
 	// needs changing
 
 
