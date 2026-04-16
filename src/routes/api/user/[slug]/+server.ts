@@ -9,42 +9,42 @@ import { GetUserFromId } from "$lib/server/db/index.js";
 
 // Return allowed data
 export async function GET({ params }) {
-  //const { Users } = await import("$lib/index");
-  // Checks if Id is number else returns response Id not number,
-  const Id = Number(params.slug);
-  if (isNaN(Id)) {
-    // Return new Response();
-    return new Response(
-      JSON.stringify({
-        status: 400,
-        message: "Id is not a number"
-      }),
-      { status: 400 }
-    );
-  }
+	//const { Users } = await import("$lib/index");
+	// Checks if Id is number else returns response Id not number,
+	const Id = Number(params.slug);
+	if (isNaN(Id)) {
+		// Return new Response();
+		return new Response(
+			JSON.stringify({
+				status: 400,
+				message: "Id is not a number"
+			}),
+			{ status: 400 }
+		);
+	}
 
-  // Find the right user
-  //const User: User | undefined = Users.find((User) => User.Id === Id);
+	// Find the right user
+	//const User: User | undefined = Users.find((User) => User.Id === Id);
 
-  const ResUser = await GetUserFromId(Id, true);
-  console.log(ResUser);
-  //return new Response("balls");
+	const ResUser = await GetUserFromId(Id, true);
+	console.log(ResUser);
+	//return new Response("balls");
 
-  // Check if User is valid else return user not found.
-  if (!ResUser) {
-    return new Response(
-      JSON.stringify({
-        status: 404,
-        message: "User not found"
-      }),
-      { status: 404 }
-    );
-  }
+	// Check if User is valid else return user not found.
+	if (!ResUser) {
+		return new Response(
+			JSON.stringify({
+				status: 404,
+				message: "User not found"
+			}),
+			{ status: 404 }
+		);
+	}
 
-  // Check for allowed data (later)
+	// Check for allowed data (later)
 
-  // Return data
-  return new Response(JSON.stringify(ResUser), {
-    headers: { "Content-Type": "application/json" }
-  });
+	// Return data
+	return new Response(JSON.stringify(ResUser), {
+		headers: { "Content-Type": "application/json" }
+	});
 }

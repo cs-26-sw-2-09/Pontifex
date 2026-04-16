@@ -1,55 +1,66 @@
-import { pgTable, serial, integer, text, date, pgEnum, char, primaryKey } from "drizzle-orm/pg-core";
-import { defineRelations } from "drizzle-orm";
+import {
+	pgTable,
+	serial,
+	integer,
+	text,
+	date,
+	pgEnum,
+	char,
+	primaryKey
+} from "drizzle-orm/pg-core";
 
 export const RoleEnum = pgEnum("role", ["Student", "Teacher", "Admin"]);
 export const GendersEnum = pgEnum("gender", ["Male", "Female", "NonBinary", "Other"]);
 export const ActionsEnum = pgEnum("actions", ["Read", "Write", "Delete"]);
 
 export const User = pgTable("users", {
-  Id: serial().primaryKey(),
-  Name: text().notNull(),
-  Role: RoleEnum().notNull(),
-  // TODO: Drizzle (ie. prostgress) does not support maps, hence we need to figure out an other way
-  // Attributes: ,
+	Id: serial().primaryKey(),
+	Name: text().notNull(),
+	Role: RoleEnum().notNull()
+	// TODO: Drizzle (ie. prostgress) does not support maps, hence we need to figure out an other way
+	// Attributes: ,
 });
 
 export const UserInfo = pgTable("user_info", {
-  Id: serial().primaryKey(),
-  UserId: integer().references(() => User.Id, { onDelete: "cascade" }).notNull(),
-  Gender: GendersEnum().notNull(),
-  Email: text().notNull(),
-  PhoneNumber: char({ length: 8 }).notNull(),
-  Birthdate: date().notNull(),
-  CPR: char({ length: 10 }).notNull(),
-  Address: text().notNull()
+	Id: serial().primaryKey(),
+	UserId: integer()
+		.references(() => User.Id, { onDelete: "cascade" })
+		.notNull(),
+	Gender: GendersEnum().notNull(),
+	Email: text().notNull(),
+	PhoneNumber: char({ length: 8 }).notNull(),
+	Birthdate: date().notNull(),
+	CPR: char({ length: 10 }).notNull(),
+	Address: text().notNull()
 });
 
 export const Course = pgTable("courses", {
-  Id: serial().primaryKey(),
-  Name: text().notNull(),
-  Description: text(),
-  // TODO: Now with foreignKeys. Havent done this yet, cus no wifi, cus plane ✈️
-  TeacherId: integer().references(() => User.Id)
-  // Students: foreignKey()
+	Id: serial().primaryKey(),
+	Name: text().notNull(),
+	Description: text(),
+	// TODO: Now with foreignKeys. Havent done this yet, cus no wifi, cus plane ✈️
+	TeacherId: integer().references(() => User.Id)
+	// Students: foreignKey()
 });
 
-
-export const StudentsToCourses = pgTable("students_to_courses", {
-  UserId: integer()
-    .notNull()
-    .references(() => User.Id),
-  CourseId: integer()
-    .notNull()
-    .references(() => Course.Id),
-},
-  (t) => [primaryKey({ columns: [t.UserId, t.CourseId] })],
+export const StudentsToCourses = pgTable(
+	"students_to_courses",
+	{
+		UserId: integer()
+			.notNull()
+			.references(() => User.Id),
+		CourseId: integer()
+			.notNull()
+			.references(() => Course.Id)
+	},
+	(t) => [primaryKey({ columns: [t.UserId, t.CourseId] })]
 );
 
 export const Permissions = pgTable("permissions", {
-  Id: serial().primaryKey(),
-  UserId: integer().references(() => User.Id, { onDelete: "cascade" }),
-  //object: foreignKey(), I dont really know what this will have a relation with yet
-  Action: ActionsEnum()
+	Id: serial().primaryKey(),
+	UserId: integer().references(() => User.Id, { onDelete: "cascade" }),
+	//object: foreignKey(), I dont really know what this will have a relation with yet
+	Action: ActionsEnum()
 });
 
 //export const UserRelations = relations(User, ({ one, many }) => ({
