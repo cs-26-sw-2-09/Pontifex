@@ -65,17 +65,17 @@
 					<div class="flex space-x-4">
 						<!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
 						<a
-							href="/"
+							href={resolve("/")}
 							aria-current="page"
 							class="rounded-md bg-gray-950/50 px-3 py-2 text-sm font-medium text-white">Home</a
 						>
 						<a
-							href="/"
+							href={resolve("/")}
 							class="rounded-md px-3 py-2 text-sm font-medium text-gray-200 hover:bg-white/5 hover:text-white"
 							>Courses</a
 						>
 						<a
-							href="/"
+							href={resolve("/")}
 							class="rounded-md px-3 py-2 text-sm font-medium text-gray-200 hover:bg-white/5 hover:text-white"
 							>Assignments</a
 						>
@@ -107,12 +107,12 @@
 						class="w-48 origin-top-right rounded-md bg-gray-800 py-1 outline -outline-offset-1 outline-white/10 transition transition-discrete [--anchor-gap:--spacing(2)] data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
 					>
 						<a
-							href="/"
+							href={resolve("/")}
 							class="block px-4 py-2 text-sm text-gray-200 focus:bg-white/5 focus:outline-hidden"
 							>Your profile</a
 						>
 						<a
-							href="/"
+							href={resolve("/")}
 							class="block px-4 py-2 text-sm text-gray-200 focus:bg-white/5 focus:outline-hidden"
 							>Settings</a
 						>
@@ -131,17 +131,17 @@
 		<div class="space-y-1 px-2 pt-2 pb-3">
 			<!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
 			<a
-				href="/"
+				href={resolve("/")}
 				aria-current="page"
 				class="block rounded-md bg-gray-950/50 px-3 py-2 text-base font-medium text-white">Home</a
 			>
 			<a
-				href="/"
+				href={resolve("/")}
 				class="block rounded-md px-3 py-2 text-base font-medium text-gray-200 hover:bg-white/5 hover:text-white"
 				>Courses</a
 			>
 			<a
-				href="/"
+				href={resolve("/")}
 				class="block rounded-md px-3 py-2 text-base font-medium text-gray-200 hover:bg-white/5 hover:text-white"
 				>Assingments</a
 			>
