@@ -6,7 +6,8 @@ import {
 	date,
 	pgEnum,
 	char,
-	primaryKey
+	primaryKey,
+	timestamp
 } from "drizzle-orm/pg-core";
 
 export const RoleEnum = pgEnum("role", ["Student", "Teacher", "Admin"]);
@@ -54,11 +55,26 @@ export const UserToCourses = pgTable(
 	(t) => [primaryKey({ columns: [t.UserId, t.CourseId] })]
 );
 
-export const Permissions = pgTable("permissions", {
+export const Assignments = pgTable("assignments", {
 	Id: serial().primaryKey(),
-	UserId: integer().references(() => User.Id, { onDelete: "cascade" }),
-	//object: foreignKey(), I dont really know what this will have a relation with yet
-	Action: ActionsEnum()
+	TeacherId: integer().references(() => User.Id, { onDelete: "cascade" }),
+	CourseId: integer().references(() => Course.Id, { onDelete: "cascade" }),
+	Name: text().notNull(),
+	Description: text().notNull(),
+	DueDate: timestamp().notNull()
+});
+
+export const HandedInAssignments = pgTable("handed_in_assignments", {
+	UserId: integer()
+		.notNull()
+		.references(() => User.Id, { onDelete: "cascade" }),
+	AssignmentId: integer()
+		.notNull()
+		.references(() => Assignments.Id, { onDelete: "cascade" }),
+	HandInDate: timestamp().defaultNow().notNull(),
+	Grade: integer(),
+	Feedback: text(),
+	AssignmentText: text()
 });
 
 //export const UserRelations = relations(User, ({ one, many }) => ({
