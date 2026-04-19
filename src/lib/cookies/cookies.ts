@@ -1,7 +1,7 @@
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 export function setCookie(key: string, value: string, days = 1) {
-	Cookies.set(key, value, { expires: days, sameSite: 'Strict' });
+	Cookies.set(key, value, { expires: days, sameSite: "Strict" });
 }
 
 export function getCookie(key: string): string | undefined {

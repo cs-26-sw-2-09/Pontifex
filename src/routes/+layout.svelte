@@ -4,14 +4,14 @@
 	import "@tailwindplus/elements";
 	import { resolve } from "$app/paths";
 	import { goto } from "$app/navigation";
-    import { deleteCookie } from "$lib/cookies/cookies";
+	import { deleteCookie } from "$lib/cookies/cookies";
 
 	let { children } = $props();
 
 	function logout() {
-        deleteCookie('user');
-        goto(resolve('/'));
-    }
+		deleteCookie("user");
+		goto(resolve("/"));
+	}
 </script>
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
@@ -125,9 +125,10 @@
 							>Settings</a
 						>
 						<button
-    on:click={logout}
-    class="block w-full text-left px-4 py-2 text-sm text-gray-200 focus:bg-white/5 focus:outline-hidden"
->Sign out</button>
+							on:click={logout}
+							class="block w-full px-4 py-2 text-left text-sm text-gray-200 focus:bg-white/5 focus:outline-hidden"
+							>Sign out</button
+						>
 					</el-menu>
 				</el-dropdown>
 			</div>
