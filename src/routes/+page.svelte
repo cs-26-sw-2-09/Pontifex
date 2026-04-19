@@ -51,7 +51,7 @@
 	}
 </script>
 
-<div class="flex min-h-screen flex-col items-center justify-center bg-gray-100 text-center">
+<div class="flex min-h-screen flex-col items-center bg-gray-100 pt-48 text-center">
 	<h1 class="text-5xl font-bold">Lectio Pontifex</h1>
 	<h2 class="mt-4 text-xl">Who are you?</h2>
 
