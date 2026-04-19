@@ -3,9 +3,30 @@
 	import { resolve } from "$app/paths";
 	import { setCookie } from "$lib/cookies/cookies";
 
-	const students = ["Student 1", "Student 2", "Student 3", "Student 4", "Student 5", "Student 6", "Student 7", "Student 8", "Student 9", "Student 10", "Student 11", "Student 12", "Student 13", "Student 14", "Student 15", "Student 16", "Student 17", "Student 18", "Student 19", "Student 20", ];
-	const teachers = ["Teacher 1", "Teacher 2", "Teacher 3", "Teacher 4", "Teacher 5", ];
-	const admins = ["Admin 1", "Admin 2", "Admin 3", ];
+	const students = [
+		"Student 1",
+		"Student 2",
+		"Student 3",
+		"Student 4",
+		"Student 5",
+		"Student 6",
+		"Student 7",
+		"Student 8",
+		"Student 9",
+		"Student 10",
+		"Student 11",
+		"Student 12",
+		"Student 13",
+		"Student 14",
+		"Student 15",
+		"Student 16",
+		"Student 17",
+		"Student 18",
+		"Student 19",
+		"Student 20"
+	];
+	const teachers = ["Teacher 1", "Teacher 2", "Teacher 3", "Teacher 4", "Teacher 5"];
+	const admins = ["Admin 1", "Admin 2", "Admin 3"];
 
 	let selectedStudent = "";
 	let selectedTeacher = "";
@@ -31,7 +52,6 @@
 </script>
 
 <div class="flex min-h-screen flex-col items-center justify-center bg-gray-100 text-center">
-
 	<h1 class="text-5xl font-bold">Lectio Pontifex</h1>
 	<h2 class="mt-4 text-xl">Who are you?</h2>
 
