@@ -125,7 +125,7 @@
 							>Settings</a
 						>
 						<button
-							onclick={logout}
+							on:click={logout}
 							class="block w-full px-4 py-2 text-left text-sm text-gray-200 focus:bg-white/5 focus:outline-hidden"
 							>Sign out</button
 						>
