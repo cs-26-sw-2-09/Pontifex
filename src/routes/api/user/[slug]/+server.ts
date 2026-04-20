@@ -5,11 +5,11 @@
 // Get the info about the user
 // Check if the user is allowed the info
 
-import type { User } from "$lib/types.js";
+import { GetUserFromId } from "$lib/server/db/index.js";
 
 // Return allowed data
 export async function GET({ params }) {
-	const { Users } = await import("$lib/index");
+	//const { Users } = await import("$lib/index");
 	// Checks if Id is number else returns response Id not number,
 	const Id = Number(params.slug);
 	if (isNaN(Id)) {
@@ -24,10 +24,13 @@ export async function GET({ params }) {
 	}
 
 	// Find the right user
-	const User: User | undefined = Users.find((User) => User.Id === Id);
+	//const User: User | undefined = Users.find((User) => User.Id === Id);
+
+	const ResUser = await GetUserFromId(Id, true);
+	console.log(ResUser);
 
 	// Check if User is valid else return user not found.
-	if (!User) {
+	if (!ResUser) {
 		return new Response(
 			JSON.stringify({
 				status: 404,
@@ -40,7 +43,7 @@ export async function GET({ params }) {
 	// Check for allowed data (later)
 
 	// Return data
-	return new Response(JSON.stringify(User), {
+	return new Response(JSON.stringify(ResUser), {
 		headers: { "Content-Type": "application/json" }
 	});
 }
