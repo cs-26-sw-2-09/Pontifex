@@ -44,3 +44,12 @@ export function hasAccessCourse(
 	}
 	return false;
 }
+
+export function hasAccessProfile(
+	user: UserType,
+	action: action,
+	sessionId = 1 /* Session ID  (Cookie): String*/
+): boolean {
+	// defalut denies access and return false,
+	return false;
+}
