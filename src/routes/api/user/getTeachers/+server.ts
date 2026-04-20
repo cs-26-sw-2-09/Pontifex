@@ -4,8 +4,7 @@
 // return all ids as an array
 
 import { db } from "$lib/server/db";
-import { User } from "$lib/server/db/schema";
-import { eq } from "drizzle-orm";
+import { Role } from "$lib/types";
 
 export async function GET() {
 	// Insert of test DB,
@@ -16,7 +15,15 @@ export async function GET() {
 	//	(teacher) => teacher.Id
 	//);
 
-	const teachers: { Id: number }[] = db.select({ Id: User.Id }).from(User).where(eq(User.Id, 1));
+	const teachers = await db.query.User.findMany({
+		where: {
+			Role: Role.Teacher
+		},
+		columns: {
+			Id: true,
+			Name: true
+		}
+	});
 
 	// Retuns Json object including student users ID
 	return new Response(JSON.stringify(teachers), {
