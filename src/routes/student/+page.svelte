@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { getCookie } from "$lib/cookies/cookies";
+	import { getUserCookie } from "$lib/cookies/cookies";
 
-	const user = getCookie("user");
+	const user = getUserCookie();
 </script>
 
 <h1 class="text-center text-[42px]">Welcome, {user}!</h1>

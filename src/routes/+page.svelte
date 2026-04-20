@@ -1,52 +1,62 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
 	import { resolve } from "$app/paths";
-	import { setCookie } from "$lib/cookies/cookies";
+	import { setUserCookie } from "$lib/cookies/cookies";
 
 	const students = [
-		"Student 1",
-		"Student 2",
-		"Student 3",
-		"Student 4",
-		"Student 5",
-		"Student 6",
-		"Student 7",
-		"Student 8",
-		"Student 9",
-		"Student 10",
-		"Student 11",
-		"Student 12",
-		"Student 13",
-		"Student 14",
-		"Student 15",
-		"Student 16",
-		"Student 17",
-		"Student 18",
-		"Student 19",
-		"Student 20"
+		{ name: "Student 1", id: 1 },
+		{ name: "Student 2", id: 2 },
+		{ name: "Student 3", id: 3 },
+		{ name: "Student 4", id: 4 },
+		{ name: "Student 5", id: 5 },
+		{ name: "Student 6", id: 6 },
+		{ name: "Student 7", id: 7 },
+		{ name: "Student 8", id: 8 },
+		{ name: "Student 9", id: 9 },
+		{ name: "Student 10", id: 10 },
+		{ name: "Student 11", id: 11 },
+		{ name: "Student 12", id: 12 },
+		{ name: "Student 13", id: 13 },
+		{ name: "Student 14", id: 14 },
+		{ name: "Student 15", id: 15 },
+		{ name: "Student 16", id: 16 },
+		{ name: "Student 17", id: 17 },
+		{ name: "Student 18", id: 18 },
+		{ name: "Student 19", id: 19 },
+		{ name: "Student 20", id: 20 }
 	];
-	const teachers = ["Teacher 1", "Teacher 2", "Teacher 3", "Teacher 4", "Teacher 5"];
-	const admins = ["Admin 1", "Admin 2", "Admin 3"];
+	const teachers = [
+		{ name: "Teacher 1", id: 1 },
+		{ name: "Teacher 2", id: 2 },
+		{ name: "Teacher 3", id: 3 },
+		{ name: "Teacher 4", id: 4 },
+		{ name: "Teacher 5", id: 5 }
+	];
+	const admins = [
+		{ name: "Admin 1", id: 1 },
+		{ name: "Admin 2", id: 2 },
+		{ name: "Admin 3", id: 3 }
+	];
 
-	let selectedStudent = "";
-	let selectedTeacher = "";
-	let selectedAdmin = "";
+	let selectedStudent: number;
+	let selectedTeacher: number;
+	let selectedAdmin: number;
 
 	function loginStudent() {
-		if (selectedStudent === "") return;
-		setCookie("user", students[Number(selectedStudent)]);
+		if (!selectedStudent && selectedStudent != 0) return;
+		setUserCookie(students[selectedStudent].id);
 		goto(resolve("/student"));
 	}
 
 	function loginTeacher() {
-		if (selectedTeacher === "") return;
-		setCookie("user", teachers[Number(selectedTeacher)]);
+		if (!selectedTeacher && selectedTeacher != 0) return;
+		setUserCookie(teachers[selectedTeacher].id);
 		goto(resolve("/teacher"));
 	}
 
 	function loginAdmin() {
-		if (selectedAdmin === "") return;
-		setCookie("user", admins[Number(selectedAdmin)]);
+		if (!selectedAdmin && selectedAdmin != 0) return;
+		setUserCookie(admins[selectedAdmin].id);
 		goto(resolve("/admin"));
 	}
 </script>
@@ -61,9 +71,8 @@
 				bind:value={selectedStudent}
 				class="rounded-xl border border-blue-400 bg-white px-6 py-3 text-blue-400 shadow-md"
 			>
-				<option value="">Student</option>
 				{#each students as student, i (i)}
-					<option value={i}>{student}</option>
+					<option value={i}>{student.name}</option>
 				{/each}
 			</select>
 			<button
@@ -79,9 +88,8 @@
 				bind:value={selectedTeacher}
 				class="rounded-xl border border-emerald-400 bg-white px-6 py-3 text-emerald-400 shadow-md"
 			>
-				<option value="">Teacher</option>
 				{#each teachers as teacher, i (i)}
-					<option value={i}>{teacher}</option>
+					<option value={i}>{teacher.name}</option>
 				{/each}
 			</select>
 			<button
@@ -97,9 +105,8 @@
 				bind:value={selectedAdmin}
 				class="rounded-xl border border-red-400 bg-white px-6 py-3 text-red-400 shadow-md"
 			>
-				<option value="">Admin</option>
 				{#each admins as admin, i (i)}
-					<option value={i}>{admin}</option>
+					<option value={i}>{admin.name}</option>
 				{/each}
 			</select>
 			<button

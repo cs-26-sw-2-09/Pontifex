@@ -4,12 +4,12 @@
 	import "@tailwindplus/elements";
 	import { resolve } from "$app/paths";
 	import { goto } from "$app/navigation";
-	import { deleteCookie } from "$lib/cookies/cookies";
+	import { deleteUserCookie } from "$lib/cookies/cookies";
 
 	let { children } = $props();
 
 	function logout() {
-		deleteCookie("user");
+		deleteUserCookie();
 		goto(resolve("/"));
 	}
 </script>

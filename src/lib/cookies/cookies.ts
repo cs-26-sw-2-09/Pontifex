@@ -1,13 +1,13 @@
 import Cookies from "js-cookie";
 
-export function setCookie(key: string, value: string, days = 30) {
-	Cookies.set(key, value, { expires: days, sameSite: "Strict" });
+export function setUserCookie(value: number, days = 30) {
+	Cookies.set("user", value.toString(), { expires: days, sameSite: "Strict" });
 }
 
-export function getCookie(key: string): string | undefined {
-	return Cookies.get(key);
+export function getUserCookie(): number | undefined {
+	return Number(Cookies.get("user"));
 }
 
-export function deleteCookie(key: string) {
-	Cookies.remove(key);
+export function deleteUserCookie() {
+	Cookies.remove("user");
 }
