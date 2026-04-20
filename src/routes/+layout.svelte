@@ -3,7 +3,15 @@
 	import favicon from "$lib/assets/favicon.svg";
 	import "@tailwindplus/elements";
 	import { resolve } from "$app/paths";
+	import { goto } from "$app/navigation";
+	import { deleteUserCookie } from "$lib/cookies/cookies";
+
 	let { children } = $props();
+
+	function logout() {
+		deleteUserCookie();
+		goto(resolve("/"));
+	}
 </script>
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
@@ -116,10 +124,10 @@
 							class="block px-4 py-2 text-sm text-gray-200 focus:bg-white/5 focus:outline-hidden"
 							>Settings</a
 						>
-						<a
-							href={resolve("/")}
-							class="block px-4 py-2 text-sm text-gray-200 focus:bg-white/5 focus:outline-hidden"
-							>Sign out</a
+						<button
+							on:click={logout}
+							class="block w-full px-4 py-2 text-left text-sm text-gray-200 focus:bg-white/5 focus:outline-hidden"
+							>Sign out</button
 						>
 					</el-menu>
 				</el-dropdown>
