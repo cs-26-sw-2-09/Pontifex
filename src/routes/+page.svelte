@@ -35,7 +35,7 @@
 	function loginStudent() {
 		if (selectedStudent === "") return;
 		setCookie("user", students[Number(selectedStudent)]);
-		goto(resolve("/students"));
+		goto(resolve("/student"));
 	}
 
 	function loginTeacher() {
