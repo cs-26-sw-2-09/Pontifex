@@ -35,7 +35,7 @@ export function hasAccessCourse(
 	// If User role is student check if the user is enrolled in course if not return false
 	if (user.Role === Role.Student) {
 		// Check if the user is enrolled in the course
-		const enrolledCourses = db.query.user_to_courses.findone({
+		const enrolledCourses = await db.query..findone({
 			where: { UserId: user.Id, CourseId: course.Id }
 		});
 		if (enrolledCourses) {
