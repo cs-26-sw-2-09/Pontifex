@@ -4,6 +4,10 @@
 	import "@tailwindplus/elements";
 	import { resolve } from "$app/paths";
 	let { children } = $props();
+
+	//import type { LayoutProps } from "./$types";
+
+	//let { data, children }: LayoutProps = $props();
 </script>
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
