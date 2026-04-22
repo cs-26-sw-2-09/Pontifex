@@ -79,4 +79,5 @@ export const db = drizzle("postgres://user:password@localhost:5432/db-name", { r
 
 seed().then(() => {
   console.log("Seeding complete");
+  process.exit(0);
 })
