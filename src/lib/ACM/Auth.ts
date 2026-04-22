@@ -1,55 +1,63 @@
-import { action, type UserType, Role, type Course } from "$lib/types.js";
-import { db, GetUserFromId } from "$lib/server/db/index.js";
-import { PgSchema } from "drizzle-orm/pg-core";
-// import { permission } from "process";
+import { actions, type UserType, Role, type Course } from "$lib/types.js";
+import * as db from "$lib/server/db";
 
-// export function hasAccessCourse(
-// 	user: UserType,
-// 	//relation: Relations,
-// 	actions: action,
-// 	course: Course,
-// 	sessionId = 1 /* Session ID  (Cookie): String*/
-// ): boolean {
-// 	// Compare Session ID from web browser with User ID from Current User
-// 	if (user.Id !== sessionId) {
-// 		return false;
-// 	}
-// 	// Get user type info
-// 	// const UserInfo = GetUserFromId(user.Id, true);
-// 	// if (!UserInfo) {
-// 	// 	// Return false throw error
-// 	// 	return false;
-// 	// }
+// TODO: MUST HAVE A WAY TO DEFINE WHAT WE ARE TRYING TO ACCESS;
 
-// 	// Check if the user and the requested resource belong to the same school if not return false
+export function hasAccess(
+	user: UserType,
+	action: actions,
+	reasource: { profile?: UserType; course?: Course },
+	sessionId = 4 /* Session ID  (Cookie): String*/
+): boolean {
+	//Defalut denies access and return false,
+	//Returns false if the session ID from the web browser does not match the user ID from the current user, this is to prevent users from accessing other users profiles or courses
 
-// 	// If role is admin return true
-// 	if (user.Role === Role.Admin) {
-// 		return true;
-// 	}
+	if (user.Id !== sessionId) return false;
 
-// 	// If user role is Teacher return True??
-// 	if (user.Role === Role.Teacher) {
-// 		return true;
-// 	}
-// 	// If User role is student check if the user is enrolled in course if not return false
-// 	if (user.Role === Role.Student) {
-// 		// Check if the user is enrolled in the course
-// 		const enrolledCourses = await db.query..findone({
-// 			where: { UserId: user.Id, CourseId: course.Id }
-// 		});
-// 		if (enrolledCourses) {
-// 			return true;
-// 		}
-// 	}
-// 	return false;
-// }
+	// allows admin to bypass all checks and return true
+	if (user.Role === Role.Admin) return true;
 
-// export function hasAccessProfile(
-// 	user: UserType,
-// 	action: action,
-// 	sessionId = 1 /* Session ID  (Cookie): String*/
-// ): boolean {
-// 	// defalut denies access and return false,
-// 	return false;
-// }
+	// Check if attribute school Id matches
+
+	switch (reasource) {
+		case reasource.profile:
+			return hasAccessToProfile(user, action, reasource);
+		case reasource.course:
+			return hasAccessToCourse(user, action, reasource.course);
+		default:
+			return false;
+	}
+}
+
+// Takes the User, the action type, the resource and the session ID, evaluates if the user has access to the profile and returns true or false
+function hasAccessToProfile(
+	user: UserType,
+	action: actions,
+	reasource: { profile: UserType }
+): boolean {
+	// Checks if the user is trying to access their own profile and the action is read, if so return true
+	if (user.Id === reasource.profile.Id && action === actions.Read) return true;
+
+	// Checks if the user is of type teacher and the actions is read, if so return true
+	if (user.Role === Role.Teacher && action === actions.Read) return true;
+	return false;
+}
+
+function hasAccessToCourse(user: UserType, action: actions, course: Course): boolean {
+	// if the user is a teacher and course is taught by the user (TeacherId) if the action is read or write, return true
+	if (
+		(user.Role === Role.Teacher && user.Id === course.Teacher && action === actions.Read) ||
+		action === actions.Write
+	)
+		return true;
+
+	// if the user is a student and and the student wants to read the course return true;
+	if (user.Role === Role.Student && action === actions.Read) {
+		// Check if the student is enrolled in the course, if so return true
+		//if (db.(course.Id)) return true;
+		return true; // Placeholder, replace with actual check for enrollment in the course
+	}
+
+	// Default denies access and return false
+	return false;
+}
