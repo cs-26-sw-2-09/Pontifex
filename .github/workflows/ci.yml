@@ -60,6 +60,9 @@ jobs:
       #- name: Debug cache
       #  run: echo "Cache hit ${{ steps.cache-npm.outputs.cache-hit }}"
 
+      - name: Seed database
+        run: npm run db:seed
+
       - name: Run tests
         run: npm run test
 
