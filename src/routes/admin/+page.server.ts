@@ -3,9 +3,9 @@ import type { PageServerLoad } from "./$types";
 import { type UserType, Role } from "$lib/types";
 
 export const load: PageServerLoad = async () => {
-	const users: UserType[] = await db.GetUsersWithRole(Role.Student, false);
-	//console.log(users);
+	const users: UserType[] = await db.GetUsersWithRole(Role.Admin, true);
+	console.log(users);
 	return {
-		posts: users
+		users : users
 	};
 };

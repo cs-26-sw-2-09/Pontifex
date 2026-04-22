@@ -1,10 +1,11 @@
 <script lang="ts">
 	import type { PageProps } from "./$types";
 	let { data }: PageProps = $props();
+	
 </script>
 
 <ul role="list" class="m-2 flex-col divide-y divide-white/5">
-	{#each data.posts as user (user.Id)}
+	{#each data.users as user (user.Id)}
 		<li class="m-2 flex justify-between rounded-lg bg-gray-700 p-2">
 			<!-- LEFT SIDE -->
 			<div class="flex min-w-0 gap-x-4">
