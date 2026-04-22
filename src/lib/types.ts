@@ -1,4 +1,4 @@
-import { User } from "$lib/server/db/schema";
+import { Assignments, User } from "$lib/server/db/schema";
 
 export type UserType = typeof User.$inferInsert;
 
@@ -41,4 +41,10 @@ export interface Course {
 	Name: string;
 	Description: string;
 	Teacher: number;
+}
+
+export enum ResourceType {
+	Profile = "Profile",
+	Course = "Course",
+	Assignments = "Assignments"
 }

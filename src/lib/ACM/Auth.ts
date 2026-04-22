@@ -1,4 +1,4 @@
-import { actions, type UserType, Role, type Course } from "$lib/types.js";
+import { type UserType, Role, actions, type Course, ResourceType } from "$lib/types.js";
 //import * as db from "$lib/server/db";
 
 // TODO: MUST HAVE A WAY TO DEFINE WHAT WE ARE TRYING TO ACCESS;
@@ -6,7 +6,7 @@ import { actions, type UserType, Role, type Course } from "$lib/types.js";
 export function hasAccess(
 	user: UserType,
 	action: actions,
-	reasource: { reasoureType: string; profile: UserType; course?: Course },
+	reasource: { reasoureType: ResourceType; profile: UserType; course?: Course },
 	sessionId = 4 /* Session ID  (Cookie): String*/
 ): boolean {
 	//Defalut denies access and return false,
@@ -20,9 +20,9 @@ export function hasAccess(
 	// Check if attribute school Id matches
 
 	switch (reasource.reasoureType) {
-		case "profile":
+		case ResourceType.Profile:
 			return hasAccessToProfile(user, action, reasource);
-		case "course":
+		case ResourceType.Course:
 			return hasAccessToCourse(user, action, reasource.course!);
 		default:
 			return false;
@@ -33,7 +33,7 @@ export function hasAccess(
 function hasAccessToProfile(
 	user: UserType,
 	action: actions,
-	reasource: { reasoureType: string; profile: UserType; course?: Course }
+	reasource: { reasoureType: ResourceType; profile: UserType; course?: Course }
 ): boolean {
 	// Checks if the user is trying to access their own profile and the action is read, if so return true
 	if (user.Id === reasource.profile.Id && action === actions.Read) return true;
