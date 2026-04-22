@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { getUserCookie } from "$lib/cookies/cookies";
-
-	const user = getUserCookie();
+    let { data } = $props();
 </script>
 
-<h1 class="text-center text-[42px]">Welcome, {user}!</h1>
+<h1 class="text-center text-[42px]">Welcome, {data.user?.Name}!</h1>
