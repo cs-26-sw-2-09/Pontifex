@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { PageProps } from "./$types";
 	let { data }: PageProps = $props();
-	
 </script>
 
 <ul role="list" class="m-2 flex-col divide-y divide-white/5">
