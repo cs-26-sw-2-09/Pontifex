@@ -45,6 +45,5 @@ export interface Course {
 
 export enum ResourceType {
 	Profile = "Profile",
-	Course = "Course",
-	Assignments = "Assignments"
+	Course = "Course"
 }
