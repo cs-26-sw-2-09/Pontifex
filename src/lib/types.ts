@@ -1,4 +1,4 @@
-import { Assignments, User } from "$lib/server/db/schema";
+import { User } from "$lib/server/db/schema";
 
 export type UserType = typeof User.$inferInsert;
 
