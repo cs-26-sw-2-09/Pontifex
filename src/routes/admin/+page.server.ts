@@ -6,6 +6,6 @@ export const load: PageServerLoad = async () => {
 	const users: UserType[] = await db.GetUsersWithRole(Role.Admin, true);
 	console.log(users);
 	return {
-		users : users
+		users: users
 	};
 };
