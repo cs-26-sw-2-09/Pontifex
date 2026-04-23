@@ -8,7 +8,7 @@
 
 	<div class="mt-10 flex gap-6">
 		<form method="POST" action="?/login" class="flex flex-col gap-2">
-		<p class="text-center text-blue-400 text-sm font-medium">Student</p>
+			<p class="text-center text-sm font-medium text-blue-400">Student</p>
 			<select
 				name="id"
 				class="rounded-xl border border-blue-400 bg-white px-6 py-3 text-blue-400 shadow-md"
@@ -27,7 +27,7 @@
 		</form>
 
 		<form method="POST" action="?/login" class="flex flex-col gap-2">
-		<p class="text-center text-emerald-400 text-sm font-medium">Teacher</p>
+			<p class="text-center text-sm font-medium text-emerald-400">Teacher</p>
 			<select
 				name="id"
 				class="rounded-xl border border-emerald-400 bg-white px-6 py-3 text-emerald-400 shadow-md"
@@ -46,7 +46,7 @@
 		</form>
 
 		<form method="POST" action="?/login" class="flex flex-col gap-2">
-		<p class="text-center  text-red-400 text-sm font-medium">Admin</p>
+			<p class="text-center text-sm font-medium text-red-400">Admin</p>
 			<select
 				name="id"
 				class="rounded-xl border border-red-400 bg-white px-6 py-3 text-red-400 shadow-md"

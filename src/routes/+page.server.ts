@@ -4,12 +4,11 @@ import { Role } from "$lib/types";
 import { redirect, error } from "@sveltejs/kit";
 import type { Actions } from "./$types";
 
-
 export const load: PageServerLoad = async () => {
 	const [students, teachers, admins] = await Promise.all([
 		db.GetUsersWithRole(Role.Student),
 		db.GetUsersWithRole(Role.Teacher),
-		db.GetUsersWithRole(Role.Admin),
+		db.GetUsersWithRole(Role.Admin)
 	]);
 
 	return { students, teachers, admins };
@@ -20,7 +19,7 @@ export const actions: Actions = {
 		const data = await request.formData();
 		const id = data.get("id");
 		if (!id) error(400, "ID not found");
-        const role = data.get("role") as string;
+		const role = data.get("role") as string;
 
 		cookies.set("user", id.toString(), {
 			path: "/",
@@ -30,6 +29,5 @@ export const actions: Actions = {
 		});
 
 		redirect(303, `/${role.toLowerCase()}`);
-
 	}
 };
