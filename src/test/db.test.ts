@@ -152,3 +152,9 @@ describe("Get all users with role of Teacher", () => {
     ]);
   });
 });
+
+describe("Get user with non existing id", () => {
+  it("Should return null", async () => {
+    expect(await GetUserFromId(999)).toBeNull();
+  })
+})
