@@ -1,4 +1,10 @@
-<h1 class="text-center text-[42px]">Welcome student 1</h1>
+<script lang="ts">
+	import { getUserCookie } from "$lib/cookies/cookies";
+
+	const user = getUserCookie();
+</script>
+
+<h1 class="text-center text-[42px]">Welcome, {user}!</h1>
 
 <div class="m-10 grid grid-cols-3 content-start gap-4">
 	<div class="box-border h-50 w-full rounded-lg border-2 bg-gray-200 p-3 shadow-lg">
