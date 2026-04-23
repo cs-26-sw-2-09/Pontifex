@@ -5,7 +5,7 @@
 
 //initial commit
 
-import { db, GetUsersWithRole } from "$lib/server/db";
+import { GetUsersWithRole } from "$lib/server/db";
 import { Role } from "$lib/types";
 
 export async function GET() {
