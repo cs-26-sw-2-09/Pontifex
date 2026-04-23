@@ -1,7 +1,7 @@
-import { type UserType, Role, actions, ResourceType } from "$lib/types.js";
+// import { type UserType, Role, actions, ResourceType } from "$lib/types.js";
 import { describe, it, expect } from "vitest";
-import * as authZ from "$lib/ACM/Auth";
-import * as db from "$lib/server/db";
+// import * as authZ from "$lib/ACM/Auth";
+// import * as db from "$lib/server/db";
 
 // //test if Admin has access to a user profile, this should return true because Admin should have access to all resources regardless of the action or resource type
 // describe("Authorization tests", () => {
