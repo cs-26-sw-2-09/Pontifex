@@ -7,7 +7,6 @@ export function hasAccess(
 	user: UserType,
 	action: actions,
 	resource : Resource,
-	sessionId = 4 /* Session ID temperay (Cookie): String*/
 ): boolean {
 	// Allows admin to bypass all checks and return true
 	if (user.Role === Role.Admin) return true;
