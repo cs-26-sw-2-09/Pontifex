@@ -34,6 +34,7 @@ export interface Assignments {
 }
 
 export interface HandedInAssignment {
+	Id: number;
 	UserId: number;
 	AssignmentId: number;
 	HandInDate: Date;
