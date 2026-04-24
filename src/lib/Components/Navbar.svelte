@@ -1,6 +1,14 @@
 <script lang="ts">
 	import "@tailwindplus/elements";
 	import { resolve } from "$app/paths";
+	import { goto } from "$app/navigation";
+	import { deleteUserCookie } from "$lib/cookies/cookies";
+
+	function logout(){
+		deleteUserCookie();
+		goto(resolve("/"));
+	}
+
 </script>
 
 <!-- Include this script tag or install `@tailwindplus/elements` via npm: -->
