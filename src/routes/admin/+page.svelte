@@ -6,7 +6,7 @@
 	const user = getUserCookie();
 </script>
 
-<h1 class="text-center text-[42px]">Welcome, {user.name}!</h1>
+<h1 class="text-center text-[42px]">Welcome, {user.Name}!</h1>
 
 <ul role="list" class="m-2 flex-col divide-y divide-white/5">
 	{#each data.users as user (user.Id)}
