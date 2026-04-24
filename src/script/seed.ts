@@ -9,7 +9,9 @@ import UserInfo from "./user_info.json" with { type: "json" };
 import UserToCourses from "./user_to_courses.json" with { type: "json" };
 import Users from "./users.json" with { type: "json" };
 
+// This function will see the database with the data from the JSON files.
 export async function seed() {
+	// Inserting users
 	for (const user of Users) {
 		console.log(`Inserting user: ${user.Name} with role ${user.Role}`);
 		await db.insert(Schema.User).values({
@@ -19,6 +21,7 @@ export async function seed() {
 		});
 	}
 
+	// Inserting courses
 	for (const course of Courses) {
 		console.log(`Inserting course: ${course.Name}`);
 		await db.insert(Schema.Course).values({
@@ -28,6 +31,7 @@ export async function seed() {
 		});
 	}
 
+	// Inserting assignments
 	for (const assignment of Assignments) {
 		console.log(`Inserting assignment: ${assignment.Name} for course ${assignment.CourseId}`);
 		await db.insert(Schema.Assignments).values({
@@ -39,6 +43,7 @@ export async function seed() {
 		});
 	}
 
+	// Linking users to courses
 	for (const userToCourse of UserToCourses) {
 		console.log(`Linking user ${userToCourse.UserId} to course ${userToCourse.CourseId}`);
 		await db.insert(Schema.UserToCourses).values({
@@ -47,6 +52,7 @@ export async function seed() {
 		});
 	}
 
+	// Inserting handed in assignments
 	for (const handedInAssignment of HandedInAssignments) {
 		console.log(
 			`Inserting handed in assignment for user ${handedInAssignment.UserId} for assignment ${handedInAssignment.AssignmentId}`
@@ -62,10 +68,11 @@ export async function seed() {
 		});
 	}
 
+	// Inserting user info
 	for (const userInfo of UserInfo) {
 		console.log(`Inserting user info for user ${userInfo.UserId}`);
 		await db.insert(Schema.UserInfo).values({
-			//Id: userInfo.Id,
+			Id: userInfo.Id,
 			UserId: userInfo.UserId,
 			Gender: userInfo.Gender as Genders,
 			Birthdate: new Date(userInfo.Birthdate),
@@ -77,8 +84,11 @@ export async function seed() {
 	}
 }
 
+// Creating a connection to the datbase using the CI credentials.
+// This will only work on the CI.
 export const db = drizzle("postgres://user:password@localhost:5432/db-name", { relations });
 
+// Run the seed function and exit the process when it's done.
 seed().then(() => {
 	console.log("Seeding complete");
 	process.exit(0);
