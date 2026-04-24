@@ -17,7 +17,8 @@
 		"db:push": "drizzle-kit push",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
-		"db:studio": "drizzle-kit studio"
+		"db:studio": "drizzle-kit studio",
+		"db:seed": "node ./src/script/seed.ts"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^2.0.2",
@@ -27,10 +28,11 @@
 		"@sveltejs/vite-plugin-svelte": "^6.2.4",
 		"@tailwindcss/forms": "^0.5.11",
 		"@tailwindcss/vite": "^4.1.18",
+		"@types/js-cookie": "^3.0.6",
 		"@types/node": "^24",
 		"@vitest/browser-playwright": "^4.0.18",
-		"drizzle-kit": "^0.31.8",
-		"drizzle-orm": "^0.45.1",
+		"drizzle-kit": "^1.0.0-beta.21",
+		"drizzle-orm": "^1.0.0-beta.21",
 		"eslint": "^9.39.2",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-svelte": "^3.14.0",
@@ -51,6 +53,7 @@
 		"vitest-browser-svelte": "^2.0.2"
 	},
 	"dependencies": {
-		"@tailwindplus/elements": "^1.0.22"
+		"@tailwindplus/elements": "^1.0.22",
+		"js-cookie": "^3.0.5"
 	}
 }

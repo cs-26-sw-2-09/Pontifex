@@ -1,0 +1,10 @@
+[
+	{
+		"Id": 1,
+		"CourseId": 1,
+		"Name": "The day in a life of blank",
+		"Description": "Write stuff",
+		"DueDate": "2026-05-28 12:00:00",
+		"TeacherId": 3
+	}
+]
