@@ -46,8 +46,8 @@ export interface Course {
 // Reasource to handle AUTH what the user is trying to visit of type ResourceType it includes the requested information.
 export interface Resource{
  	resourceType : ResourceType;
-	profile?: UserType;
-	course?: Course
+	profile: UserType;
+	course: Course
 }
 
 export enum ResourceType {

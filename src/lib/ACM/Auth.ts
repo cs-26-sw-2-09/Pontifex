@@ -9,20 +9,15 @@ export function hasAccess(
 	resource : Resource,
 	sessionId = 4 /* Session ID temperay (Cookie): String*/
 ): boolean {
-	//Defalut denies access and return false,
-
-
-
-	// allows admin to bypass all checks and return true
+	// Allows admin to bypass all checks and return true
 	if (user.Role === Role.Admin) return true;
 
 	// Check if attribute school Id matches
-
 	switch (resource.resourceType) {
 		case ResourceType.Profile:
-			return hasAccessToProfile(user, action, reasource);
+			return hasAccessToProfile(user, action, resource.profile);
 		case ResourceType.Course:
-			return hasAccessToCourse(user, action, reasource.course!);
+			return hasAccessToCourse(user, action, resource.course);
 		default:
 			return false;
 	}
@@ -32,10 +27,11 @@ export function hasAccess(
 function hasAccessToProfile(
 	user: UserType,
 	action: actions,
-	reasource: { reasoureType: ResourceType; profile: UserType; course?: Course }
+    // Resource is simplified to type userType since we are testing if the current user has acces to another profile
+	resource: UserType
 ): boolean {
 	// Checks if the user is trying to access their own profile and the action is read, if so return true
-	if (user.Id === reasource.profile.Id && action === actions.Read) return true;
+	if (user.Id === resource.Id && action === actions.Read) return true;
 
 	// Checks if the user is of type teacher and the actions is read, if so return true
 	if (user.Role === Role.Teacher && action === actions.Read) return true;
@@ -43,20 +39,19 @@ function hasAccessToProfile(
 }
 
 function hasAccessToCourse(user: UserType, action: actions, course: Course): boolean {
-	// if the user is a teacher and course is taught by the user (TeacherId) if the action is read or write, return true
+	// If the user is a teacher and course is taught by the user (TeacherId) if the action is read or write, return true
 	if (
 		(user.Role === Role.Teacher && user.Id === course.Teacher && 
             (action === actions.Read || action === actions.Write))
 	)
 		return true;
 
-	// if the user is a student and and the student wants to read the course return true;
+	// If the user is a student and and the student wants to read the course return true;
 	if (user.Role === Role.Student && action === actions.Read) {
 		// Check if the student is enrolled in the course, if so return true
-		//if (db.(course.Id)) return true;
+		// If (db.(course.Id)) return true;
 		return true; // Placeholder, replace with actual check for enrollment in the course
 	}
-
 	// Default denies access and return false
 	return false;
 }
