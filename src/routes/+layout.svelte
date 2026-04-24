@@ -1,6 +1,6 @@
 <script lang="ts">
 	import "./layout.css";
-	import favicon from "$lib/assets/favicon.svg";
+	import favicon from "$lib/static/assets/favicon.svg";
 	import "@tailwindplus/elements";
 	import { resolve } from "$app/paths";
 	import { goto } from "$app/navigation";
