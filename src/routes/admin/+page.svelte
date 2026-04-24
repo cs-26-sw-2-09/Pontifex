@@ -1,12 +1,9 @@
 <script lang="ts">
 	import type { PageProps } from "./$types";
 	let { data }: PageProps = $props();
-	import { getUserCookie } from "$lib/cookies/cookies";
-
-	const user = getUserCookie();
 </script>
 
-<h1 class="text-center text-[42px]">Welcome, {user}!</h1>
+<h1 class="text-center text-[42px]">Welcome, {data.user?.Name}!</h1>
 
 <ul role="list" class="m-2 flex-col divide-y divide-white/5">
 	{#each data.users as user (user.Id)}
@@ -48,4 +45,3 @@
 		</li>
 	{/each}
 </ul>
-
