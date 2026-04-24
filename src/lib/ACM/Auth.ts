@@ -1,12 +1,8 @@
-import { type UserType, Role, Actions, type Resource,  ResourceEnum } from "$lib/types.js";
+import { type UserType, Role, Actions, type Resource, ResourceEnum } from "$lib/types.js";
 
 // TODO: MUST HAVE A WAY TO DEFINE WHAT WE ARE TRYING TO ACCESS;
 
-export function hasAccess(
-	user: UserType,
-	action: Actions,
-	resource : Resource,
-): boolean {
+export function hasAccess(user: UserType, action: Actions, resource: Resource): boolean {
 	// Allows admin to bypass all checks and return true
 	if (user.Role === Role.Admin) return true;
 
@@ -25,7 +21,7 @@ export function hasAccess(
 function hasAccessToProfile(
 	user: UserType,
 	action: Actions,
-    // Resource is simplified to type userType since we are testing if the current user has acces to another profile
+	// Resource is simplified to type userType since we are testing if the current user has acces to another profile
 	resource: UserType
 ): boolean {
 	// Checks if the user is trying to access their own profile and the action is read, if so return true
@@ -38,10 +34,7 @@ function hasAccessToProfile(
 
 function hasAccessToCourse(user: UserType, action: Actions): boolean {
 	// If the user is a teacher and course is taught by the user (TeacherId) if the action is read or write, return true
-	if (
-		(user.Role === Role.Teacher &&
-            (action === Actions.Read || action === Actions.Write))
-	)
+	if (user.Role === Role.Teacher && (action === Actions.Read || action === Actions.Write))
 		return true;
 
 	// If the user is a student and and the student wants to read the course return true;
