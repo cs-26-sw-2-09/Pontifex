@@ -4,12 +4,12 @@ import { redirect } from "@sveltejs/kit";
 
 // gets the cookie, if not redirected to frontpage
 export const load: PageServerLoad = async ({ cookies }) => {
-	const userId = cookies.get("user");
+  const userId = cookies.get("user");
 
-	if (!userId) {
-		redirect(303, "/");
-	}
+  if (!userId) {
+    redirect(303, "/");
+  }
 
-	const user = await db.GetUserFromId(Number(userId));
-	return { user: user ?? null };
+  const user = await db.GetUserFromId(Number(userId));
+  return user;
 };
