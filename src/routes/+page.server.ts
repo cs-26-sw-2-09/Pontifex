@@ -1,34 +1,33 @@
-import * as db from "$lib/server/db";
-import type { PageServerLoad } from "./$types";
+import { GetUsersWithRole } from "$lib/server/db";
+import type { PageServerLoad, Actions } from "./$types";
 import { Role } from "$lib/types";
 import { redirect, error } from "@sveltejs/kit";
-import type { Actions } from "./$types";
 
+// stores the data parallelly using promise.all into students, teachers, admin
 export const load: PageServerLoad = async () => {
 	const [students, teachers, admins] = await Promise.all([
-		db.GetUsersWithRole(Role.Student),
-		db.GetUsersWithRole(Role.Teacher),
-		db.GetUsersWithRole(Role.Admin)
-	]); 
+		GetUsersWithRole(Role.Student),
+		GetUsersWithRole(Role.Teacher),
+		GetUsersWithRole(Role.Admin)
+	]);
 
 	return { students, teachers, admins };
-}; // stores the data parallelly using promise.all into students, teachers, admin
-
+};
+// Requests the cookies, checks id's and gets the data from +page.svelte
 export const actions: Actions = {
 	login: async ({ request, cookies }) => {
 		const data = await request.formData();
 		const id = data.get("id");
 		if (!id) error(400, "ID not found");
-		//if id not found user is shown error page with the following statuscode and message
 		const role = data.get("role") as string;
-
+		// cookie is set
 		cookies.set("user", id.toString(), {
 			path: "/",
 			httpOnly: true,
 			sameSite: "strict",
 			maxAge: 60 * 60 * 24 * 30
 		});
-
+		// finds the role and converts to lowercase and then it redirects to the role page
 		redirect(303, `/${role.toLowerCase()}`);
 	}
 };

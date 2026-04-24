@@ -52,7 +52,6 @@
 		"vitest-browser-svelte": "^2.0.2"
 	},
 	"dependencies": {
-		"@tailwindplus/elements": "^1.0.22",
-		"js-cookie": "^3.0.5"
+		"@tailwindplus/elements": "^1.0.22"
 	}
 }
