@@ -73,7 +73,7 @@ export enum Genders {
 	Other
 }
 
-export enum actions {
+export enum Actions {
 	Read,
 	Write,
 	Delete
@@ -81,12 +81,12 @@ export enum actions {
 
 // Reasource to handle AUTH what the user is trying to visit of type ResourceType it includes the requested information.
 export interface Resource{
- 	resourceType : ResourceType;
+ 	resourceEnum : ResourceEnum;
 	profile: UserType;
 	course: Course
 }
 
-export enum ResourceType {
+export enum ResourceEnum {
 	Profile = "Profile",
 	Course = "Course"
 }
