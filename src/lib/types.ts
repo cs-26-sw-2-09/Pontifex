@@ -67,10 +67,10 @@ export enum Role {
 }
 
 export enum Genders {
-	Male,
-	Female,
-	NonBinary,
-	Other
+	Male = "Male",
+	Female = "Female",
+	NonBinary = "NonBinary",
+	Other = "Other"
 }
 
 export enum Actions {
