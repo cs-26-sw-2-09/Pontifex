@@ -65,6 +65,7 @@ export const Assignments = pgTable("assignments", {
 });
 
 export const HandedInAssignments = pgTable("handed_in_assignments", {
+	Id: serial().primaryKey(),
 	UserId: integer()
 		.notNull()
 		.references(() => User.Id, { onDelete: "cascade" }),
