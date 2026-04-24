@@ -1,21 +1,64 @@
-import { User } from "$lib/server/db/schema";
+export interface UserType {
+	Id: number;
+	Name: string;
+	Role: Role;
+	UserInfo?: UserInfo;
+	Assignments?: Assignments[];
+	HandedInAssignments?: HandedInAssignment[];
+	UsersToCourses?: UserToCourse[];
+}
 
-export type UserType = typeof User.$inferInsert;
+export interface UserInfo {
+	// Tottaly fine, I swear
+	Id: number;
+	UserId: number;
+	Gender: Genders;
+	Email: string;
+	PhoneNumber: string;
+	Birthdate: Date;
+	CPR: string;
+	Address: string;
+	User?: UserType;
+}
 
-//export interface UserType {
-//	Id: number;
-//	Name: string;
-//	Attributes: Map<string, string>;
-//	Courses: number[];
-//	Role: Role;
-//	// Tottaly fine, I swear
-//	Gender: Genders;
-//	Email: string;
-//	PhoneNumber: string;
-//	Birthdate: Date;
-//	CPR: string;
-//	Address: string;
-//}
+export interface Assignments {
+	Id: number;
+	CourseId: number;
+	Name: string;
+	Description: string;
+	DueDate: Date;
+	TeacherId: number;
+	Course?: Course;
+	User: UserType;
+	HandedInAssignments?: HandedInAssignment[];
+}
+
+export interface HandedInAssignment {
+	Id: number;
+	UserId: number;
+	AssignmentId: number;
+	HandInDate: Date;
+	Grade?: number;
+	Feedback?: string;
+	AssignmentText: string;
+	Assignment?: Assignments;
+	User?: UserType;
+}
+
+export interface Course {
+	Id: number;
+	Name: string;
+	Description: string;
+	Assignments?: Assignments[];
+	UsersToCourses?: UserToCourse[];
+}
+
+export interface UserToCourse {
+	UserId: number;
+	CourseId: number;
+	Course?: Course;
+	User?: UserType;
+}
 
 export enum Role {
 	Student = "Student",
@@ -34,13 +77,6 @@ export enum actions {
 	Read,
 	Write,
 	Delete
-}
-
-export interface Course {
-	Id: number;
-	Name: string;
-	Description: string;
-	Teacher: number;
 }
 
 // Reasource to handle AUTH what the user is trying to visit of type ResourceType it includes the requested information.
