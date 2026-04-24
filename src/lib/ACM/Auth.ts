@@ -1,4 +1,4 @@
-import { type UserType, Role, actions, type Course, ResourceType } from "$lib/types.js";
+import { type UserType, Role, actions, type Course, type Resource,  ResourceType } from "$lib/types.js";
 //import * as db from "$lib/server/db";
 
 // TODO: MUST HAVE A WAY TO DEFINE WHAT WE ARE TRYING TO ACCESS;
@@ -6,20 +6,19 @@ import { type UserType, Role, actions, type Course, ResourceType } from "$lib/ty
 export function hasAccess(
 	user: UserType,
 	action: actions,
-	reasource: { reasoureType: ResourceType; profile: UserType; course?: Course },
-	sessionId = 4 /* Session ID  (Cookie): String*/
+	resource : Resource,
+	sessionId = 4 /* Session ID temperay (Cookie): String*/
 ): boolean {
 	//Defalut denies access and return false,
-	//Returns false if the session ID from the web browser does not match the user ID from the current user, this is to prevent users from accessing other users profiles or courses
 
-	if (user.Id !== sessionId) return false;
+
 
 	// allows admin to bypass all checks and return true
 	if (user.Role === Role.Admin) return true;
 
 	// Check if attribute school Id matches
 
-	switch (reasource.reasoureType) {
+	switch (resource.resourceType) {
 		case ResourceType.Profile:
 			return hasAccessToProfile(user, action, reasource);
 		case ResourceType.Course:
@@ -46,8 +45,8 @@ function hasAccessToProfile(
 function hasAccessToCourse(user: UserType, action: actions, course: Course): boolean {
 	// if the user is a teacher and course is taught by the user (TeacherId) if the action is read or write, return true
 	if (
-		(user.Role === Role.Teacher && user.Id === course.Teacher && action === actions.Read) ||
-		action === actions.Write
+		(user.Role === Role.Teacher && user.Id === course.Teacher && 
+            (action === actions.Read || action === actions.Write))
 	)
 		return true;
 
