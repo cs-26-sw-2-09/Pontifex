@@ -11,5 +11,5 @@ export const load: PageServerLoad = async ({ cookies }) => {
 	}
 
 	const user = await db.GetUserFromId(Number(userId));
-	return { user: user ?? null };
+	return user
 };
