@@ -9,16 +9,17 @@ export const load: PageServerLoad = async () => {
 		db.GetUsersWithRole(Role.Student),
 		db.GetUsersWithRole(Role.Teacher),
 		db.GetUsersWithRole(Role.Admin)
-	]);
+	]); 
 
 	return { students, teachers, admins };
-};
+}; // stores the data parallelly using promise.all into students, teachers, admin
 
 export const actions: Actions = {
 	login: async ({ request, cookies }) => {
 		const data = await request.formData();
 		const id = data.get("id");
 		if (!id) error(400, "ID not found");
+		//if id not found user is shown error page with the following statuscode and message
 		const role = data.get("role") as string;
 
 		cookies.set("user", id.toString(), {
