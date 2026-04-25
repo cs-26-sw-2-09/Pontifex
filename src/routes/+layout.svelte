@@ -4,7 +4,7 @@
 	import Navbar from "$lib/Components/Navbar.svelte";
 	import "@tailwindplus/elements";
 	let { children } = $props();
-	let cookie = 1;
+	let cookie = 1; // Temporay variable
 
 </script>
 
