@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Role } from "$lib/types";
 	import type { PageProps } from "./$types";
 	let { data }: PageProps = $props();
 
@@ -85,6 +84,9 @@
 					{#if users.Role}
 						<p class="text-sm/6 text-white">{users.Role}</p>
 					{/if}
+					<button class="text-white flex flex-col items-center gap-4 bg-gray-400 px-4 py-3 rounded-2xl shadow-lg ">
+						Edit user
+					</button>
 				</div>
 			</li>
 		{/if}
