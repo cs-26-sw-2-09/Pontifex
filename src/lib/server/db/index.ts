@@ -1,7 +1,7 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 //import postgres from "postgres";
 //import * as schema from "./schema";
-import { relations } from "./relations";
+import { relations } from "./relations.ts";
 import { env } from "$env/dynamic/private";
 import type { Role } from "$lib/types";
 
@@ -33,4 +33,18 @@ export async function GetUsersWithRole(Role: Role, withUserInfo: boolean = false
 			Course: true
 		}
 	});
+}
+
+// finds a specific users courses and returns it as an array
+export async function GetCoursesFromUserId(userId: number) {
+	const user = await db.query.User.findFirst({
+		where: {
+			Id: userId
+		},
+		with: {
+			Course: true
+		}
+	});
+	// if user does not have any courses returns empty array
+	return user?.Course ?? [];
 }

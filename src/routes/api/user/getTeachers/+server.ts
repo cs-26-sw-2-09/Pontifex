@@ -3,7 +3,7 @@
 // Get all teacher ids
 // return all ids as an array
 
-import { db } from "$lib/server/db";
+import { GetUsersWithRole } from "$lib/server/db";
 import { Role } from "$lib/types";
 
 export async function GET() {
@@ -15,15 +15,7 @@ export async function GET() {
 	//	(teacher) => teacher.Id
 	//);
 
-	const teachers = await db.query.User.findMany({
-		where: {
-			Role: Role.Teacher
-		},
-		columns: {
-			Id: true,
-			Name: true
-		}
-	});
+	const teachers = await GetUsersWithRole(Role.Teacher);
 
 	// Retuns Json object including student users ID
 	return new Response(JSON.stringify(teachers), {

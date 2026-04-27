@@ -1,0 +1,77 @@
+[
+	{
+		"Id": 1,
+		"Name": "Big John",
+		"Role": "Admin"
+	},
+	{
+		"Id": 2,
+		"Name": "admin",
+		"Role": "Admin"
+	},
+	{
+		"Id": 3,
+		"Name": "Caleb Hane",
+		"Role": "Teacher"
+	},
+	{
+		"Id": 4,
+		"Name": "Bob the builder",
+		"Role": "Student"
+	},
+	{
+		"Id": 5,
+		"Name": "John Pork",
+		"Role": "Student"
+	},
+	{
+		"Id": 6,
+		"Name": "Hanne Pande",
+		"Role": "Teacher"
+	},
+	{
+		"Id": 7,
+		"Name": "James Doakes",
+		"Role": "Student"
+	},
+	{
+		"Id": 8,
+		"Name": "Big Chungus",
+		"Role": "Student"
+	},
+	{
+		"Id": 9,
+		"Name": "Charlie Kirk",
+		"Role": "Student"
+	},
+	{
+		"Id": 10,
+		"Name": "Ole Larsen",
+		"Role": "Teacher"
+	},
+	{
+		"Id": 11,
+		"Name": "Maga Morten",
+		"Role": "Student"
+	},
+	{
+		"Id": 12,
+		"Name": "Tobias Kaa",
+		"Role": "Student"
+	},
+	{
+		"Id": 13,
+		"Name": "Labre Larve",
+		"Role": "Student"
+	},
+	{
+		"Id": 14,
+		"Name": "Dorthe Donut",
+		"Role": "Student"
+	},
+	{
+		"Id": 15,
+		"Name": "King Tutankhamon",
+		"Role": "Student"
+	}
+]

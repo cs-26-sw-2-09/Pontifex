@@ -5,7 +5,7 @@
 
 //initial commit
 
-import { db } from "$lib/server/db";
+import { GetUsersWithRole } from "$lib/server/db";
 import { Role } from "$lib/types";
 
 export async function GET() {
@@ -16,15 +16,7 @@ export async function GET() {
 	//const students: number[] = Users.filter((user) => user.Role === "Student").map(
 	//	(student) => student.Id
 	//);
-	const students = await db.query.User.findMany({
-		where: {
-			Role: Role.Student
-		},
-		columns: {
-			Id: true,
-			Name: true
-		}
-	});
+	const students = await GetUsersWithRole(Role.Student);
 
 	// Retuns Json object including student users ID
 	return new Response(JSON.stringify(students), {
