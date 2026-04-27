@@ -2,9 +2,7 @@
 	import type { PageProps } from "./$types";
 	let { data }: PageProps = $props();
 
-	var filter = $state('reactive');
-	filter = "All";
-
+	var filter = $state("All");
 	function handleFilter(str: string){
 		filter = str;
 	}
