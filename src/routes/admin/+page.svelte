@@ -3,7 +3,7 @@
 	let { data }: PageProps = $props();
 </script>
 
-<h1 class="text-center text-[42px]">Welcome, {data.user?.Name}!</h1>
+<h1 class="text-center text-[42px]">Welcome, {data.currentUser?.Name}!</h1>
 <div class="flex justify-center-safe">
 	<div class="flex-col  w-auto h-auto gap-8 text-gray-500">
 		<p>filter between users: </p>
@@ -29,7 +29,7 @@
 
 
 <ul role="list" class="m-2 flex-col divide-y divide-white/5">
-	{#each data.users as user (user.Id)}
+	{#each data.users as users (users.Id)}
 		<li class="m-2 flex justify-between rounded-lg bg-gray-700 p-2">
 			<!-- LEFT SIDE -->
 			<div class="flex min-w-0 gap-x-4">
@@ -50,19 +50,19 @@
 
 				<div class="min-w-0 flex-auto">
 					<p class="text-lg font-semibold text-white">
-						{user.Name}
+						{users.Name}
 					</p>
 
 					<p class="mt-1 truncate text-sm text-gray-200">
-						ID: {user.Id}
+						ID: {users.Id}
 					</p>
 				</div>
 			</div>
 
 			<!-- RIGHT SIDE (optional / extendable) -->
 			<div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-				{#if user.Role}
-					<p class="text-sm/6 text-white">{user.Role}</p>
+				{#if users.Role}
+					<p class="text-sm/6 text-white">{users.Role}</p>
 				{/if}
 			</div>
 		</li>
