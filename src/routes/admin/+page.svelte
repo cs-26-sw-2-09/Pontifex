@@ -4,6 +4,29 @@
 </script>
 
 <h1 class="text-center text-[42px]">Welcome, {data.user?.Name}!</h1>
+<div class="flex justify-center-safe">
+	<div class="flex-col  w-auto h-auto gap-8 text-gray-500">
+		<p>filter between users: </p>
+		<form class="flex flex-row">
+			<div>
+				<input type="radio" id="all" name="Role_filter" value="all"/>
+				<label for="all">All</label>
+			</div>
+			<div>
+				<input type="radio" id="students" name="Role_filter" value="students"/>
+				<label for="students">Students</label>
+			</div>
+			<div>
+				<input type="radio" id="teachers" name="Role_filter" value="students"/>
+				<label for="techers">Teachers</label>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+
+
 
 <ul role="list" class="m-2 flex-col divide-y divide-white/5">
 	{#each data.users as user (user.Id)}
