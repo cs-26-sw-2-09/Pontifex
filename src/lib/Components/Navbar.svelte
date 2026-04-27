@@ -6,7 +6,6 @@
 	// 	deleteUserCookie();
 	// 	goto(resolve("/"));
 	// }
-
 </script>
 
 <!-- Include this script tag or install `@tailwindplus/elements` via npm: -->
