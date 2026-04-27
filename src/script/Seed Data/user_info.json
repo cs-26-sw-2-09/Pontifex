@@ -1,0 +1,152 @@
+[
+	{
+		"UserId": 1,
+		"Gender": "Other",
+		"Email": "Big@John.com",
+		"PhoneNumber": "12345678",
+		"Birthdate": "0001-01-01",
+		"CPR": "0101010000",
+		"Address": "In the mine",
+		"Id": 1
+	},
+	{
+		"UserId": 3,
+		"Gender": "Male",
+		"Email": "CalebH@Uni.com",
+		"PhoneNumber": "11111111",
+		"Birthdate": "1991-04-02",
+		"CPR": "0204918211",
+		"Address": "Cool Road 1",
+		"Id": 3
+	},
+	{
+		"UserId": 4,
+		"Gender": "Other",
+		"Email": "Bob@Builder.com",
+		"PhoneNumber": "88888888",
+		"Birthdate": "1919-07-10",
+		"CPR": "1007193444",
+		"Address": "Downing street 3",
+		"Id": 4
+	},
+	{
+		"UserId": 5,
+		"Gender": "Male",
+		"Email": "Big@Pork.com",
+		"PhoneNumber": "67676767",
+		"Birthdate": "1920-04-06",
+		"CPR": "0000044000",
+		"Address": "Ohio St.",
+		"Id": 5
+	},
+	{
+		"UserId": 2,
+		"Gender": "Other",
+		"Email": "admin@Uni.com",
+		"PhoneNumber": "00000000",
+		"Birthdate": "1970-01-01",
+		"CPR": "0000000000",
+		"Address": "Uni",
+		"Id": 6
+	},
+	{
+		"UserId": 6,
+		"Gender": "Female",
+		"Email": "HannePande@Yahoo.dk",
+		"PhoneNumber": "13134550",
+		"Birthdate": "1977-04-13",
+		"CPR": "1304775060",
+		"Address": "Jomfru Anegade 3",
+		"Id": 7
+	},
+	{
+		"UserId": 10,
+		"Gender": "Male",
+		"Email": "Larsen@Uni.dk",
+		"PhoneNumber": "60807530",
+		"Birthdate": "1944-03-14",
+		"CPR": "1403445115",
+		"Address": "Fredrik bajers vej 15bc",
+		"Id": 9
+	},
+	{
+		"UserId": 7,
+		"Gender": "Male",
+		"Email": "CantProve@it.com",
+		"PhoneNumber": "911     ",
+		"Birthdate": "2010-04-01",
+		"CPR": "0104109000",
+		"Address": "Police St.",
+		"Id": 10
+	},
+	{
+		"UserId": 8,
+		"Gender": "NonBinary",
+		"Email": "Giga@brain.dk",
+		"PhoneNumber": "87654321",
+		"Birthdate": "2000-10-13",
+		"CPR": "1310005000",
+		"Address": "Rabbit Hole St.",
+		"Id": 11
+	},
+	{
+		"UserId": 9,
+		"Gender": "Male",
+		"Email": "WeAreCharlie@Kirk.us",
+		"PhoneNumber": "91142069",
+		"Birthdate": "1993-10-14",
+		"CPR": "1410936769",
+		"Address": "The Pentagon",
+		"Id": 12
+	},
+	{
+		"UserId": 11,
+		"Gender": "Male",
+		"Email": "MakeAmerica@Great.again",
+		"PhoneNumber": "82838485",
+		"Birthdate": "1939-05-01",
+		"CPR": "0105394201",
+		"Address": "Pennsylvania Av.",
+		"Id": 13
+	},
+	{
+		"UserId": 12,
+		"Gender": "Male",
+		"Email": "tobiaskaa@student.aau.dk",
+		"PhoneNumber": "90807060",
+		"Birthdate": "2002-06-02",
+		"CPR": "0206021234",
+		"Address": "Prinsensgade",
+		"Id": 14
+	},
+	{
+		"UserId": 13,
+		"Gender": "Female",
+		"Email": "ILike@haribo.dk",
+		"PhoneNumber": "50505550",
+		"Birthdate": "2012-12-21",
+		"CPR": "2112122012",
+		"Address": "Iowa St.",
+		"Id": 15
+	},
+	{
+		"UserId": 14,
+		"Gender": "Female",
+		"Email": "dunkin@donut.com",
+		"PhoneNumber": "82743216",
+		"Birthdate": "2003-07-10",
+		"CPR": "1007037845",
+		"Address": "Legend St.",
+		"Id": 16
+	},
+	{
+		"UserId": 15,
+		"Gender": "Male",
+		"Email": "TheLegend@king.tut",
+		"PhoneNumber": "00000001",
+		"Birthdate": "1343-01-01",
+		"CPR": "0101430000",
+		"Address": "Abou Al Houl Al Syahi Street",
+		"Id": 17
+	}
+]

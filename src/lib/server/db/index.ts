@@ -1,7 +1,7 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 //import postgres from "postgres";
 //import * as schema from "./schema";
-import { relations } from "./relations";
+import { relations } from "./relations.ts";
 import { env } from "$env/dynamic/private";
 import type { Role } from "$lib/types";
 
