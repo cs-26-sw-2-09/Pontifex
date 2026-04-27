@@ -36,13 +36,13 @@ export async function GetUsersWithRole(Role: Role, withUserInfo: boolean = false
 }
 
 export async function GetCoursesFromUserId(userId: number) {
-    const user = await db.query.User.findFirst({
-        where: {
-            Id: userId,
-        },
-        with: {
-            Course: true,
-        }
-    });
-    return user?.Course ?? [];
+	const user = await db.query.User.findFirst({
+		where: {
+			Id: userId
+		},
+		with: {
+			Course: true
+		}
+	});
+	return user?.Course ?? [];
 }
