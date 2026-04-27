@@ -1,48 +1,26 @@
 <script lang="ts">
-	// Import function to get the logged-in user from cookies
-	import { getUserCookie } from "$lib/cookies/cookies";
+	// Recieve data from +page.server.ts load function
+	let { data } = $props();
 
-	// Get current user name for display
-	const user = getUserCookie();
-
-	// TypeScript interface for assignments
-	interface Assignment {
-		Id: number;
-		TeacherId: number;
-		CourseId: number;
-		Name: string;
-		Description: string;
-		DueDate: string;
-	}
-
-	// TypeScript interface for handed-in assignments
+	// A basic interface so Typescript does not complain about the type of the handed in assignments
 	interface HandedInAssignment {
-		Id: number;
-		UserId: number;
 		AssignmentId: number;
-		HandInDate: string;
-		Grade?: number;
-		Feedback?: string;
-		AssignmentText?: string;
+		HandInDate: Date;
 	}
-
-	// Props passed from +server.ts load function
-	export let data: {
-		assignments: Assignment[];
-		handedInAssignments: HandedInAssignment[];
-	};
 </script>
 
-<!-- Page title showing the current user -->
-<h1 class="text-center text-[42px]">Assignments, {user}!</h1>
+<h1 class="text-center text-[42px]">Assignments, {data.userName}!</h1>
 
 <div class="m-10 mr-30 ml-30 grid content-start gap-4">
 	{#each data.assignments as assignment (assignment.Id)}
-		<!-- Card for each assignment; color depends on whether it has been handed in -->
+		{@const submission = data.handedInAssignments.find(
+			(h: HandedInAssignment) => h.AssignmentId === assignment.Id
+		)}
+		{@const isHandedIn = !!submission}
+
 		<div
-			class="box-border h-auto w-full rounded-lg border-2 p-3 shadow-lg"
-			class:bg-green-200={data.handedInAssignments.some((h) => h.AssignmentId === assignment.Id)}
-			class:bg-gray-200={!data.handedInAssignments.some((h) => h.AssignmentId === assignment.Id)}
+			class="box-border h-auto w-full rounded-lg border-2 p-3 shadow-lg
+	{isHandedIn ? 'border-green-200 bg-green-100' : 'border-gray-200 bg-white'}"
 		>
 			<ul>
 				<li class="text-xl font-bold">{assignment.Name}</li>
@@ -53,19 +31,15 @@
 					Due: {new Date(assignment.DueDate).toLocaleDateString()}
 
 					<!-- If the assignment has been handed in, show the handed-in date -->
-					{#if data.handedInAssignments.some((h) => h.AssignmentId === assignment.Id)}
+					{#if submission}
 						<br />
-						Handed in: {new Date(
-							data.handedInAssignments.find((h) => h.AssignmentId === assignment.Id)?.HandInDate ??
-								""
-						).toLocaleDateString()}
+						Handed in: {new Date(submission.HandInDate).toLocaleDateString()}
 					{/if}
 				</li>
 			</ul>
 		</div>
 	{/each}
 
-	<!-- Fallback if there are no assignments -->
 	{#if data.assignments.length === 0}
 		<p class="text-center text-gray-500">No assignments found.</p>
 	{/if}
