@@ -2,7 +2,7 @@ export interface UserType {
 	Id: number;
 	Name: string;
 	Role: Role;
-	UserInfo?: UserInfo;
+	UserInfo?: UserInfo[];
 	Assignments?: Assignments[];
 	HandedInAssignments?: HandedInAssignment[];
 	UsersToCourses?: UserToCourse[];
@@ -15,7 +15,7 @@ export interface UserInfo {
 	Gender: Genders;
 	Email: string;
 	PhoneNumber: string;
-	Birthdate: Date;
+	Birthdate: string;
 	CPR: string;
 	Address: string;
 	User?: UserType;
