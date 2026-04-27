@@ -1,22 +1,136 @@
 // import { type UserType, Role, actions, ResourceType } from "$lib/types.js";
+import { hasAccess } from "$lib/ACM/ReBAC";
+import { db, GetUserFromId } from "$lib/server/db";
+import { Actions, ResourceEnum, type Course, type Resource, type UserType } from "$lib/types";
 import { describe, it, expect } from "vitest";
 // import * as authZ from "$lib/ACM/Auth";
 // import * as db from "$lib/server/db";
 
-// //test if Admin has access to a user profile, this should return true because Admin should have access to all resources regardless of the action or resource type
-// describe("Authorization tests", () => {
-// 	it("Admin should have access to all resources", () => {
-// 		const adminUser: UserType = db.GetUserFromId(1, false)!;
-// 		const profileResource = {
-// 			reasoureType: ResourceType.Profile,
-// 			profile: db.GetUserFromId(3, false) // Placeholder for a user profile, replace with actual user data
-// 		};
-// 		expect(authZ.hasAccess(adminUser, actions.Read, profileResource)).toBe(true);
-// 	});
-// });
 //base test for succes in PR
-describe("sum test", () => {
-	it("adds 1 + 2 to equal 3", () => {
-		expect(1 + 2).toBe(3);
-	});
+describe("Student check ReBAC", () => {
+  it("User has a course", async () => {
+    let user: UserType = await GetUserFromId(5, true);
+    let action = Actions.Read;
+    let course: Course = await db.query.Course.findFirst({
+      where: {
+        Id: 1
+      }
+    });
+    let resource: Resource = {
+      resourceEnum: ResourceEnum.Course,
+      course: course
+    }
+
+    expect(await hasAccess(user, action, resource)).toBe(true);
+  });
+  it("User does not have a course", async () => {
+    let user: UserType = await GetUserFromId(5, true);
+    let action = Actions.Read;
+    let course: Course = await db.query.Course.findFirst({
+      where: {
+        Id: 2
+      }
+    });
+    let resource: Resource = {
+      resourceEnum: ResourceEnum.Course,
+      course: course
+    }
+
+    expect(await hasAccess(user, action, resource)).toBe(false);
+  })
+});
+
+describe("Teacher check ReBAC", () => {
+  it("Teacher read has a course", async () => {
+    let user: UserType = await GetUserFromId(10, true);
+    let action = Actions.Read;
+    let course: Course = await db.query.Course.findFirst({
+      where: {
+        Id: 2
+      }
+    });
+    let resource: Resource = {
+      resourceEnum: ResourceEnum.Course,
+      course: course
+    }
+
+    expect(await hasAccess(user, action, resource)).toBe(true);
+  });
+  it("Teacher write has a course", async () => {
+    let user: UserType = await GetUserFromId(10, true);
+    let action = Actions.Write;
+    let course: Course = await db.query.Course.findFirst({
+      where: {
+        Id: 2
+      }
+    });
+    let resource: Resource = {
+      resourceEnum: ResourceEnum.Course,
+      course: course
+    }
+
+    expect(await hasAccess(user, action, resource)).toBe(true);
+  });
+  it("Teacher write does not have a course", async () => {
+    let user: UserType = await GetUserFromId(10, true);
+    let action = Actions.Write;
+    let course: Course = await db.query.Course.findFirst({
+      where: {
+        Id: 1
+      }
+    });
+    let resource: Resource = {
+      resourceEnum: ResourceEnum.Course,
+      course: course
+    }
+
+    expect(await hasAccess(user, action, resource)).toBe(false);
+  });
+  it("Teacher read does not have a course", async () => {
+    let user: UserType = await GetUserFromId(10, true);
+    let action = Actions.Read;
+    let course: Course = await db.query.Course.findFirst({
+      where: {
+        Id: 1
+      }
+    });
+    let resource: Resource = {
+      resourceEnum: ResourceEnum.Course,
+      course: course
+    }
+
+    expect(await hasAccess(user, action, resource)).toBe(true);
+  });
+});
+describe("Admin check ReBAC", () => {
+  it("Admin read course", async () => {
+    let user: UserType = await GetUserFromId(1, true);
+    let action = Actions.Read;
+    let course: Course = await db.query.Course.findFirst({
+      where: {
+        Id: 1
+      }
+    });
+    let resource: Resource = {
+      resourceEnum: ResourceEnum.Course,
+      course: course
+    }
+
+    expect(await hasAccess(user, action, resource)).toBe(true);
+  });
+  it("Admin write course", async () => {
+    let user: UserType = await GetUserFromId(1, true);
+    let action = Actions.Write;
+    let course: Course = await db.query.Course.findFirst({
+      where: {
+        Id: 1
+      }
+    });
+    let resource: Resource = {
+      resourceEnum: ResourceEnum.Course,
+      course: course
+    }
+
+    expect(await hasAccess(user, action, resource)).toBe(true);
+  });
 });
