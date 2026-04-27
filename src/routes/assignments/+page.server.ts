@@ -1,67 +1,58 @@
 import { db } from "$lib/server/db";
 import { User, Assignments, HandedInAssignments, UserToCourses } from "$lib/server/db/schema";
 import { eq, inArray } from "drizzle-orm";
-import { redirect } from "@sveltejs/kit";
-import type { PageServerLoad } from "./$types";
+import type { InferModel } from "drizzle-orm";
 
-export const load: PageServerLoad = async ({ cookies }) => {
-	// Get userId from cookie
+// Types for database rows using Drizzle's InferModel
+type AssignmentRow = InferModel<typeof Assignments>;
+type HandedInRow = InferModel<typeof HandedInAssignments>;
+
+export async function load({ cookies }) {
+	// Get the user ID from the cookie
 	const userIdRaw = cookies.get("user");
-	if (!userIdRaw) {
-		redirect(303, "/"); // Redirect to login page if not logged in
-	}
+	if (!userIdRaw) return { assignments: [], handedInAssignments: [] };
 
-	const userID = Number(userIdRaw);
+	const userId = Number(userIdRaw);
 
+	// Fetch the current user from the database
 	const currentUser = await db
 		.select()
 		.from(User)
-		.where(eq(User.Id, userID))
+		.where(eq(User.Id, userId))
 		.then((r) => r[0]);
 
-	if (!currentUser) {
-		redirect(303, "/"); // Redirect to login page if user not found
-	}
+	// If no user found, return empty arrays
+	if (!currentUser) return { assignments: [], handedInAssignments: [] };
 
-	// Initialize an empty array for assignments
-	let assignments: {
-		Id: number;
-		TeacherId: number | null;
-		CourseId: number | null;
-		Name: string;
-		Description: string;
-		DueDate: Date;
-	}[] = [];
+	// Initialize assignments array with explicit type
+	let assignments: AssignmentRow[] = [];
 
+	// Teachers see only their own assignments
 	if (currentUser.Role === "Teacher") {
-		// Teachers can see assignments they created
-		assignments = await db.select().from(Assignments).where(eq(Assignments.TeacherId, userID));
-	} else {
-		// Students can see assignments for their courses
-		const courseIds = await db
-			.select({ CourseId: UserToCourses.CourseId })
-			.from(UserToCourses)
-			.where(eq(UserToCourses.UserId, userID));
+		assignments = await db.select().from(Assignments).where(eq(Assignments.TeacherId, userId));
+	}
+	// Students see assignments for courses they are enrolled in
+	else if (currentUser.Role === "Student") {
+		// Get courses the student is enrolled in
+		const courses = await db.select().from(UserToCourses).where(eq(UserToCourses.UserId, userId));
 
-		const courseIdList = courseIds.map((c) => c.CourseId);
+		const courseIds = courses.map((c) => c.CourseId);
 
-		if (courseIdList.length > 0) {
+		// Only fetch assignments if the student has courses
+		if (courseIds.length > 0) {
 			assignments = await db
 				.select()
 				.from(Assignments)
-				.where(inArray(Assignments.CourseId, courseIdList));
+				.where(inArray(Assignments.CourseId, courseIds));
 		}
 	}
 
-	const handedInAssignments = await db
+	// Fetch handed-in assignments for the current user
+	const handedInAssignments: HandedInRow[] = await db
 		.select()
 		.from(HandedInAssignments)
-		.where(eq(HandedInAssignments.UserId, userID));
+		.where(eq(HandedInAssignments.UserId, userId));
 
-	return {
-		assignments: assignments,
-		handedInAssignments: handedInAssignments,
-		userName: currentUser.Name,
-		userRole: currentUser.Role
-	};
-};
+	// Return assignments and handed-in assignments to the page
+	return { assignments, handedInAssignments };
+}
