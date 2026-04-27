@@ -34,3 +34,17 @@ export async function GetUsersWithRole(Role: Role, withUserInfo: boolean = false
 		}
 	});
 }
+
+// finds a specific users courses and returns it as an array
+export async function GetCoursesFromUserId(userId: number) {
+	const user = await db.query.User.findFirst({
+		where: {
+			Id: userId
+		},
+		with: {
+			Course: true
+		}
+	});
+	// if user does not have any courses returns empty array
+	return user?.Course ?? [];
+}
