@@ -5,13 +5,12 @@
 	import "@tailwindplus/elements";
 	let { children } = $props();
 	let cookie = 1; // Temporay variable
-
 </script>
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 <!-- Cookie here!!! -->
 {#if cookie}
-	<Navbar/>
+	<Navbar />
 {/if}
 
 {@render children()}
