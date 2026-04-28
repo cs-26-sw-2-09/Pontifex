@@ -1,67 +1,59 @@
-import { db } from "$lib/server/db";
-import { User, Assignments, HandedInAssignments, UserToCourses } from "$lib/server/db/schema";
-import { eq, inArray } from "drizzle-orm";
 import { redirect } from "@sveltejs/kit";
-import type { PageServerLoad } from "./$types";
+import type { UserType, Assignments } from "$lib/types";
+import { Role } from "$lib/types";
 
-export const load: PageServerLoad = async ({ cookies }) => {
-	// Get userId from cookie
-	const userIdRaw = cookies.get("user");
-	if (!userIdRaw) {
-		redirect(303, "/"); // Redirect to login page if not logged in
+import { db } from "$lib/server/db/";
+import { Assignments as assignmentsTable } from "$lib/server/db/schema";
+
+export const load = async ({ cookies, fetch }) => {
+	const userId: number = Number(cookies.get("user"));
+
+	if (!userId) {
+		redirect(303, "/");
 	}
 
-	const userID = Number(userIdRaw);
+	const userResponse = await fetch(`/api/user/${userId}`);
+	const user: UserType = await userResponse.json();
+	const rawAssignments = await db.select().from(assignmentsTable);
+	const assignments = rawAssignments.map((a) => ({
+		...a,
+		User: {} as UserType
+	})) as unknown as Assignments[];
+	const filtered = filterAssignmentsByUserRole(user, assignments);
 
-	const currentUser = await db
-		.select()
-		.from(User)
-		.where(eq(User.Id, userID))
-		.then((r) => r[0]);
-
-	if (!currentUser) {
-		redirect(303, "/"); // Redirect to login page if user not found
-	}
-
-	// Initialize an empty array for assignments
-	let assignments: {
-		Id: number;
-		TeacherId: number | null;
-		CourseId: number | null;
-		Name: string;
-		Description: string;
-		DueDate: Date;
-	}[] = [];
-
-	if (currentUser.Role === "Teacher") {
-		// Teachers can see assignments they created
-		assignments = await db.select().from(Assignments).where(eq(Assignments.TeacherId, userID));
-	} else {
-		// Students can see assignments for their courses
-		const courseIds = await db
-			.select({ CourseId: UserToCourses.CourseId })
-			.from(UserToCourses)
-			.where(eq(UserToCourses.UserId, userID));
-
-		const courseIdList = courseIds.map((c) => c.CourseId);
-
-		if (courseIdList.length > 0) {
-			assignments = await db
-				.select()
-				.from(Assignments)
-				.where(inArray(Assignments.CourseId, courseIdList));
-		}
-	}
-
-	const handedInAssignments = await db
-		.select()
-		.from(HandedInAssignments)
-		.where(eq(HandedInAssignments.UserId, userID));
+	const handedInAssignmentIds = user.HandedInAssignments?.map((h) => h.AssignmentId) ?? [];
+	const handedInAssignments = filtered.map((a) => ({
+		...a,
+		HandedIn: handedInAssignmentIds.includes(a.Id)
+	}));
 
 	return {
-		assignments: assignments,
-		handedInAssignments: handedInAssignments,
-		userName: currentUser.Name,
-		userRole: currentUser.Role
+		assignments: handedInAssignments
 	};
 };
+
+function filterAssignmentsByUserRole(user: UserType, assignments: Assignments[]): Assignments[] {
+	switch (user.Role) {
+		case Role.Admin:
+			return assignments;
+
+		case Role.Teacher:
+			return assignments.filter((assignment) => assignment.TeacherId === user.Id);
+
+		case Role.Student: {
+			const enrolledCourseIds = user.UsersToCourses?.map((utc) => utc.CourseId) ?? [];
+
+			const courseAssignments = assignments.filter((a) => enrolledCourseIds.includes(a.CourseId));
+
+			const handedInAssignmentIds = user.HandedInAssignments?.map((h) => h.AssignmentId) ?? [];
+			const handedInAssignments = assignments.filter((a) => handedInAssignmentIds.includes(a.Id));
+
+			const combined = [...courseAssignments, ...handedInAssignments];
+			const unique = Array.from(new Map(combined.map((a) => [a.Id, a])).values());
+
+			return unique;
+		}
+		default:
+			return [];
+	}
+}

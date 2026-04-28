@@ -1,46 +1,24 @@
 <script lang="ts">
-	// Recieve data from +page.server.ts load function
-	let { data } = $props();
-
-	// A basic interface so Typescript does not complain about the type of the handed in assignments
-	interface HandedInAssignment {
-		AssignmentId: number;
-		HandInDate: Date;
-	}
+	export let data;
 </script>
 
-<h1 class="text-center text-[42px]">Assignments, {data.userName}!</h1>
+<h1 class="mb-4 text-2xl font-bold">Assignments</h1>
 
-<div class="m-10 mr-30 ml-30 grid content-start gap-4">
-	{#each data.assignments as assignment (assignment.Id)}
-		{@const submission = data.handedInAssignments.find(
-			(h: HandedInAssignment) => h.AssignmentId === assignment.Id
-		)}
-		{@const isHandedIn = !!submission}
-
-		<div
-			class="box-border h-auto w-full rounded-lg border-2 p-3 shadow-lg
-	{isHandedIn ? 'border-green-200 bg-green-100' : 'border-gray-200 bg-white'}"
-		>
-			<ul>
-				<li class="text-xl font-bold">{assignment.Name}</li>
-				<li>Course ID: {assignment.CourseId}</li>
-				<li>{assignment.Description}</li>
-				<li class="text-sm text-gray-600">
-					<!-- Display due date -->
-					Due: {new Date(assignment.DueDate).toLocaleDateString()}
-
-					<!-- If the assignment has been handed in, show the handed-in date -->
-					{#if submission}
-						<br />
-						Handed in: {new Date(submission.HandInDate).toLocaleDateString()}
-					{/if}
-				</li>
-			</ul>
-		</div>
-	{/each}
-
-	{#if data.assignments.length === 0}
-		<p class="text-center text-gray-500">No assignments found.</p>
-	{/if}
-</div>
+{#if data.assignments.length > 0}
+	<ul class="space-y-4">
+		{#each data.assignments as assignment (assignment.Id)}
+			<li class="rounded-lg border border-gray-300 bg-white p-4 shadow-sm hover:bg-gray-50">
+				<p class="text-lg font-semibold text-gray-900">{assignment.Name}</p>
+				<p class="mt-1 text-sm text-gray-500">Course: {assignment.CourseId}</p>
+				<p class="mt-1 text-sm text-gray-500">
+					Due Date: {new Date(assignment.DueDate).toLocaleDateString()}
+				</p>
+				{#if assignment.HandedIn}
+					<p class="mt-2 text-sm font-medium text-green-600">Status: Handed In</p>
+				{/if}
+			</li>
+		{/each}
+	</ul>
+{:else}
+	<p class="text-gray-500">No assignments found.</p>
+{/if}
