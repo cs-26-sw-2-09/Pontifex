@@ -60,3 +60,7 @@ export async function UpdateUser(userId: number, userData: { Name: string; Role:
 		})
 		.where(eq(User.Id, userId));
 }
+
+export async function DeleteUser(userId: number) {
+	await db.delete(User).where(eq(User.Id, userId));
+}
