@@ -4,6 +4,8 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import { relations } from "./relations.ts";
 import { env } from "$env/dynamic/private";
 import type { Role } from "$lib/types";
+import { User } from "./schema.ts";
+import { eq } from "drizzle-orm";
 
 if (!env.DATABASE_URL) throw new Error("DATABASE_URL is not set");
 
@@ -47,4 +49,14 @@ export async function GetCoursesFromUserId(userId: number) {
 	});
 	// if user does not have any courses returns empty array
 	return user?.Course ?? [];
+}
+
+export async function UpdateUser(userId: number, userData: { Name: string; Role: Role }) {
+	await db
+		.update(User)
+		.set({
+			Name: userData.Name,
+			Role: userData.Role
+		})
+		.where(eq(User.Id, userId));
 }
