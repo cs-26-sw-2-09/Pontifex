@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Role } from "$lib/types";
 	import type { PageData } from "./$types";
-	export let data: PageData;
+	const {data} : {data: PageData } = $props();
 	const { currentUser } = data;
 </script>
 
