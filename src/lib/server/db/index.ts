@@ -1,10 +1,10 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 //import postgres from "postgres";
-//import * as schema from "./schema";
+import * as schema from "./schema";
 import { relations } from "./relations.ts";
 import { env } from "$env/dynamic/private";
-import type { Role } from "$lib/types";
-import { User } from "./schema.ts";
+import type { Role, UserInfo, UserType } from "$lib/types";
+//import { User} from "./schema.ts";
 import { eq } from "drizzle-orm";
 
 if (!env.DATABASE_URL) throw new Error("DATABASE_URL is not set");
@@ -51,16 +51,29 @@ export async function GetCoursesFromUserId(userId: number) {
 	return user?.Course ?? [];
 }
 
-export async function UpdateUser(userId: number, userData: { Name: string; Role: Role }) {
+// Finds and updates a user where the given Id matches the Id in the user table,
+export async function UpdateUser(userData: UserType) {
 	await db
-		.update(User)
+		.update(schema.User)
 		.set({
 			Name: userData.Name,
 			Role: userData.Role
 		})
-		.where(eq(User.Id, userId));
+		.where(eq(schema.User.Id, userData.Id));
+	await db
+		.update(schema.UserInfo)
+		.set({
+			Gender: userData.UserInfo?.Gender,
+			Email: userData.UserInfo?.Email,
+			PhoneNumber: userData.UserInfo?.PhoneNumber,
+			Birthdate: userData.UserInfo?.Birthdate,
+			CPR: userData.UserInfo?.CPR,
+			Address: userData.UserInfo?.Address
+		})
+		.where(eq(schema.UserInfo.UserId, userData.Id));
 }
 
-export async function DeleteUser(userId: number) {
-	await db.delete(User).where(eq(User.Id, userId));
+//Delets a user from the table of Users where the user.Id mathces the userId
+export async function DeleteUser(userData: UserType) {
+	await db.delete(schema.User).where(eq(schema.User.Id, userData.Id));
 }
