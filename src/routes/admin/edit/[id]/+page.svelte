@@ -7,7 +7,7 @@
 	let user = $derived(structuredClone(data.user));
 </script>
 
-<div class="min-h-screen bg-gray-900 px-6 py-10 text-white">
+<div class="min-h-screen px-6 py-10 text-white">
 	<!-- Top Header with back button for easy navigation-->
 	<div class="mx-auto mb-8 flex max-w-3xl items-center justify-between">
 		<a
@@ -16,10 +16,7 @@
 		>
 			← Back
 		</a>
-
 		<h1 class="text-4xl font-bold">Edit User: <b>{user?.Name}</b></h1>
-
-		<div></div>
 	</div>
 
 	<!-- Main Edit content-->
@@ -51,12 +48,12 @@
 				</select>
 			</div>
 
-			{#if (user.UserInfo !== undefined)}
+			{#if (user.UserInfo[0] !== undefined)}
 				<div class="flex flex-col gap-2">
-					<label for="Email" class="text-lg font-medium text-gray-300">Email</label>
+					<label for="email" class="text-lg font-medium text-gray-300">Email</label>
 					<input
-						id="Email"
-						name="Email"
+						id="email"
+						name="email"
 						bind:value={user.UserInfo[0].Email}
 						class="rounded-xl bg-gray-700 px-4 py-3 text-white outline-none focus:ring-2 focus:ring-gray-500"
 					/>
@@ -80,10 +77,10 @@
 					/>
 				</div>				
 				<div class="flex flex-col gap-2">
-					<label for="role" class="text-lg font-medium text-gray-300">Role</label>
+					<label for="gender" class="text-lg font-medium text-gray-300">Role</label>
 					<select
-						name="role"
-						id="role"
+						name="gender"
+						id="gender"
 						bind:value={user.UserInfo[0].Gender}
 						class="rounded-xl bg-gray-700 px-4 py-3 text-white outline-none focus:ring-2 focus:ring-gray-500"
 					>
@@ -92,6 +89,26 @@
 						<option value="Other">Other</option>
 						<option value="NonBinary">NonBinary</option>
 					</select>
+				</div>
+				<!-- CPR NUMBER -->
+				<div class="flex flex-col gap-2">
+					<label for="cpr" class="text-lg font-medium text-gray-300">CPR Number</label>
+					<input
+						id="cpr"
+						name="cpr"
+						bind:value={user.UserInfo[0].CPR}
+						class="rounded-xl bg-gray-700 px-4 py-3 text-white outline-none focus:ring-2 focus:ring-gray-500"
+					/>
+				</div>
+				<div class="flex flex-col gap-2">
+					<label for="birthday" class="text-lg font-medium text-gray-300">Birthdate</label>
+					<input
+						id="birthday"
+						name="birthday"
+						type="date"
+						bind:value={user.UserInfo[0].Birthdate}
+						class="rounded-xl bg-gray-700 px-4 py-3 text-white outline-none focus:ring-2 focus:ring-gray-500"
+					/>
 				</div>
 			{/if}
 
@@ -106,6 +123,18 @@
 					class="rounded-xl bg-gray-900 px-4 py-3 text-gray-400"
 				/>
 			</div>
+
+			<!-- USER User info ID readonly -->
+			<div class="flex flex-col gap-2">
+				<label for="userinfo-id" class="text-lg font-medium text-gray-300">User ID</label>
+				<input
+					id="userinfo-id"
+					readonly
+					value={user.UserInfo[0].Id}
+					class="rounded-xl bg-gray-900 px-4 py-3 text-gray-400"
+				/>
+			</div>
+
 
 			<!-- SAVE BUTTON -->
 			<div class="flex justify-end pt-4">

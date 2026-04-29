@@ -1,7 +1,7 @@
 import type { PageServerLoad } from "./$types";
 import { GetUserFromId, UpdateUser } from "$lib/server/db";
 import { redirect } from "@sveltejs/kit";
-import { Role, type UserType } from "$lib/types";
+import { Genders, Role, type UserType } from "$lib/types";
 import { error } from "@sveltejs/kit";
 
 export const load: PageServerLoad = async ({ params, cookies }) => {
@@ -35,12 +35,30 @@ export const actions = {
 		}
 		const data = await request.formData();
 		// Format Data
-		const name = data.get("name") as string;
-		const role = data.get("role") as Role;
+		const userinfo = {
+			Email: data.get("email") as string,
+			Address: data.get("address") as string,
+			PhoneNumber: data.get("phonenumber") as string,
+			Gender: data.get("gender") as Genders,
+			CPR: data.get("cpr") as string,
+			Birthdate: new Date(data.get("birthday") as string),
+			Id: Number(data.get("userinfo-id") as string),
+			UserId: userId as number, //assings userinfo userid as the userid that is beeing edditet
+		};
+		
+		
+		const user : UserType = {
+			Name : data.get("name") as string,
+			Role: data.get("role") as Role,
+			Id : userId,
+			UserInfo : userinfo
+		};
+		
+		
 		// Update user in database
 		console.log(data);
 
-		await UpdateUser(userId, { Name: name, Role: role });
+		await UpdateUser(user);
 
 		redirect(303, "/admin");
 	},
