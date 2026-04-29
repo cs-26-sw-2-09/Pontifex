@@ -1,5 +1,5 @@
 import type { PageServerLoad } from "./$types";
-import { GetUserFromId, UpdateUser } from "$lib/server/db";
+import { GetUserFromId, UpdateUser, DeleteUser } from "$lib/server/db";
 import { redirect } from "@sveltejs/kit";
 import { Genders, Role, type UserType } from "$lib/types";
 import { error } from "@sveltejs/kit";
@@ -62,5 +62,12 @@ export const actions = {
 
 		redirect(303, "/admin");
 	},
-	deleteUser: async () => {}
+	deleteUser: async ({ params }) => {
+		const userId = Number(params.id);
+		if (!userId) {
+			return;
+		}
+		await DeleteUser(userId);
+		redirect(303, "/admin");
+	}
 };
