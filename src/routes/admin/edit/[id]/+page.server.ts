@@ -51,10 +51,7 @@ export const actions = {
 			Id: userId,
 			UserInfo: userinfo
 		};
-
 		// Update user in database
-		console.log(data);
-
 		await UpdateUser(user);
 
 		redirect(303, "/admin");
