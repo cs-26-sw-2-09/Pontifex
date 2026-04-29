@@ -51,6 +51,37 @@
 				</select>
 			</div>
 
+			{#if (user.UserInfo !== undefined)}
+				<div class="flex flex-col gap-2">
+					<label for="Email" class="text-lg font-medium text-gray-300">Email</label>
+					<input
+						id="Email"
+						name="Email"
+						bind:value={user.UserInfo[0].Email}
+						class="rounded-xl bg-gray-700 px-4 py-3 text-white outline-none focus:ring-2 focus:ring-gray-500"
+					/>
+				</div>
+				<div class="flex flex-col gap-2">
+					<label for="address" class="text-lg font-medium text-gray-300">Address</label>
+					<input
+						id="address"
+						name="address"
+						bind:value={user.UserInfo[0].Address}
+						class="rounded-xl bg-gray-700 px-4 py-3 text-white outline-none focus:ring-2 focus:ring-gray-500"
+					/>
+				</div>
+				<div class="flex flex-col gap-2">
+					<label for="phonenumber" class="text-lg font-medium text-gray-300">Phone Number</label>
+					<input
+						id="phonenumber"
+						name="phonenumber"
+						bind:value={user.UserInfo[0].PhoneNumber}
+						class="rounded-xl bg-gray-700 px-4 py-3 text-white outline-none focus:ring-2 focus:ring-gray-500"
+					/>
+				</div>
+			{/if}
+
+
 			<!-- USER ID readonly -->
 			<div class="flex flex-col gap-2">
 				<label for="id" class="text-lg font-medium text-gray-300">User ID</label>
