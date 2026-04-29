@@ -53,6 +53,7 @@ export async function GetCoursesFromUserId(userId: number) {
 
 // Finds and updates a user where the given Id matches the Id in the user table,
 export async function UpdateUser(userData: UserType) {
+	// First Updates Table User with name and role
 	await db
 		.update(User)
 		.set({
@@ -60,6 +61,7 @@ export async function UpdateUser(userData: UserType) {
 			Role: userData.Role
 		})
 		.where(eq(User.Id, userData.Id));
+	// Second table update of userInfo
 	await db
 		.update(UserInfo)
 		.set({
