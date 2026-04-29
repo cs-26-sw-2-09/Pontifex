@@ -78,6 +78,20 @@
 						bind:value={user.UserInfo[0].PhoneNumber}
 						class="rounded-xl bg-gray-700 px-4 py-3 text-white outline-none focus:ring-2 focus:ring-gray-500"
 					/>
+				</div>				
+				<div class="flex flex-col gap-2">
+					<label for="role" class="text-lg font-medium text-gray-300">Role</label>
+					<select
+						name="role"
+						id="role"
+						bind:value={user.UserInfo[0].Gender}
+						class="rounded-xl bg-gray-700 px-4 py-3 text-white outline-none focus:ring-2 focus:ring-gray-500"
+					>
+						<option value="Male">Male</option>
+						<option value="TeachFemaleer">Female</option>
+						<option value="Other">Other</option>
+						<option value="NonBinary">NonBinary</option>
+					</select>
 				</div>
 			{/if}
 
