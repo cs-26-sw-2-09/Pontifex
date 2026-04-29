@@ -21,7 +21,6 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 	if (!user) {
 		error(404, "User not found");
 	}
-	console.log(user);
 	return {
 		user: user
 	};
