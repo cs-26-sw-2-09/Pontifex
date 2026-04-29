@@ -43,18 +43,16 @@ export const actions = {
 			CPR: data.get("cpr") as string,
 			Birthdate: new Date(data.get("birthday") as string),
 			Id: Number(data.get("userinfo-id") as string),
-			UserId: userId as number, //assings userinfo userid as the userid that is beeing edditet
+			UserId: userId as number //assings userinfo userid as the userid that is beeing edditet
 		};
-		
-		
-		const user : UserType = {
-			Name : data.get("name") as string,
+
+		const user: UserType = {
+			Name: data.get("name") as string,
 			Role: data.get("role") as Role,
-			Id : userId,
-			UserInfo : userinfo
+			Id: userId,
+			UserInfo: userinfo
 		};
-		
-		
+
 		// Update user in database
 		console.log(data);
 

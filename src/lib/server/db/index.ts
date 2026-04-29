@@ -76,6 +76,6 @@ export async function UpdateUser(userData: UserType) {
 }
 
 //Delets a user from the table of Users where the user.Id mathces the userId
-export async function DeleteUser(userId : number) {
+export async function DeleteUser(userId: number) {
 	await db.delete(User).where(eq(User.Id, userId));
 }

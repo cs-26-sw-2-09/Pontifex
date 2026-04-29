@@ -48,7 +48,7 @@
 				</select>
 			</div>
 
-			{#if (user.UserInfo[0] !== undefined)}
+			{#if user.UserInfo[0] !== undefined}
 				<div class="flex flex-col gap-2">
 					<label for="email" class="text-lg font-medium text-gray-300">Email</label>
 					<input
@@ -75,7 +75,7 @@
 						bind:value={user.UserInfo[0].PhoneNumber}
 						class="rounded-xl bg-gray-700 px-4 py-3 text-white outline-none focus:ring-2 focus:ring-gray-500"
 					/>
-				</div>				
+				</div>
 				<div class="flex flex-col gap-2">
 					<label for="gender" class="text-lg font-medium text-gray-300">Role</label>
 					<select
@@ -112,7 +112,6 @@
 				</div>
 			{/if}
 
-
 			<!-- USER ID readonly -->
 			<div class="flex flex-col gap-2">
 				<label for="id" class="text-lg font-medium text-gray-300">User ID</label>
@@ -134,7 +133,6 @@
 					class="rounded-xl bg-gray-900 px-4 py-3 text-gray-400"
 				/>
 			</div>
-
 
 			<!-- SAVE BUTTON -->
 			<div class="flex justify-end pt-4">
