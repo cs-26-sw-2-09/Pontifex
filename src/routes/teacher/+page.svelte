@@ -1,7 +1,8 @@
 <script lang="ts">
+import Navbar from "$lib/Components/Navbar.svelte";
 	let { data } = $props();
 </script>
-
+<Navbar/>
 <h1 class="text-center text-[42px]">Welcome, {data.Name}!</h1>
 
 <div class="m-10 grid grid-cols-3 content-start gap-4">

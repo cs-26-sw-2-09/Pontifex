@@ -1,7 +1,9 @@
 <script lang="ts">
 	import type { PageProps } from "./$types";
+	import Navbar from "$lib/Components/Navbar.svelte";
 	let { data }: PageProps = $props();
 </script>
+<Navbar/>
 
 <h1 class="text-center text-[42px]">Welcome, {data.user?.Name}!</h1>
 
