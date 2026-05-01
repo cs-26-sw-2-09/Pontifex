@@ -168,7 +168,7 @@ describe("Get user with non existing id", () => {
 
 //Create, update and delete user test
 describe("Create, update and delete user", () => {
-	const newUser: UserType = {
+	let newUser: UserType = {
 		Name: "Test User",
 		Role: Role.Student,
 		Id: 999999,
