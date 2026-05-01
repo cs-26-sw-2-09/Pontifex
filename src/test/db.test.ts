@@ -1,6 +1,13 @@
 import { describe, it, expect } from "vitest";
-import { GetUserFromId, GetUsersWithRole } from "$lib/server/db";
-import { Role } from "$lib/types";
+import {
+	GetUserFromId,
+	GetUsersWithRole,
+	CreateUser,
+	UpdateUser,
+	DeleteUser
+} from "$lib/server/db";
+import { Genders, Role } from "$lib/types";
+import type { UserType } from "$lib/types";
 
 describe("Get user with user info", () => {
 	it("User id of 1 should give Big John", async () => {
@@ -156,5 +163,57 @@ describe("Get all users with role of Teacher", () => {
 describe("Get user with non existing id", () => {
 	it("Should return null", async () => {
 		expect(await GetUserFromId(999)).toBeUndefined();
+	});
+});
+
+//Create, update and delete user test
+describe("Create, update and delete user", () => {
+	const newUser: UserType = {
+		Name: "Test User",
+		Role: Role.Student,
+		Id: 999999,
+		UserInfo: [
+			{
+				Gender: Genders.Other,
+				Email: "test@user.com",
+				PhoneNumber: "87654321",
+				Birthdate: "0001-01-01",
+				CPR: "0101010000",
+				Address: "Test Address",
+				//These values are not used when creating the user, but they are required in the UserInfo type, so random values are assigned to them
+				Id: 999999,
+				UserId: 999999
+			}
+		]
+	};
+
+	it("Should create a new user with the following data", async () => {
+		const newUserId = await CreateUser(newUser);
+		newUser.Id = newUserId;
+		newUser.UserInfo[0].UserId = newUserId;
+
+		expect(await GetUserFromId(newUserId, false)).toStrictEqual({
+			Id: newUserId,
+			Name: "Test User",
+			Role: Role.Student,
+			Course: []
+		});
+	});
+
+	it("Should update the created user to have the name Updated Test User", async () => {
+		newUser.Name = "Updated Test User";
+		await UpdateUser(newUser);
+
+		expect(await GetUserFromId(newUser.Id, false)).toStrictEqual({
+			Id: newUser.Id,
+			Name: "Updated Test User",
+			Role: Role.Student,
+			Course: []
+		});
+	});
+
+	it("Should delete the created user", async () => {
+		await DeleteUser(newUser.Id);
+		expect(await GetUserFromId(newUser.Id, false)).toBeUndefined();
 	});
 });

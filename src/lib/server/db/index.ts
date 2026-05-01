@@ -14,33 +14,33 @@ if (!env.DATABASE_URL) throw new Error("DATABASE_URL is not set");
 export const db = drizzle(env.DATABASE_URL, { relations });
 
 export async function GetUserFromId(
-  Id: number,
-  withUserInfo: boolean = false
+	Id: number,
+	withUserInfo: boolean = false
 ): Promise<UserType | undefined> {
-  return db.query.User.findFirst({
-    where: {
-      Id: Id
-    },
-    with: {
-      UserInfo: withUserInfo,
-      Course: true
-    }
-  }) as unknown as UserType | undefined; // Type assertion to match the expected return type
+	return db.query.User.findFirst({
+		where: {
+			Id: Id
+		},
+		with: {
+			UserInfo: withUserInfo,
+			Course: true
+		}
+	}) as unknown as UserType | undefined; // Type assertion to match the expected return type
 }
 
 export async function GetUsersWithRole(
-  Role: Role,
-  withUserInfo: boolean = false
+	Role: Role,
+	withUserInfo: boolean = false
 ): Promise<UserType[] | undefined> {
-  return db.query.User.findMany({
-    where: {
-      Role: Role
-    },
-    with: {
-      UserInfo: withUserInfo,
-      Course: true
-    }
-  }) as unknown as UserType[] | undefined; // Type assertion to match the expected return type
+	return db.query.User.findMany({
+		where: {
+			Role: Role
+		},
+		with: {
+			UserInfo: withUserInfo,
+			Course: true
+		}
+	}) as unknown as UserType[] | undefined; // Type assertion to match the expected return type
 }
 
 // finds a specific users courses and returns it as an array
@@ -57,6 +57,32 @@ export async function GetCoursesFromUserId(userId: number) {
 	return user?.Course ?? [];
 }
 
+// Creat User and UserInfo in the database,
+// first create the user and then use the created users id to create the userinfo
+export async function CreateUser(userData: UserType): Promise<number> {
+	const createdUser = await db
+		.insert(User)
+		.values({
+			Name: userData.Name,
+			Role: userData.Role
+		})
+		.returning(); // Returns the inserted users ID
+
+	console.log("Created user with ID:", createdUser[0].Id);
+
+	await db.insert(UserInfo).values({
+		UserId: createdUser[0].Id,
+		Gender: userData.UserInfo[0].Gender,
+		Email: userData.UserInfo[0]?.Email,
+		PhoneNumber: userData.UserInfo[0]?.PhoneNumber,
+		Birthdate: userData.UserInfo[0]?.Birthdate,
+		CPR: userData.UserInfo[0]?.CPR,
+		Address: userData.UserInfo[0]?.Address
+	});
+	console.log("Created user info for user ID:", createdUser[0].Id);
+	return createdUser[0].Id;
+}
+
 // Finds and updates a user where the given Id matches the Id in the user table,
 export async function UpdateUser(userData: UserType) {
 	// First Updates Table User with name and role
@@ -71,12 +97,12 @@ export async function UpdateUser(userData: UserType) {
 	await db
 		.update(UserInfo)
 		.set({
-			Gender: userData.UserInfo?.Gender,
-			Email: userData.UserInfo?.Email,
-			PhoneNumber: userData.UserInfo?.PhoneNumber,
-			Birthdate: userData.UserInfo?.Birthdate,
-			CPR: userData.UserInfo?.CPR,
-			Address: userData.UserInfo?.Address
+			Gender: userData.UserInfo[0]?.Gender,
+			Email: userData.UserInfo[0]?.Email,
+			PhoneNumber: userData.UserInfo[0]?.PhoneNumber,
+			Birthdate: userData.UserInfo[0]?.Birthdate,
+			CPR: userData.UserInfo[0]?.CPR,
+			Address: userData.UserInfo[0]?.Address
 		})
 		.where(eq(UserInfo.UserId, userData.Id));
 }
