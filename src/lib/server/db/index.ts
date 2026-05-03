@@ -67,19 +67,17 @@ export async function CreateUser(userData: UserType): Promise<number> {
 			Role: userData.Role
 		})
 		.returning(); // Returns the inserted users ID
-
-	console.log("Created user with ID:", createdUser[0].Id);
-
-	await db.insert(UserInfo).values({
-		UserId: createdUser[0].Id,
-		Gender: userData.UserInfo[0].Gender,
-		Email: userData.UserInfo[0]?.Email,
-		PhoneNumber: userData.UserInfo[0]?.PhoneNumber,
-		Birthdate: userData.UserInfo[0]?.Birthdate,
-		CPR: userData.UserInfo[0]?.CPR,
-		Address: userData.UserInfo[0]?.Address
-	});
-	console.log("Created user info for user ID:", createdUser[0].Id);
+	if (userData.UserInfo) {
+		await db.insert(UserInfo).values({
+			UserId: createdUser[0].Id,
+			Gender: userData.UserInfo[0].Gender,
+			Email: userData.UserInfo[0]?.Email,
+			PhoneNumber: userData.UserInfo[0]?.PhoneNumber,
+			Birthdate: userData.UserInfo[0]?.Birthdate,
+			CPR: userData.UserInfo[0]?.CPR,
+			Address: userData.UserInfo[0]?.Address
+		});
+	}
 	return createdUser[0].Id;
 }
 
@@ -94,17 +92,19 @@ export async function UpdateUser(userData: UserType) {
 		})
 		.where(eq(User.Id, userData.Id));
 	// Second table update of userInfo
-	await db
-		.update(UserInfo)
-		.set({
-			Gender: userData.UserInfo[0]?.Gender,
-			Email: userData.UserInfo[0]?.Email,
-			PhoneNumber: userData.UserInfo[0]?.PhoneNumber,
-			Birthdate: userData.UserInfo[0]?.Birthdate,
-			CPR: userData.UserInfo[0]?.CPR,
-			Address: userData.UserInfo[0]?.Address
-		})
-		.where(eq(UserInfo.UserId, userData.Id));
+	if (userData.UserInfo) {
+		await db
+			.update(UserInfo)
+			.set({
+				Gender: userData.UserInfo[0]?.Gender,
+				Email: userData.UserInfo[0]?.Email,
+				PhoneNumber: userData.UserInfo[0]?.PhoneNumber,
+				Birthdate: userData.UserInfo[0]?.Birthdate,
+				CPR: userData.UserInfo[0]?.CPR,
+				Address: userData.UserInfo[0]?.Address
+			})
+			.where(eq(UserInfo.UserId, userData.Id));
+	}
 }
 
 //Delets a user from the table of Users where the user.Id mathces the userId

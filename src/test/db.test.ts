@@ -168,7 +168,7 @@ describe("Get user with non existing id", () => {
 
 //Create, update and delete user test
 describe("Create, update and delete user", () => {
-	let newUser: UserType = {
+	const newUser: UserType = {
 		Name: "Test User",
 		Role: Role.Student,
 		Id: 999999,
@@ -190,7 +190,9 @@ describe("Create, update and delete user", () => {
 	it("Should create a new user with the following data", async () => {
 		const newUserId = await CreateUser(newUser);
 		newUser.Id = newUserId;
-		newUser.UserInfo[0].UserId = newUserId;
+		if (newUser.UserInfo) {
+			newUser.UserInfo[0].UserId = newUserId;
+		}
 
 		expect(await GetUserFromId(newUserId, false)).toStrictEqual({
 			Id: newUserId,
@@ -203,6 +205,7 @@ describe("Create, update and delete user", () => {
 	it("Should update the created user to have the name Updated Test User", async () => {
 		newUser.Name = "Updated Test User";
 		await UpdateUser(newUser);
+		//console.log(newUser.Id);
 
 		expect(await GetUserFromId(newUser.Id, false)).toStrictEqual({
 			Id: newUser.Id,
