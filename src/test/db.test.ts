@@ -52,6 +52,8 @@ describe("Get user without user info", () => {
 //TODO: #48 THIS TEST BREAKS WHEN DATABASE IS CHANGED, FIX IT
 describe("Get all users with role of Student", () => {
 	it("Should return all students", async () => {
+		console.log(await GetUsersWithRole(Role.Student));
+
 		expect(await GetUsersWithRole(Role.Student)).toStrictEqual([
 			{
 				Id: 8,
