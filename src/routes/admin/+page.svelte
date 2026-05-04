@@ -1,5 +1,7 @@
 <script lang="ts">
+	import { resolve } from "$app/paths";
 	import type { PageProps } from "./$types";
+
 	let { data }: PageProps = $props();
 
 	var filter = $state("All");
@@ -37,6 +39,15 @@
 			>
 				Teachers
 			</button>
+		</div>
+
+		<div>
+			<a
+				href={resolve("/admin/add")}
+				class="rounded-xl bg-green-600 px-5 py-2 text-white shadow-lg transition-all hover:bg-green-500"
+			>
+				Add user
+			</a>
 		</div>
 	</div>
 </div>

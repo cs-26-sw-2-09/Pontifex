@@ -1,7 +1,7 @@
 import type { PageServerLoad } from "./$types";
 import { GetUserFromId, UpdateUser, DeleteUser } from "$lib/server/db";
-import { redirect } from "@sveltejs/kit";
-import { Genders, Role, type UserType } from "$lib/types";
+import { redirect, type Actions } from "@sveltejs/kit";
+import { Genders, Role, type UserType, type UserInfo } from "$lib/types";
 import { error } from "@sveltejs/kit";
 
 export const load: PageServerLoad = async ({ params, cookies }) => {
@@ -26,7 +26,7 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 	};
 };
 
-export const actions = {
+export const actions: Actions = {
 	saveUser: async ({ request, params }) => {
 		const userId = Number(params.id);
 		if (!userId) {
@@ -34,13 +34,13 @@ export const actions = {
 		}
 		const data = await request.formData();
 		// Format Data
-		const userinfo = {
+		const userinfo: UserInfo = {
 			Email: data.get("email") as string,
 			Address: data.get("address") as string,
 			PhoneNumber: data.get("phonenumber") as string,
 			Gender: data.get("gender") as Genders,
 			CPR: data.get("cpr") as string,
-			Birthdate: new Date(data.get("birthday") as string),
+			Birthdate: data.get("birthday") as string,
 			Id: Number(data.get("userinfo-id") as string),
 			UserId: userId as number //assings userinfo userid as the userid that is beeing edditet
 		};
@@ -49,7 +49,7 @@ export const actions = {
 			Name: data.get("name") as string,
 			Role: data.get("role") as Role,
 			Id: userId,
-			UserInfo: userinfo
+			UserInfo: [userinfo]
 		};
 		// Update user in database
 		await UpdateUser(user);
