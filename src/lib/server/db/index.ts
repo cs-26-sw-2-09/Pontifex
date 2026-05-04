@@ -12,33 +12,36 @@ if (!env.DATABASE_URL) throw new Error("DATABASE_URL is not set");
 export const db = drizzle(env.DATABASE_URL, { relations });
 
 export async function GetUserFromId(
-  Id: number,
-  withUserInfo: boolean = false
+	Id: number,
+	withUserInfo: boolean = false
 ): Promise<UserType | undefined> {
-  return db.query.User.findFirst({
-    where: {
-      Id: Id
-    },
-    with: {
-      UserInfo: withUserInfo,
-      Course: true
-    }
-  }) as unknown as UserType | undefined; // Type assertion to match the expected return type
+	return db.query.User.findFirst({
+		where: {
+			Id: Id
+		},
+		with: {
+			UserInfo: withUserInfo,
+			Course: true
+		}
+	}) as unknown as UserType | undefined; // Type assertion to match the expected return type
 }
 
 export async function GetUsersWithRole(
-  Role: Role,
-  withUserInfo: boolean = false
+	Role: Role,
+	withUserInfo: boolean = false
 ): Promise<UserType[] | undefined> {
-  return db.query.User.findMany({
-    where: {
-      Role: Role
-    },
-    with: {
-      UserInfo: withUserInfo,
-      Course: true
-    }
-  }) as unknown as UserType[] | undefined; // Type assertion to match the expected return type
+	return db.query.User.findMany({
+		where: {
+			Role: Role
+		},
+		orderBy: {
+			Id: "asc"
+		},
+		with: {
+			UserInfo: withUserInfo,
+			Course: true
+		}
+	}) as unknown as UserType[] | undefined; // Type assertion to match the expected return type
 }
 
 // finds a specific users courses and returns it as an array
@@ -46,6 +49,9 @@ export async function GetCoursesFromUserId(userId: number) {
 	const user = await db.query.User.findFirst({
 		where: {
 			Id: userId
+		},
+		orderBy: {
+			Id: "asc"
 		},
 		with: {
 			Course: true
