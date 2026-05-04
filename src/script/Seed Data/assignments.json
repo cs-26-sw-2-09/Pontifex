@@ -1,10 +1,18 @@
 [
-	{
-		"Id": 1,
-		"CourseId": 1,
-		"Name": "The day in a life of blank",
-		"Description": "Write stuff",
-		"DueDate": "2026-05-28 12:00:00",
-		"TeacherId": 3
-	}
+  {
+    "Id": 1,
+    "CourseId": 1,
+    "Name": "The day in a life of blank",
+    "Description": "Write stuff",
+    "DueDate": "2026-05-28 12:00:00",
+    "TeacherId": 3
+  },
+  {
+    "Id": 2,
+    "CourseId": 2,
+    "Name": "Math Stuff",
+    "Description": "Math assignment",
+    "DueDate": "2026-05-27 00:00:00",
+    "TeacherId": 10
+  }
 ]
