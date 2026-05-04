@@ -1,4 +1,5 @@
 export interface UserType {
+<<<<<<< HEAD
   Id: number;
   Name: string;
   Role: Role;
@@ -6,6 +7,23 @@ export interface UserType {
   Assignments?: Assignments[];
   HandedInAssignments?: HandedInAssignment[];
   UsersToCourses?: UserToCourse[];
+||||||| 3d3f602
+	Id: number;
+	Name: string;
+	Role: Role;
+	UserInfo?: UserInfo;
+	Assignments?: Assignments[];
+	HandedInAssignments?: HandedInAssignment[];
+	UsersToCourses?: UserToCourse[];
+=======
+  Id: number;
+  Name: string;
+  Role: Role;
+  UserInfo?: UserInfo[];
+  Assignments?: Assignments[];
+  HandedInAssignments?: HandedInAssignment[];
+  UsersToCourses?: UserToCourse[];
+>>>>>>> main
 }
 
 export interface UserInfo {
@@ -14,9 +32,9 @@ export interface UserInfo {
   UserId: number;
   Gender: Genders;
   Email: string;
-  PhoneNumber: string;
-  Birthdate: Date;
-  CPR: string;
+  PhoneNumber: string; // 8 digits, no dashes
+  Birthdate: string; // YYYY-MM-DD
+  CPR: string; // DDMMYY-XXXX
   Address: string;
   User?: UserType;
 }
@@ -86,7 +104,6 @@ export interface Resource {
   Course?: Course;
   Assignment?: Assignments;
   HandedInAssignment?: HandedInAssignment;
-
 }
 
 export enum ResourceEnum {
