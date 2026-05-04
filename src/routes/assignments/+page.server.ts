@@ -1,59 +1,37 @@
+import { db, GetUserFromId } from "$lib/server/db";
+import type { PageServerLoad } from "./$types";
 import { redirect } from "@sveltejs/kit";
-import type { UserType, Assignments } from "$lib/types";
-import { Role } from "$lib/types";
+import { Assignments } from "$lib/server/db/schema";
 
-import { db } from "$lib/server/db/";
-import { Assignments as assignmentsTable } from "$lib/server/db/schema";
+// Copy from other +pager.server.ts
+export const load: PageServerLoad = async ({ cookies }) => {
+	//Get userId from cookie and redirect if they don't have a userId
+	const userId = cookies.get("user");
+	if (!userId) return redirect(303, "/");
 
-export const load = async ({ cookies, fetch }) => {
-	const userId: number = Number(cookies.get("user"));
+	const user = await GetUserFromId(Number(userId)); // Callls GetUserFromId with the userId to get full user info from db and convert cooki e string to Number and if no user found redirect to homepage
+	if (!user) return redirect(303, "/");
 
-	if (!userId) {
-		redirect(303, "/");
-	}
+	type Assignment = typeof Assignments.$inferSelect;
+	let assignments: Assignment[] = [];
 
-	const userResponse = await fetch(`/api/user/${userId}`);
-	const user: UserType = await userResponse.json();
-	const rawAssignments = await db.select().from(assignmentsTable);
-	const assignments = rawAssignments.map((a) => ({
-		...a,
-		User: {} as UserType
-	})) as unknown as Assignments[];
-	const filtered = filterAssignmentsByUserRole(user, assignments);
+	if (user.Role === "Admin") {
+		assignments = await db.query.Assignments.findMany();
+	} else if (user.Role === "Teacher") {
+		assignments = await db.query.Assignments.findMany({
+			where: { TeacherId: user.Id }
+		});
+	} /*else if (user.Role === "Student") {
+		
+	Students need to see assignments from the courses they are enrolled in (maybe importUserToCourses from schema?)
+	They also need to see if they have handedin an assignments (need to import HandedInAssignments from schema)
 
-	const handedInAssignmentIds = user.HandedInAssignments?.map((h) => h.AssignmentId) ?? [];
-	const handedInAssignments = filtered.map((a) => ({
-		...a,
-		HandedIn: handedInAssignmentIds.includes(a.Id)
-	}));
-
+	Need to get users courseIds to get all assignments for those courses
+	Then need to check if that assignment had been handedin
+	}*/
 	return {
-		assignments: handedInAssignments
+		//Need to send user info and assignments to svelte to display
+		user,
+		assignments: assignments as Assignment[] //Svelte doesn't know what type assignments is for some reason, so this says it is of type Assignment
 	};
 };
-
-function filterAssignmentsByUserRole(user: UserType, assignments: Assignments[]): Assignments[] {
-	switch (user.Role) {
-		case Role.Admin:
-			return assignments;
-
-		case Role.Teacher:
-			return assignments.filter((assignment) => assignment.TeacherId === user.Id);
-
-		case Role.Student: {
-			const enrolledCourseIds = user.UsersToCourses?.map((utc) => utc.CourseId) ?? [];
-
-			const courseAssignments = assignments.filter((a) => enrolledCourseIds.includes(a.CourseId));
-
-			const handedInAssignmentIds = user.HandedInAssignments?.map((h) => h.AssignmentId) ?? [];
-			const handedInAssignments = assignments.filter((a) => handedInAssignmentIds.includes(a.Id));
-
-			const combined = [...courseAssignments, ...handedInAssignments];
-			const unique = Array.from(new Map(combined.map((a) => [a.Id, a])).values());
-
-			return unique;
-		}
-		default:
-			return [];
-	}
-}
