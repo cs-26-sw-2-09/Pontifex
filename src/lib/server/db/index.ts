@@ -36,6 +36,9 @@ export async function GetUsersWithRole(
 		where: {
 			Role: Role
 		},
+		orderBy: {
+			Id: "asc"
+		},
 		with: {
 			UserInfo: withUserInfo,
 			Course: true
@@ -48,6 +51,9 @@ export async function GetCoursesFromUserId(userId: number) {
 	const user = await db.query.User.findFirst({
 		where: {
 			Id: userId
+		},
+		orderBy: {
+			Id: "asc"
 		},
 		with: {
 			Course: true
