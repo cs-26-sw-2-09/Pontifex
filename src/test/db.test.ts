@@ -49,10 +49,40 @@ describe("Get user without user info", () => {
 		});
 	});
 });
-//TODO: #48 THIS TEST BREAKS WHEN DATABASE IS CHANGED, FIX IT
+
 describe("Get all users with role of Student", () => {
 	it("Should return all students", async () => {
 		expect(await GetUsersWithRole(Role.Student)).toStrictEqual([
+			{
+				Id: 4,
+				Name: "Bob the builder",
+				Role: "Student",
+				Course: [
+					{
+						Id: 1,
+						Name: "English",
+						Description: null
+					}
+				]
+			},
+			{
+				Id: 5,
+				Name: "John Pork",
+				Role: "Student",
+				Course: [
+					{
+						Id: 1,
+						Name: "English",
+						Description: null
+					}
+				]
+			},
+			{
+				Id: 7,
+				Name: "James Doakes",
+				Role: "Student",
+				Course: []
+			},
 			{
 				Id: 8,
 				Name: "Big Chungus",
@@ -92,36 +122,6 @@ describe("Get all users with role of Student", () => {
 			{
 				Id: 15,
 				Name: "King Tutankhamon",
-				Role: "Student",
-				Course: []
-			},
-			{
-				Id: 5,
-				Name: "John Pork",
-				Role: "Student",
-				Course: [
-					{
-						Id: 1,
-						Name: "English",
-						Description: null
-					}
-				]
-			},
-			{
-				Id: 4,
-				Name: "Bob the builder",
-				Role: "Student",
-				Course: [
-					{
-						Id: 1,
-						Name: "English",
-						Description: null
-					}
-				]
-			},
-			{
-				Id: 7,
-				Name: "James Doakes",
 				Role: "Student",
 				Course: []
 			}
