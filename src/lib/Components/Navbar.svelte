@@ -62,7 +62,7 @@
 							class="rounded-md bg-gray-950/50 px-3 py-2 text-sm font-medium text-white">Home</a
 						>
 						<a
-							href={resolve("/")}
+							href={resolve("/course")}
 							class="rounded-md px-3 py-2 text-sm font-medium text-gray-200 hover:bg-white/5 hover:text-white"
 							>Courses</a
 						>
@@ -99,11 +99,6 @@
 							href={resolve("/profile")}
 							class="block px-4 py-2 text-sm text-gray-200 focus:bg-white/5 focus:outline-hidden"
 							>Your profile</a
-						>
-						<a
-							href={resolve("/")}
-							class="block px-4 py-2 text-sm text-gray-200 focus:bg-white/5 focus:outline-hidden"
-							>Settings</a
 						>
 						<form method="POST" action="/logout" class="flex flex-col gap-2">
 							<button

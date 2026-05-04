@@ -1,7 +1,10 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
 	export let data: PageData;
+	import Navbar from "$lib/Components/Navbar.svelte";
 </script>
+
+<Navbar/>
 
 <h1 class="text-center text-[40px] font-bold">These are your courses</h1>
 
