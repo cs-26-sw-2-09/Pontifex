@@ -1,5 +1,6 @@
 [
   {
+    "Id": 1,
     "UserId": 5,
     "AssignmentId": 1,
     "HandInDate": "2026-04-17 12:41:55.574472",
@@ -8,6 +9,7 @@
     "AssignmentText": "Balls haha"
   },
   {
+    "Id": 2,
     "UserId": 7,
     "AssignmentId": 2,
     "HandInDate": "2026-04-29 13:21:52.859978",
