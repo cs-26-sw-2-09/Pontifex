@@ -5,8 +5,7 @@
     "HandInDate": "2026-04-17 12:41:55.574472",
     "Grade": null,
     "Feedback": null,
-    "AssignmentText": "Balls haha",
-    "Id": 1
+    "AssignmentText": "Balls haha"
   },
   {
     "UserId": 7,
@@ -14,7 +13,6 @@
     "HandInDate": "2026-04-29 13:21:52.859978",
     "Grade": null,
     "Feedback": null,
-    "AssignmentText": "WOW",
-    "Id": 2
+    "AssignmentText": "WOW"
   }
 ]
