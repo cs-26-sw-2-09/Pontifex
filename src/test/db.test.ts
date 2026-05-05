@@ -168,11 +168,19 @@ describe("Get user with non existing id", () => {
 	});
 });
 
-async function resetUsersIdSequence() {
+async function resetTestSequences() {
 	await db.execute(sql`
 		SELECT setval(
 			pg_get_serial_sequence('"users"', 'Id'),
 			(SELECT COALESCE(MAX("Id"), 0) FROM "users") + 1,
+			false
+		);
+	`);
+
+	await db.execute(sql`
+		SELECT setval(
+			pg_get_serial_sequence('"user_info"', 'Id'),
+			(SELECT COALESCE(MAX("Id"), 0) FROM "user_info") + 1,
 			false
 		);
 	`);
@@ -181,7 +189,7 @@ async function resetUsersIdSequence() {
 //Create, update and delete user test
 describe("Create, update and delete user", () => {
 	beforeAll(async () => {
-		await resetUsersIdSequence();
+		await resetTestSequences();
 	});
 	let createdUserId: number | undefined;
 
