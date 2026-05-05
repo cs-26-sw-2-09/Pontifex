@@ -1,5 +1,6 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeAll } from "vitest";
 import {
+	db,
 	GetUserFromId,
 	GetUsersWithRole,
 	CreateUser,
@@ -8,6 +9,7 @@ import {
 } from "$lib/server/db";
 import { Genders, Role } from "$lib/types";
 import type { UserType } from "$lib/types";
+import { sql } from "drizzle-orm";
 
 describe("Get user with user info", () => {
 	it("User id of 1 should give Big John", async () => {
@@ -166,8 +168,23 @@ describe("Get user with non existing id", () => {
 	});
 });
 
+async function resetUsersIdSequence() {
+	await db.execute(sql`
+		SELECT setval(
+			pg_get_serial_sequence('"users"', 'Id'),
+			(SELECT COALESCE(MAX("Id"), 0) FROM "users") + 1,
+			false
+		);
+	`);
+}
+
 //Create, update and delete user test
 describe("Create, update and delete user", () => {
+	beforeAll(async () => {
+		await resetUsersIdSequence();
+	});
+	let createdUserId: number | undefined;
+
 	const newUser: UserType = {
 		Name: "Test User",
 		Role: Role.Student,
@@ -188,35 +205,58 @@ describe("Create, update and delete user", () => {
 	};
 
 	it("Should create a new user with the following data", async () => {
-		const newUserId = await CreateUser(newUser);
-		newUser.Id = newUserId;
-		if (newUser.UserInfo) {
-			newUser.UserInfo[0].UserId = newUserId;
+		try {
+			// Using try-finally to ensure cleanup happens even if assertions fail
+			// CREATE
+			createdUserId = await CreateUser(newUser);
+
+			expect(await GetUserFromId(createdUserId, false)).toStrictEqual({
+				Id: createdUserId,
+				Name: "Test User",
+				Role: Role.Student,
+				Course: []
+			});
+
+			// UPDATE
+			const updatedUser: UserType = {
+				...newUser,
+				Id: createdUserId,
+				Name: "Updated Test User",
+				// Based on UserType, UserInfo is optional, but UpdateUser expects it to be defined
+
+				//If newUser.UserInfo exists, copy the first UserInfo object,
+				// but change its UserId to the real created user ID.
+				// Otherwise, set UserInfo to undefined.
+				UserInfo: newUser.UserInfo
+					? [
+							{
+								...newUser.UserInfo[0], // copy existing user info
+								UserId: createdUserId // Ensure UserId matches the created user's ID
+							}
+						]
+					: undefined
+			};
+
+			await UpdateUser(updatedUser);
+
+			expect(await GetUserFromId(createdUserId, false)).toStrictEqual({
+				Id: createdUserId,
+				Name: "Updated Test User",
+				Role: Role.Student,
+				Course: []
+			});
+
+			// DELETE
+			await DeleteUser(createdUserId);
+
+			expect(await GetUserFromId(createdUserId, false)).toBeUndefined();
+
+			createdUserId = undefined;
+		} finally {
+			// Cleanup if something fails after user creation.
+			if (createdUserId !== undefined) {
+				await DeleteUser(createdUserId).catch(() => {});
+			}
 		}
-
-		expect(await GetUserFromId(newUserId, false)).toStrictEqual({
-			Id: newUserId,
-			Name: "Test User",
-			Role: Role.Student,
-			Course: []
-		});
-	});
-
-	it("Should update the created user to have the name Updated Test User", async () => {
-		newUser.Name = "Updated Test User";
-		await UpdateUser(newUser);
-		//console.log(newUser.Id);
-
-		expect(await GetUserFromId(newUser.Id, false)).toStrictEqual({
-			Id: newUser.Id,
-			Name: "Updated Test User",
-			Role: Role.Student,
-			Course: []
-		});
-	});
-
-	it("Should delete the created user", async () => {
-		await DeleteUser(newUser.Id);
-		expect(await GetUserFromId(newUser.Id, false)).toBeUndefined();
 	});
 });
