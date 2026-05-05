@@ -4,7 +4,7 @@
 	import Navbar from "$lib/Components/Navbar.svelte";
 </script>
 
-<Navbar/>
+<Navbar role={data.user!.Role} />
 
 <h1 class="text-center text-[40px] font-bold">These are your courses</h1>
 

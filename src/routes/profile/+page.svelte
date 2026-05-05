@@ -2,10 +2,11 @@
 	import { Role } from "$lib/types";
 	import type { PageData } from "./$types";
 	import Navbar from "$lib/Components/Navbar.svelte";
-	const {data} : {data: PageData } = $props();
+	const { data }: { data: PageData } = $props();
 	const { currentUser } = data;
 </script>
-<Navbar/>
+
+<Navbar role={currentUser!.Role} />
 
 <h1 class=" p-2 text-[40px] font-bold">Profile</h1>
 

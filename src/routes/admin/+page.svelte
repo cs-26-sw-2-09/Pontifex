@@ -3,7 +3,8 @@
 	import Navbar from "$lib/Components/Navbar.svelte";
 	let { data }: PageProps = $props();
 </script>
-<Navbar/>
+
+<Navbar role={data.user!.Role} />
 
 <h1 class="text-center text-[42px]">Welcome, {data.user?.Name}!</h1>
 
