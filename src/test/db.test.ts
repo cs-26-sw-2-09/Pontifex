@@ -168,13 +168,21 @@ describe("Get user with non existing id", () => {
 	});
 });
 
+// Drizzel ORM doesnt have a reset table sequence function, so this function rests the sequence of users and user_info in the database,
+// This is needed because the tests when run through Github CI will fail if the sequence is not reset
+// because the tests expect the created user to have a specific id, but if the sequence is not reset,
+// the created user will have a different id and the tests will fail
+
 async function resetTestSequences() {
-	await db.execute(sql`
+	// Using PostgreSQL setval function
+	// Gets the serial seqence value for the highest Id in the user Table
+	// Sets the next SAFE (Unused) value of the secquence to the highest Id +1,
+	await db.execute(sql` 
 		SELECT setval(
 			pg_get_serial_sequence('"users"', 'Id'),
 			(SELECT COALESCE(MAX("Id"), 0) FROM "users") + 1,
 			false
-		);
+		); 
 	`);
 
 	await db.execute(sql`
@@ -188,6 +196,7 @@ async function resetTestSequences() {
 
 //Create, update and delete user test
 describe("Create, update and delete user", () => {
+	//beforeAll test this function runs to reset the sequence of user and user_info tables in the database,
 	beforeAll(async () => {
 		await resetTestSequences();
 	});
