@@ -1,6 +1,15 @@
-import { describe, it, expect } from "vitest";
-import { GetUserFromId, GetUsersWithRole } from "$lib/server/db";
-import { Role } from "$lib/types";
+import { describe, it, expect, beforeAll } from "vitest";
+import {
+	db,
+	GetUserFromId,
+	GetUsersWithRole,
+	CreateUser,
+	UpdateUser,
+	DeleteUser
+} from "$lib/server/db";
+import { Genders, Role } from "$lib/types";
+import type { UserType } from "$lib/types";
+import { sql } from "drizzle-orm";
 
 describe("Get user with user info", () => {
 	it("User id of 1 should give Big John", async () => {
@@ -156,5 +165,115 @@ describe("Get all users with role of Teacher", () => {
 describe("Get user with non existing id", () => {
 	it("Should return null", async () => {
 		expect(await GetUserFromId(999)).toBeUndefined();
+	});
+});
+
+// Drizzel ORM doesnt have a reset table sequence function, so this function rests the sequence of users and user_info in the database,
+// This is needed because the tests when run through Github CI will fail if the sequence is not reset
+// because the tests expect the created user to have a specific id, but if the sequence is not reset,
+// the created user will have a different id and the tests will fail
+
+async function resetTestSequences() {
+	// Using PostgreSQL setval function
+	// Gets the serial seqence value for the highest Id in the user Table
+	// Sets the next SAFE (Unused) value of the secquence to the highest Id +1,
+	await db.execute(sql` 
+		SELECT setval(
+			pg_get_serial_sequence('"users"', 'Id'),
+			(SELECT COALESCE(MAX("Id"), 0) FROM "users") + 1,
+			false
+		); 
+	`);
+
+	await db.execute(sql`
+		SELECT setval(
+			pg_get_serial_sequence('"user_info"', 'Id'),
+			(SELECT COALESCE(MAX("Id"), 0) FROM "user_info") + 1,
+			false
+		);
+	`);
+}
+
+//Create, update and delete user test
+describe("Create, update and delete user", () => {
+	//beforeAll test this function runs to reset the sequence of user and user_info tables in the database,
+	beforeAll(async () => {
+		await resetTestSequences();
+	});
+	let createdUserId: number | undefined;
+
+	const newUser: UserType = {
+		Name: "Test User",
+		Role: Role.Student,
+		Id: 999999,
+		UserInfo: [
+			{
+				Gender: Genders.Other,
+				Email: "test@user.com",
+				PhoneNumber: "87654321",
+				Birthdate: "0001-01-01",
+				CPR: "0101010000",
+				Address: "Test Address",
+				//These values are not used when creating the user, but they are required in the UserInfo type, so random values are assigned to them
+				Id: 999999,
+				UserId: 999999
+			}
+		]
+	};
+
+	it("Should create a new user with the following data", async () => {
+		try {
+			// Using try-finally to ensure cleanup happens even if assertions fail
+			// CREATE
+			createdUserId = await CreateUser(newUser);
+
+			expect(await GetUserFromId(createdUserId, false)).toStrictEqual({
+				Id: createdUserId,
+				Name: "Test User",
+				Role: Role.Student,
+				Course: []
+			});
+
+			// UPDATE
+			const updatedUser: UserType = {
+				...newUser,
+				Id: createdUserId,
+				Name: "Updated Test User",
+				// Based on UserType, UserInfo is optional, but UpdateUser expects it to be defined
+
+				//If newUser.UserInfo exists, copy the first UserInfo object,
+				// but change its UserId to the real created user ID.
+				// Otherwise, set UserInfo to undefined.
+				UserInfo: newUser.UserInfo
+					? [
+							{
+								...newUser.UserInfo[0], // copy existing user info
+								UserId: createdUserId // Ensure UserId matches the created user's ID
+							}
+						]
+					: undefined
+			};
+
+			await UpdateUser(updatedUser);
+
+			expect(await GetUserFromId(createdUserId, false)).toStrictEqual({
+				Id: createdUserId,
+				Name: "Updated Test User",
+				Role: Role.Student,
+				Course: []
+			});
+
+			// DELETE
+			await DeleteUser(createdUserId);
+
+			expect(await GetUserFromId(createdUserId, false)).toBeUndefined();
+
+			createdUserId = undefined;
+		} finally {
+			// Cleanup if something fails after user creation.
+			if (createdUserId !== undefined) {
+				await DeleteUser(createdUserId).catch(() => {});
+			}
+		}
 	});
 });
