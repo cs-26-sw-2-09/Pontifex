@@ -77,7 +77,7 @@
 					/>
 				</div>
 				<div class="flex flex-col gap-2">
-					<label for="gender" class="text-lg font-medium text-gray-300">Role</label>
+					<label for="gender" class="text-lg font-medium text-gray-300">Gender</label>
 					<select
 						name="gender"
 						id="gender"
@@ -85,7 +85,7 @@
 						class="rounded-xl bg-gray-700 px-4 py-3 text-white outline-none focus:ring-2 focus:ring-gray-500"
 					>
 						<option value="Male">Male</option>
-						<option value="TeachFemaleer">Female</option>
+						<option value="Female">Female</option>
 						<option value="Other">Other</option>
 						<option value="NonBinary">NonBinary</option>
 					</select>
@@ -124,7 +124,7 @@
 
 				<!-- USER User info ID readonly -->
 				<div class="flex flex-col gap-2">
-					<label for="userinfo-id" class="text-lg font-medium text-gray-300">User ID</label>
+					<label for="userinfo-id" class="text-lg font-medium text-gray-300">UserInfo ID</label>
 					<input
 						id="userinfo-id"
 						readonly
