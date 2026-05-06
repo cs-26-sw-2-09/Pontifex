@@ -11,7 +11,7 @@
 	}
 </script>
 
-<Navbar role={data.currentUser!.Role} />
+<Navbar role={data.currentUser?.Role} />
 
 <h1 class="text-center text-4xl font-bold text-gray-100">
 	Welcome, {data.currentUser?.Name}!
