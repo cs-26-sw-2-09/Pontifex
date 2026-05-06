@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { resolve } from "$app/paths";
 	import type { PageProps } from "./$types";
+	import Navbar from "$lib/Components/Navbar.svelte";
 
 	let { data }: PageProps = $props();
 
@@ -10,7 +11,9 @@
 	}
 </script>
 
-<h1 class="mb-8 text-center text-[42px] font-semibold text-gray-900">
+<Navbar role={data.user!.Role} />
+
+<h1 class="text-center text-4xl font-bold text-gray-100">
 	Welcome, {data.currentUser?.Name}!
 </h1>
 

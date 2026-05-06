@@ -1,5 +1,5 @@
 import type { PageServerLoad } from "./$types";
-import { GetCoursesFromUserId } from "$lib/server/db";
+import { GetCoursesFromUserId, GetUserFromId } from "$lib/server/db";
 import { redirect } from "@sveltejs/kit";
 
 export const load: PageServerLoad = async ({ cookies }) => {
@@ -10,6 +10,8 @@ export const load: PageServerLoad = async ({ cookies }) => {
 	}
 
 	const courses = await GetCoursesFromUserId(userId);
+	// fetches user from database
+	const user = await GetUserFromId(Number(userId));
 
-	return { courses };
+	return { user, courses };
 };
