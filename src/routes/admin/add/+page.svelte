@@ -71,7 +71,7 @@
 				<input
 					name="birthdate"
 					type="date"
-					class="input rounded-xl bg-gray-700 px-4 py-3 text-white outline-none border-amber-300 focus:ring-2 focus:ring-gray-500"
+					class="input rounded-xl border-amber-300 bg-gray-700 px-4 py-3 text-white outline-none focus:ring-2 focus:ring-gray-500"
 				/>
 				<input
 					name="cpr"
