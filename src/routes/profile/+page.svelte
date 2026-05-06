@@ -8,7 +8,7 @@
 
 <Navbar role={currentUser!.Role} />
 
-<h1 class=" p-2 text-[40px] font-bold">Profile</h1>
+<h1 class=" p-2 text-[40px] font-bold text-gray-200">Profile</h1>
 
 <div class="col-1 m-3 grid gap-4">
 	<div class="rounded-xl border-2 bg-gray-700 p-4">
