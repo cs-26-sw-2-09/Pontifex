@@ -2,10 +2,12 @@
 	let { data } = $props();
 </script>
 
-<h1 class="text-center text-[42px]">Welcome, {data.Name}!</h1>
+<h1 class="text-center text-4xl font-bold text-gray-100">Welcome, {data.Name}!</h1>
 
 <div class="m-10 grid grid-cols-3 content-start gap-4">
-	<div class="box-border h-50 w-full rounded-lg border-2 bg-gray-200 p-3 shadow-lg">
+	<div
+		class="box-border h-50 w-full rounded-lg bg-gray-600 p-3 text-gray-200 shadow-lg shadow-slate-900/50"
+	>
 		<h2 class="text-center text-[20px] font-bold">Information</h2>
 		<ul>
 			<li>General info</li>
@@ -15,7 +17,7 @@
 		</ul>
 	</div>
 	<div
-		class="col-start-3 row-span-2 box-border grid h-full w-full gap-1 rounded-lg border-2 bg-gray-200 p-3 shadow-lg"
+		class="col-start-3 row-span-2 box-border grid h-full w-full gap-1 rounded-lg bg-gray-600 p-3 text-gray-200 shadow-lg shadow-slate-900/50"
 	>
 		<table class="table-auto text-center">
 			<thead class="text-[20px]">
@@ -57,7 +59,9 @@
 		</table>
 	</div>
 
-	<div class="col-start-1 box-border h-50 w-full rounded-lg border-2 bg-gray-200 p-3 shadow-lg">
+	<div
+		class="col-start-1 box-border h-50 w-full rounded-lg bg-gray-600 p-3 text-gray-200 shadow-lg shadow-slate-900/50"
+	>
 		<h2 class="text-center text-[20px] font-bold">Education</h2>
 		<ul>
 			<li>Stuff about education</li>

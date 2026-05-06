@@ -2,9 +2,9 @@
 	let { data } = $props();
 </script>
 
-<div class="flex min-h-screen flex-col items-center bg-gray-100 pt-48 text-center">
-	<h1 class="text-5xl font-bold">Lectio Pontifex</h1>
-	<h2 class="mt-4 text-xl">Who are you?</h2>
+<div class="flex min-h-screen flex-col items-center pt-48 text-center">
+	<h1 class="text-5xl font-bold text-gray-100">Lectio Pontifex</h1>
+	<h2 class="mt-4 text-xl text-gray-200">Who are you?</h2>
 
 	<div class="mt-10 flex gap-6">
 		<form method="POST" action="?/login" class="flex flex-col gap-2">
