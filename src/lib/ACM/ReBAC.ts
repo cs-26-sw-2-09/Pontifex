@@ -27,8 +27,8 @@ export async function HasAccess(
       return await HasAccessToCourse(User, Action, Resource.Course!);
     case ResourceEnum.Assignment:
       return await HasAccessToAssignment(User, Action, Resource.Assignment!);
-    case ResourceEnum.HandedInAssignment:
-      return await HasAccessToSubmission(User, Action, Resource.HandedInAssignment!);
+    case ResourceEnum.Submission:
+      return await HasAccessToSubmission(User, Action, Resource.Submission!);
     default:
       return false;
   }
@@ -149,14 +149,14 @@ export async function HasAccessToAssignment(
 export async function HasAccessToSubmission(
   user: UserType,
   action: Actions,
-  HandIn: Submissions
+  Submission: Submissions
 ): Promise<boolean> {
   // This checks if the user is trying to access their own hand in, if so return true
-  if (user.Id === HandIn.UserId) return true;
+  if (user.Id === Submission.UserId) return true;
 
   const Assignment = await db.query.Assignments.findFirst({
     where: {
-      Id: HandIn.AssignmentId
+      Id: Submission.AssignmentId
     }
   });
 

@@ -73,8 +73,6 @@ export const Submissions = pgTable("submissions", {
     .notNull()
     .references(() => Assignments.Id, { onDelete: "cascade" }),
   SubmissionDate: timestamp().defaultNow().notNull(),
-  Grade: integer(),
-  Feedback: text(),
   AssignmentText: text()
 });
 
