@@ -1,104 +1,104 @@
 export interface UserType {
-  Id: number;
-  Name: string;
-  Role: Role;
-  UserInfo?: UserInfo[];
-  Assignments?: Assignments[];
-  Submissions?: Submissions[];
-  UsersToCourses?: UserToCourse[];
+	Id: number;
+	Name: string;
+	Role: Role;
+	UserInfo?: UserInfo[];
+	Assignments?: Assignments[];
+	Submissions?: Submissions[];
+	UsersToCourses?: UserToCourse[];
 }
 
 export interface UserInfo {
-  // Tottaly fine, I swear
-  Id: number;
-  UserId: number;
-  Gender: Genders;
-  Email: string;
-  PhoneNumber: string; // 8 digits, no dashes
-  Birthdate: string; // YYYY-MM-DD
-  CPR: string; // DDMMYY-XXXX
-  Address: string;
-  User?: UserType;
+	// Tottaly fine, I swear
+	Id: number;
+	UserId: number;
+	Gender: Genders;
+	Email: string;
+	PhoneNumber: string; // 8 digits, no dashes
+	Birthdate: string; // YYYY-MM-DD
+	CPR: string; // DDMMYY-XXXX
+	Address: string;
+	User?: UserType;
 }
 
 export interface Assignments {
-  Id: number;
-  CourseId: number;
-  Name: string;
-  Description: string;
-  DueDate: Date;
-  TeacherId: number;
-  Course?: Course;
-  User: UserType;
-  Submissions?: Submissions[];
+	Id: number;
+	CourseId: number;
+	Name: string;
+	Description: string;
+	DueDate: Date;
+	TeacherId: number;
+	Course?: Course;
+	User: UserType;
+	Submissions?: Submissions[];
 }
 
 export interface Submissions {
-  Id: number;
-  UserId: number;
-  AssignmentId: number;
-  SubmissionDate: Date;
-  AssignmentText: string;
-  Assignment?: Assignments;
-  User?: UserType;
-  Review?: Review;
+	Id: number;
+	UserId: number;
+	AssignmentId: number;
+	SubmissionDate: Date;
+	AssignmentText: string;
+	Assignment?: Assignments;
+	User?: UserType;
+	Review?: Review;
 }
 
 export interface Review {
-  Id: number;
-  SubmissionsId: number;
-  TeacherId: number;
-  Grade?: number;
-  Feedback?: string;
+	Id: number;
+	SubmissionsId: number;
+	TeacherId: number;
+	Grade?: number;
+	Feedback?: string;
 }
 
 export interface Course {
-  Id: number;
-  Name: string;
-  Description: string;
-  Assignments?: Assignments[];
-  UsersToCourses?: UserToCourse[];
+	Id: number;
+	Name: string;
+	Description: string;
+	Assignments?: Assignments[];
+	UsersToCourses?: UserToCourse[];
 }
 
 export interface UserToCourse {
-  UserId: number;
-  CourseId: number;
-  Course?: Course;
-  User?: UserType;
+	UserId: number;
+	CourseId: number;
+	Course?: Course;
+	User?: UserType;
 }
 
 export enum Role {
-  Student = "Student",
-  Teacher = "Teacher",
-  Admin = "Admin"
+	Student = "Student",
+	Teacher = "Teacher",
+	Admin = "Admin"
 }
 
 export enum Genders {
-  Male = "Male",
-  Female = "Female",
-  NonBinary = "NonBinary",
-  Other = "Other"
+	Male = "Male",
+	Female = "Female",
+	NonBinary = "NonBinary",
+	Other = "Other"
 }
 
 export enum Actions {
-  Read,
-  Write,
-  Delete
+	Read,
+	Write,
+	Delete
 }
 
 // Reasource to handle AUTH what the user is trying to visit of type ResourceType it includes the requested information.
 export interface Resource {
-  ResourceEnum: ResourceEnum;
-  Profile?: UserType;
-  Course?: Course;
-  Assignment?: Assignments;
-  Submission?: Submissions;
-  Review?: Review;
+	ResourceEnum: ResourceEnum;
+	Profile?: UserType;
+	Course?: Course;
+	Assignment?: Assignments;
+	Submission?: Submissions;
+	Review?: Review;
 }
 
 export enum ResourceEnum {
-  Profile = "Profile",
-  Course = "Course",
-  Assignment = "Assignment",
-  Submission = "Submission"
+	Profile = "Profile",
+	Course = "Course",
+	Assignment = "Assignment",
+	Submission = "Submission"
 }
