@@ -30,6 +30,7 @@ export const actions: Actions = {
 		const id = data.get("id");
 		const role = data.get("role") as string;
 		// cookie is set
+		if (!id) throw SVKError(400, "ID is required");
 		cookies.set("user", id.toString(), {
 			path: "/",
 			httpOnly: true,
