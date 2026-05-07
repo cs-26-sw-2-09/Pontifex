@@ -1,4 +1,42 @@
 [
-	{ "Id": 1, "Name": "English", "Description": null },
-	{ "Id": 2, "Name": "Math", "Description": null }
+	{
+		"Id": 1,
+		"Name": "English",
+		"Description": null
+	},
+	{
+		"Id": 2,
+		"Name": "Math",
+		"Description": null
+	},
+	{
+		"Id": 3,
+		"Name": "Programming",
+		"Description": null
+	},
+	{
+		"Id": 5,
+		"Name": "History",
+		"Description": null
+	},
+	{
+		"Id": 6,
+		"Name": "Danish",
+		"Description": null
+	},
+	{
+		"Id": 7,
+		"Name": "Physics",
+		"Description": null
+	},
+	{
+		"Id": 8,
+		"Name": "Chemistry",
+		"Description": null
+	},
+	{
+		"Id": 9,
+		"Name": "Biology",
+		"Description": null
+	}
 ]

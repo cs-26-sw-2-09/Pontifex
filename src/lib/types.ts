@@ -2,7 +2,7 @@ export interface UserType {
 	Id: number;
 	Name: string;
 	Role: Role;
-	UserInfo?: UserInfo;
+	UserInfo?: UserInfo[];
 	Assignments?: Assignments[];
 	HandedInAssignments?: HandedInAssignment[];
 	UsersToCourses?: UserToCourse[];
@@ -14,9 +14,9 @@ export interface UserInfo {
 	UserId: number;
 	Gender: Genders;
 	Email: string;
-	PhoneNumber: string;
-	Birthdate: Date;
-	CPR: string;
+	PhoneNumber: string; // 8 digits, no dashes
+	Birthdate: string; // YYYY-MM-DD
+	CPR: string; // DDMMYY-XXXX
 	Address: string;
 	User?: UserType;
 }
@@ -81,12 +81,16 @@ export enum Actions {
 
 // Reasource to handle AUTH what the user is trying to visit of type ResourceType it includes the requested information.
 export interface Resource {
-	resourceEnum: ResourceEnum;
-	profile: UserType;
-	course: Course;
+	ResourceEnum: ResourceEnum;
+	Profile?: UserType;
+	Course?: Course;
+	Assignment?: Assignments;
+	HandedInAssignment?: HandedInAssignment;
 }
 
 export enum ResourceEnum {
 	Profile = "Profile",
-	Course = "Course"
+	Course = "Course",
+	Assignment = "Assignment",
+	HandedInAssignment = "HandedInAssignment"
 }
