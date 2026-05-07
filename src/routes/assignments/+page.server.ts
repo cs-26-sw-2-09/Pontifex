@@ -1,7 +1,7 @@
 import { db, GetUserFromId } from "$lib/server/db";
 import type { PageServerLoad } from "./$types";
 import { redirect } from "@sveltejs/kit";
-import { Assignments } from "$lib/server/db/schema";
+import type { Assignments } from "$lib/types"
 
 // Copy from other +pager.server.ts
 export const load: PageServerLoad = async ({ cookies }) => {
@@ -12,8 +12,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
 	const user = await GetUserFromId(Number(userId)); // Callls GetUserFromId with the userId to get full user info from db and convert cooki e string to Number and if no user found redirect to homepage
 	if (!user) return redirect(303, "/");
 
-	type Assignment = typeof Assignments.$inferSelect;
-	let assignments: Assignment[] = [];
+	let assignments: Assignments[] = [];
 
 	if (user.Role === "Admin") {
 		assignments = await db.query.Assignments.findMany();
@@ -32,6 +31,6 @@ export const load: PageServerLoad = async ({ cookies }) => {
 	return {
 		//Need to send user info and assignments to svelte to display
 		user,
-		assignments: assignments as Assignment[] //Svelte doesn't know what type assignments is for some reason, so this says it is of type Assignment
+		assignments //Svelte doesn't know what type assignments is for some reason, so this says it is of type Assignment
 	};
 };
