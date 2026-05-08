@@ -40,18 +40,7 @@ describe("Get user without user info", () => {
 			Id: 5,
 			Name: "Mikkel Andersen",
 			Role: "Student",
-			UserInfo: [
-				{
-					Id: 5,
-					UserId: 5,
-					Gender: "Male",
-					Email: "MA@student.dk",
-					PhoneNumber: "67134536",
-					Birthdate: "2004-11-26",
-					CPR: "2611042657",
-					Address: "Månegade 8"
-				}
-			],
+
 			Course: [
 				{
 					Id: 1,
