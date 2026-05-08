@@ -6,7 +6,7 @@
 
 <Navbar role={data.user!.Role} />
 
-<h1 class="text-center text-[40px] font-bold">These are your courses</h1>
+<h1 class="text-center text-4xl font-bold text-gray-100">These are your courses</h1>
 
 <div class="">
 	<ul class="box-border bg-gray-700">
