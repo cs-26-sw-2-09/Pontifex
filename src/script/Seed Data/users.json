@@ -11,47 +11,47 @@
 	},
 	{
 		"Id": 3,
-		"Name": "Caleb Hane",
+		"Name": "Caleb pedersen",
 		"Role": "Teacher"
 	},
 	{
 		"Id": 4,
-		"Name": "Bob the builder",
+		"Name": "Anders Mikkelsen",
 		"Role": "Student"
 	},
 	{
 		"Id": 5,
-		"Name": "John Pork",
+		"Name": "Mikkel Andersen",
 		"Role": "Student"
 	},
 	{
 		"Id": 6,
-		"Name": "Hanne Pande",
+		"Name": "Nicoline Petersen ",
 		"Role": "Teacher"
 	},
 	{
 		"Id": 7,
-		"Name": "James Doakes",
+		"Name": "Jonas Kristensen",
 		"Role": "Student"
 	},
 	{
 		"Id": 8,
-		"Name": "Big Chungus",
+		"Name": "Mille Holm",
 		"Role": "Student"
 	},
 	{
 		"Id": 9,
-		"Name": "Charlie Kirk",
+		"Name": "Søren Poulsen",
 		"Role": "Student"
 	},
 	{
 		"Id": 10,
-		"Name": "Ole Larsen",
+		"Name": "Oline Jensen",
 		"Role": "Teacher"
 	},
 	{
 		"Id": 11,
-		"Name": "Maga Morten",
+		"Name": "Sofie Jensen",
 		"Role": "Student"
 	},
 	{
@@ -61,17 +61,27 @@
 	},
 	{
 		"Id": 13,
-		"Name": "Labre Larve",
+		"Name": "Søren Sørensen",
 		"Role": "Student"
 	},
 	{
 		"Id": 14,
-		"Name": "Dorthe Donut",
+		"Name": "Dorthe Jensen",
 		"Role": "Student"
 	},
 	{
 		"Id": 15,
-		"Name": "King Tutankhamon",
+		"Name": "Maj Peder",
 		"Role": "Student"
+	},
+	{
+		"Id": 17,
+		"Name": "Signe Munk",
+		"Role": "Student"
+	},
+	{
+		"Id": 18,
+		"Name": "Andreas Andreasen",
+		"Role": "Teacher"
 	}
 ]
