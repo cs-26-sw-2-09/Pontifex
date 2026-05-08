@@ -36,7 +36,7 @@ describe("Get user with user info", () => {
 
 describe("Get user without user info", () => {
 	it("User id of 5 should give Mikkel Andersen", async () => {
-		expect(await GetUserFromId(5, true)).toStrictEqual({
+		expect(await GetUserFromId(5, false)).toStrictEqual({
 			Id: 5,
 			Name: "Mikkel Andersen",
 			Role: "Student",
