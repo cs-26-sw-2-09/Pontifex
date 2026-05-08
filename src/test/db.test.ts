@@ -26,11 +26,10 @@ describe("Get user with user info", () => {
 					PhoneNumber: "12345678",
 					Birthdate: "0001-01-01",
 					CPR: "0101010000",
-					Address: "In the mine"
+					Address: "UNI"
 				}
 			],
 			Course: []
-			//"HandedInAssignments": []
 		});
 	});
 });
@@ -39,12 +38,44 @@ describe("Get user without user info", () => {
 	it("User id of 5 should give John Pork", async () => {
 		expect(await GetUserFromId(5)).toStrictEqual({
 			Id: 5,
-			Name: "John Pork",
+			Name: "Mikkel Andersen",
 			Role: "Student",
+			UserInfo: [
+				{
+					Id: 5,
+					UserId: 5,
+					Gender: "Male",
+					Email: "MA@student.dk",
+					PhoneNumber: "67134536",
+					Birthdate: "2004-11-26",
+					CPR: "2611042657",
+					Address: "Månegade 8"
+				}
+			],
 			Course: [
 				{
 					Id: 1,
 					Name: "English",
+					Description: null
+				},
+				{
+					Id: 9,
+					Name: "Biology",
+					Description: null
+				},
+				{
+					Id: 7,
+					Name: "Physics",
+					Description: null
+				},
+				{
+					Id: 8,
+					Name: "Chemistry",
+					Description: null
+				},
+				{
+					Id: 2,
+					Name: "Math",
 					Description: null
 				}
 			]
@@ -57,21 +88,148 @@ describe("Get all users with role of Student", () => {
 		expect(await GetUsersWithRole(Role.Student)).toStrictEqual([
 			{
 				Id: 4,
-				Name: "Bob the builder",
+				Name: "Anders Mikkelsen",
 				Role: "Student",
 				Course: [
 					{
 						Id: 1,
 						Name: "English",
+						Description: null
+					},
+					{
+						Id: 3,
+						Name: "Programming",
+						Description: null
+					},
+					{
+						Id: 6,
+						Name: "Danish",
 						Description: null
 					}
 				]
 			},
 			{
 				Id: 5,
-				Name: "John Pork",
+				Name: "Mikkel Andersen",
 				Role: "Student",
 				Course: [
+					{
+						Id: 1,
+						Name: "English",
+						Description: null
+					},
+					{
+						Id: 9,
+						Name: "Biology",
+						Description: null
+					},
+					{
+						Id: 7,
+						Name: "Physics",
+						Description: null
+					},
+					{
+						Id: 8,
+						Name: "Chemistry",
+						Description: null
+					},
+					{
+						Id: 2,
+						Name: "Math",
+						Description: null
+					}
+				]
+			},
+			{
+				Id: 7,
+				Name: "Jonas Kristensen",
+				Role: "Student",
+				Course: [
+					{
+						Id: 1,
+						Name: "English",
+						Description: null
+					},
+					{
+						Id: 6,
+						Name: "Danish",
+						Description: null
+					},
+					{
+						Id: 8,
+						Name: "Chemistry",
+						Description: null
+					},
+					{
+						Id: 9,
+						Name: "Biology",
+						Description: null
+					}
+				]
+			},
+			{
+				Id: 8,
+				Name: "Mille Holm",
+				Role: "Student",
+				Course: [
+					{
+						Id: 1,
+						Name: "English",
+						Description: null
+					},
+					{
+						Id: 3,
+						Name: "Programming",
+						Description: null
+					},
+					{
+						Id: 5,
+						Name: "History",
+						Description: null
+					},
+					{
+						Id: 7,
+						Name: "Physics",
+						Description: null
+					},
+					{
+						Id: 9,
+						Name: "Biology",
+						Description: null
+					}
+				]
+			},
+			{
+				Id: 9,
+				Name: "Søren Poulsen",
+				Role: "Student",
+				Course: []
+			},
+			{
+				Id: 11,
+				Name: "Sofie Jensen",
+				Role: "Student",
+				Course: [
+					{
+						Id: 5,
+						Name: "History",
+						Description: null
+					},
+					{
+						Id: 7,
+						Name: "Physics",
+						Description: null
+					},
+					{
+						Id: 6,
+						Name: "Danish",
+						Description: null
+					},
+					{
+						Id: 2,
+						Name: "Math",
+						Description: null
+					},
 					{
 						Id: 1,
 						Name: "English",
@@ -80,52 +238,159 @@ describe("Get all users with role of Student", () => {
 				]
 			},
 			{
-				Id: 7,
-				Name: "James Doakes",
-				Role: "Student",
-				Course: []
-			},
-			{
-				Id: 8,
-				Name: "Big Chungus",
-				Role: "Student",
-				Course: []
-			},
-			{
-				Id: 9,
-				Name: "Charlie Kirk",
-				Role: "Student",
-				Course: []
-			},
-			{
-				Id: 11,
-				Name: "Maga Morten",
-				Role: "Student",
-				Course: []
-			},
-			{
 				Id: 12,
 				Name: "Tobias Kaa",
 				Role: "Student",
-				Course: []
+				Course: [
+					{
+						Id: 3,
+						Name: "Programming",
+						Description: null
+					},
+					{
+						Id: 2,
+						Name: "Math",
+						Description: null
+					},
+					{
+						Id: 7,
+						Name: "Physics",
+						Description: null
+					},
+					{
+						Id: 1,
+						Name: "English",
+						Description: null
+					}
+				]
 			},
 			{
 				Id: 13,
-				Name: "Labre Larve",
+				Name: "Søren Sørensen",
 				Role: "Student",
-				Course: []
+				Course: [
+					{
+						Id: 1,
+						Name: "English",
+						Description: null
+					},
+					{
+						Id: 2,
+						Name: "Math",
+						Description: null
+					},
+					{
+						Id: 3,
+						Name: "Programming",
+						Description: null
+					},
+					{
+						Id: 7,
+						Name: "Physics",
+						Description: null
+					},
+					{
+						Id: 8,
+						Name: "Chemistry",
+						Description: null
+					}
+				]
 			},
 			{
 				Id: 14,
-				Name: "Dorthe Donut",
+				Name: "Dorthe Jensen",
 				Role: "Student",
-				Course: []
+				Course: [
+					{
+						Id: 2,
+						Name: "Math",
+						Description: null
+					},
+					{
+						Id: 5,
+						Name: "History",
+						Description: null
+					},
+					{
+						Id: 6,
+						Name: "Danish",
+						Description: null
+					},
+					{
+						Id: 8,
+						Name: "Chemistry",
+						Description: null
+					},
+					{
+						Id: 9,
+						Name: "Biology",
+						Description: null
+					}
+				]
 			},
 			{
 				Id: 15,
-				Name: "King Tutankhamon",
+				Name: "Maj Peder",
 				Role: "Student",
-				Course: []
+				Course: [
+					{
+						Id: 1,
+						Name: "English",
+						Description: null
+					},
+					{
+						Id: 2,
+						Name: "Math",
+						Description: null
+					},
+					{
+						Id: 5,
+						Name: "History",
+						Description: null
+					},
+					{
+						Id: 3,
+						Name: "Programming",
+						Description: null
+					},
+					{
+						Id: 6,
+						Name: "Danish",
+						Description: null
+					}
+				]
+			},
+			{
+				Id: 17,
+				Name: "Signe Munk",
+				Role: "Student",
+				Course: [
+					{
+						Id: 9,
+						Name: "Biology",
+						Description: null
+					},
+					{
+						Id: 8,
+						Name: "Chemistry",
+						Description: null
+					},
+					{
+						Id: 7,
+						Name: "Physics",
+						Description: null
+					},
+					{
+						Id: 6,
+						Name: "Danish",
+						Description: null
+					},
+					{
+						Id: 5,
+						Name: "History",
+						Description: null
+					}
+				]
 			}
 		]);
 	});
@@ -136,24 +401,68 @@ describe("Get all users with role of Teacher", () => {
 		expect(await GetUsersWithRole(Role.Teacher)).toStrictEqual([
 			{
 				Id: 3,
-				Name: "Caleb Hane",
+				Name: "Caleb pedersen",
 				Role: "Teacher",
-				Course: []
+				Course: [
+					{
+						Id: 6,
+						Name: "Danish",
+						Description: null
+					},
+					{
+						Id: 7,
+						Name: "Physics",
+						Description: null
+					}
+				]
 			},
 			{
 				Id: 6,
-				Name: "Hanne Pande",
+				Name: "Nicoline Petersen ",
 				Role: "Teacher",
-				Course: []
+				Course: [
+					{
+						Id: 1,
+						Name: "English",
+						Description: null
+					},
+					{
+						Id: 5,
+						Name: "History",
+						Description: null
+					}
+				]
 			},
 			{
 				Id: 10,
-				Name: "Ole Larsen",
+				Name: "Oline Jensen",
 				Role: "Teacher",
 				Course: [
 					{
 						Id: 2,
 						Name: "Math",
+						Description: null
+					},
+					{
+						Id: 3,
+						Name: "Programming",
+						Description: null
+					}
+				]
+			},
+			{
+				Id: 18,
+				Name: "Andreas Andreasen",
+				Role: "Teacher",
+				Course: [
+					{
+						Id: 8,
+						Name: "Chemistry",
+						Description: null
+					},
+					{
+						Id: 9,
+						Name: "Biology",
 						Description: null
 					}
 				]
