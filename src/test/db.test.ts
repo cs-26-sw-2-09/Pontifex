@@ -47,14 +47,15 @@ describe("Get user without user info", () => {
 					Name: "English",
 					Description: null
 				},
-				{
-					Id: 9,
-					Name: "Biology",
-					Description: null
-				},
+
 				{
 					Id: 7,
 					Name: "Physics",
+					Description: null
+				},
+				{
+					Id: 2,
+					Name: "Math",
 					Description: null
 				},
 				{
@@ -63,8 +64,8 @@ describe("Get user without user info", () => {
 					Description: null
 				},
 				{
-					Id: 2,
-					Name: "Math",
+					Id: 9,
+					Name: "Biology",
 					Description: null
 				}
 			]

@@ -35,7 +35,7 @@ describe("Student check ReBAC", () => {
 		const Action = Actions.Read;
 		const Course: Course = await db.query.Course.findFirst({
 			where: {
-				Id: 2
+				Id: 4
 			}
 		});
 		const Resource: Resource = {
@@ -99,7 +99,7 @@ describe("Student check ReBAC", () => {
 		const Action = Actions.Read;
 		const Assignments: Assignments = await db.query.Assignments.findFirst({
 			where: {
-				Id: 2
+				Id: 4
 			}
 		});
 		const Resource: Resource = {
@@ -131,7 +131,7 @@ describe("Student check ReBAC", () => {
 		const Action = Actions.Read;
 		const HandIn = await db.query.HandedInAssignments.findFirst({
 			where: {
-				Id: 2
+				Id: 4
 			}
 		});
 		const Resource: Resource = {
