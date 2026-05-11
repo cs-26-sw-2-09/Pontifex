@@ -31,18 +31,29 @@ export const load: PageServerLoad = async ({ cookies }) => {
 		// Fetches assignments for the student's courses if there are any
 		if (courseIds.length > 0) {
 			assignments = await db.query.Assignments.findMany({
-				where: { CourseId: { in: courseIds } }
+				where: {
+					CourseId: {
+						in: courseIds
+					}
+				},
+				with: {
+					Submissions: {
+						where: {
+							UserId: user.Id
+						}
+					}
+				}
 			});
 		}
 		// Fetches submissions made by the student
-		const submissions = await db.query.Submissions.findMany({
-			where: { UserId: user.Id }
-		});
+		//const submissions = await db.query.Submissions.findMany({
+		//	where: { UserId: user.Id }
+		//});
 		// Attaches submissions to the corresponding assignments
-		assignments = assignments.map((assignments) => ({
-			...assignments,
-			Submissions: submissions.filter((submission) => submission.AssignmentId === assignments.Id)
-		}));
+		//assignments = assignments.map((assignments) => ({
+		//	...assignments,
+		//	Submissions: submissions.filter((submission) => submission.AssignmentId === assignments.Id)
+		//}));
 	}
 	// Return user info and fetched assignments
 	return {
