@@ -1,7 +1,7 @@
-import { db, GetUserFromId } from "$lib/server/db";
+import { db, GetUserFromId, GetCoursesFromUserId } from "$lib/server/db";
 import type { PageServerLoad } from "./$types";
 import { redirect } from "@sveltejs/kit";
-import type { Assignments } from "$lib/types"
+import type { Assignments } from "$lib/types";
 
 // Copy from other +pager.server.ts
 export const load: PageServerLoad = async ({ cookies }) => {
@@ -14,23 +14,37 @@ export const load: PageServerLoad = async ({ cookies }) => {
 
 	let assignments: Assignments[] = [];
 
+	// Handles admin role: fetches all assignments from db
 	if (user.Role === "Admin") {
 		assignments = await db.query.Assignments.findMany();
+		// Handles teacher role: fetches assignments assigned to the teacherId
 	} else if (user.Role === "Teacher") {
 		assignments = await db.query.Assignments.findMany({
 			where: { TeacherId: user.Id }
 		});
-	} /*else if (user.Role === "Student") {
-		
-	Students need to see assignments from the courses they are enrolled in (maybe importUserToCourses from schema?)
-	They also need to see if they have handedin an assignments (need to import HandedInAssignments from schema)
-
-	Need to get users courseIds to get all assignments for those courses
-	Then need to check if that assignment had been handedin
-	}*/
+		// Handles student role: fetches courses and assignments related to the student
+	} else if (user.Role === "Student") {
+		const courses = await GetCoursesFromUserId(Number(userId));
+		const courseIds = courses.map((courses) => courses.Id);
+		// Fetches assignments for the student's courses if there are any
+		if (courseIds.length > 0) {
+			assignments = await db.query.Assignments.findMany({
+				where: { CourseId: { in: courseIds } }
+			});
+		}
+		// Fetches submissions made by the student
+		const submissions = await db.query.Submissions.findMany({
+			where: { UserId: user.Id }
+		});
+		// Attaches submissions to the corresponding assignments
+		assignments = assignments.map((assignments) => ({
+			...assignments,
+			Submissions: submissions.filter((submission) => submission.AssignmentId === assignments.Id)
+		}));
+	}
+	// Return user info and fetched assignments
 	return {
-		//Need to send user info and assignments to svelte to display
 		user,
-		assignments //Svelte doesn't know what type assignments is for some reason, so this says it is of type Assignment
+		assignments
 	};
 };

@@ -1,6 +1,10 @@
 <script lang="ts">
 	let { data } = $props();
+
+	import Navbar from "$lib/Components/Navbar.svelte";
 </script>
+
+<Navbar role={data.user!.Role} />
 
 <h1 class="mb-10 text-center text-[42px] font-semibold text-gray-900">
 	Assignments for {data.user.Name}
@@ -10,22 +14,19 @@
 	<ul role="list" class="mx-auto max-w-3xl space-y-6">
 		{#each data.assignments as assignment (assignment.Id)}
 			<li class="rounded-2xl bg-gray-700 p-6 shadow-lg transition-all hover:bg-gray-600">
-				<div class="flex items-start justify-between">
-					<div class="flex gap-4">
+				<div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+					<!-- LEFT SIDE -->
+					<div class="flex flex-1 gap-4">
 						<div class="flex h-14 w-14 items-center justify-center rounded-full bg-gray-800">
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.5L17 6.5V19a2 2 0 01-2 2z"
-								/>
+							<!-- icon -->
 						</div>
 
-						<div>
+						<div class="flex-1">
 							<p class="text-xl font-semibold text-white">
 								{assignment.Name}
 							</p>
 
-							<p class="mt-1 text-gray-300">
+							<p class="wrap-break-words mt-1 text-gray-300">
 								{assignment.Description}
 							</p>
 
@@ -35,13 +36,37 @@
 						</div>
 					</div>
 
-					<div class="text-right">
-						<p class="text-sm text-gray-300">
-							Due:
-							<span class="font-semibold text-green-400">
-								{new Date(assignment.DueDate).toLocaleDateString()}
+					<!-- RIGHT SIDE -->
+					<div class="min-w-37.5 text-right">
+						{#if assignment.Submissions?.length}
+							<!-- Submitted -->
+							<p class="text-sm text-gray-300">
+								Submitted:
+								<span class="font-semibold text-blue-400">
+									{new Date(assignment.Submissions[0].SubmissionDate).toLocaleDateString()}
+								</span>
+							</p>
+
+							<span
+								class="mt-1 inline-block rounded bg-green-600 px-3 py-1 text-sm font-semibold text-white"
+							>
+								Submitted
 							</span>
-						</p>
+						{:else}
+							<!-- Not submitted -->
+							<p class="text-sm text-gray-300">
+								Due:
+								<span class="font-semibold text-green-400">
+									{new Date(assignment.DueDate).toLocaleDateString()}
+								</span>
+							</p>
+
+							<span
+								class="mt-1 inline-block rounded bg-red-600 px-3 py-1 text-sm font-semibold text-white"
+							>
+								Not submitted
+							</span>
+						{/if}
 					</div>
 				</div>
 			</li>
