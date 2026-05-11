@@ -332,13 +332,13 @@ describe("Get all users with role of Student", () => {
 						Description: null
 					},
 					{
-						Id: 5,
-						Name: "History",
+						Id: 3,
+						Name: "Programming",
 						Description: null
 					},
 					{
-						Id: 3,
-						Name: "Programming",
+						Id: 5,
+						Name: "History",
 						Description: null
 					},
 					{
