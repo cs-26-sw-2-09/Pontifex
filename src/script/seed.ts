@@ -53,7 +53,7 @@ export async function seed() {
 	}
 
 	// Inserting handed in assignments
-	for (const handedInAssignment of HandedInAssignments) {
+	for (const handedInAssignment of Submissions) {
 		console.log(
 			`Inserting handed in assignment for user ${handedInAssignment.UserId} for assignment ${handedInAssignment.AssignmentId}`
 		);
