@@ -1,13 +1,14 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
 	import Navbar from "$lib/Components/Navbar.svelte";
+	import { resolve } from "$app/paths";
 
 	export let data: PageData;
 
 	const courses = data.courses ?? [];
 </script>
 
-<Navbar role={data.user!.Role} />
+<Navbar role={data.user!.Role} userId={data.user!.Id} />
 
 <div class="min-h-screen bg-gray-950 px-6 py-8 text-gray-100">
 	<!-- Header -->
@@ -42,7 +43,7 @@
 				<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 					{#each courses as course (course.Id)}
 						<a
-							href={`/course/${course.Id}`}
+							href={resolve(`/course/${course.Id}`)}
 							class="group rounded-xl border border-gray-700 bg-gray-800 p-5 transition hover:border-gray-500 hover:bg-gray-700"
 						>
 							<div class="flex h-full flex-col justify-between gap-6">

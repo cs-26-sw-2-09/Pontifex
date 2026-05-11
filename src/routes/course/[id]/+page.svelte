@@ -2,6 +2,7 @@
 	import { redirect } from "@sveltejs/kit";
 	import type { PageData } from "./$types";
 	import Navbar from "$lib/Components/Navbar.svelte";
+	import { resolve } from "$app/paths";
 
 	export let data: PageData;
 
@@ -13,7 +14,7 @@
 </script>
 
 <!-- missing navbar and user cookie -->
-<Navbar role={data.user!.Role} />
+<Navbar role={data.user!.Role} userId={data.user!.Id} />
 
 <div class="min-h-screen bg-gray-950 px-6 py-8 text-gray-100">
 	<!-- Course Header -->
@@ -21,10 +22,10 @@
 		<p class="text-sm font-medium tracking-wide text-gray-400 uppercase">Course</p>
 
 		<h1 class="mt-2 text-4xl font-bold text-white">
-			{data.course.Name}
+			{data.course?.Name}
 		</h1>
 
-		{#if data.course.Description}
+		{#if data.course?.Description}
 			<p class="mt-4 max-w-3xl text-gray-300">
 				{data.course.Description}
 			</p>
@@ -58,7 +59,7 @@
 					<div class="space-y-3">
 						{#each assignments as assignment (assignment.Id)}
 							<a
-								href={`/course/${data.course.Id}/assignment/${assignment.Id}`}
+								href={resolve(`/course/${data.course?.Id}/assignment/${assignment.Id}`)}
 								class="block rounded-xl border border-gray-700 bg-gray-800 p-4 transition hover:border-gray-500 hover:bg-gray-700"
 							>
 								<div class="flex items-center justify-between gap-4">
@@ -98,7 +99,7 @@
 					<div class="space-y-3">
 						{#each users as user (user.Id)}
 							<a
-								href={`/profile/${user.Id}`}
+								href={resolve(`/profile/${user.Id}`)}
 								class="flex items-center gap-3 rounded-xl border border-gray-700 bg-gray-800 p-3 transition hover:border-gray-500 hover:bg-gray-700"
 							>
 								<div

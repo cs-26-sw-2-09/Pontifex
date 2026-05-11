@@ -3,10 +3,7 @@
 	import { resolve } from "$app/paths";
 	import type { Role } from "$lib/types";
 	export let role: Role;
-	// function logout(){
-	// 	deleteUserCookie();
-	// 	goto(resolve("/"));
-	// }
+	export let userId: number;
 </script>
 
 <!-- Include this script tag or install `@tailwindplus/elements` via npm: -->
@@ -108,7 +105,7 @@
 						class="w-48 origin-top-right rounded-md bg-gray-800 py-1 outline -outline-offset-1 outline-white/10 transition transition-discrete [--anchor-gap:--spacing(2)] data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
 					>
 						<a
-							href={resolve("/profile")}
+							href={resolve(`/profile/${userId}`)}
 							class="block px-4 py-2 text-sm text-gray-200 focus:bg-white/5 focus:outline-hidden"
 							>Your profile</a
 						>
