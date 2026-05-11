@@ -52,19 +52,19 @@ export async function seed() {
 		});
 	}
 
-	// Inserting handed in assignments
-	for (const handedInAssignment of Submissions) {
+	// Inserting submission
+	for (const submission of Submissions) {
 		console.log(
-			`Inserting handed in assignment for user ${handedInAssignment.UserId} for assignment ${handedInAssignment.AssignmentId}`
+			`Inserting submission for user ${submission.UserId} for assignment ${submission.AssignmentId}`
 		);
 		await db.insert(Schema.Submissions).values({
-			Id: handedInAssignment.Id,
-			AssignmentId: handedInAssignment.AssignmentId,
-			UserId: handedInAssignment.UserId,
-			HandInDate: new Date(handedInAssignment.HandInDate),
-			AssignmentText: handedInAssignment.AssignmentText,
-			Grade: handedInAssignment.Grade,
-			Feedback: handedInAssignment.Feedback
+			Id: submission.Id,
+			AssignmentId: submission.AssignmentId,
+			UserId: submission.UserId,
+			HandInDate: new Date(submission.HandInDate),
+			AssignmentText: submission.AssignmentText,
+			Grade: submission.Grade,
+			Feedback: submission.Feedback
 		});
 	}
 
