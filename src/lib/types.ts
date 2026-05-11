@@ -4,7 +4,7 @@ export interface UserType {
 	Role: Role;
 	UserInfo?: UserInfo[];
 	Assignments?: Assignments[];
-	HandedInAssignments?: HandedInAssignment[];
+	Submissions?: Submissions[];
 	UsersToCourses?: UserToCourse[];
 }
 
@@ -30,19 +30,26 @@ export interface Assignments {
 	TeacherId: number;
 	Course?: Course;
 	User: UserType;
-	HandedInAssignments?: HandedInAssignment[];
+	Submissions?: Submissions[];
 }
 
-export interface HandedInAssignment {
+export interface Submissions {
 	Id: number;
 	UserId: number;
 	AssignmentId: number;
-	HandInDate: Date;
-	Grade?: number;
-	Feedback?: string;
+	SubmissionDate: Date;
 	AssignmentText: string;
 	Assignment?: Assignments;
 	User?: UserType;
+	Review?: Review;
+}
+
+export interface Review {
+	Id: number;
+	SubmissionsId: number;
+	TeacherId: number;
+	Grade?: number;
+	Feedback?: string;
 }
 
 export interface Course {
@@ -85,12 +92,13 @@ export interface Resource {
 	Profile?: UserType;
 	Course?: Course;
 	Assignment?: Assignments;
-	HandedInAssignment?: HandedInAssignment;
+	Submission?: Submissions;
+	Review?: Review;
 }
 
 export enum ResourceEnum {
 	Profile = "Profile",
 	Course = "Course",
 	Assignment = "Assignment",
-	HandedInAssignment = "HandedInAssignment"
+	Submission = "Submission"
 }

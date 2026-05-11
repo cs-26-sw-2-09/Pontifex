@@ -14,27 +14,37 @@ export const load: PageServerLoad = async ({ cookies }) => {
 
 	let assignments: Assignments[] = [];
 
+	// Handles admin role: fetches all assignments from db
 	if (user.Role === "Admin") {
 		// Admins see all assigments
 		assignments = await db.query.Assignments.findMany();
+		// Handles teacher role: fetches assignments assigned to the teacherId
 	} else if (user.Role === "Teacher") {
 		// Teachers  see assighments they are responsible for
 		assignments = await db.query.Assignments.findMany({
 			where: { TeacherId: user.Id }
 		});
+		// Handles student role: fetches courses and assignments related to the student
 	} else if (user.Role === "Student") {
-		// Students see assignments from courses they are enrolled in
-		const courses = await GetCoursesFromUserId(user.Id);
-
-		// Extract course IDs for assigments
-		const courseIds = courses.map(course => course.Id);
-		
-		// Get assignments related to the students courses
-		assignments = await db.query.Assignments.findMany({
-			where: { CourseId: { in: courseIds}}
+		const courses = await GetCoursesFromUserId(Number(userId));
+		const courseIds = courses.map((courses) => courses.Id);
+		// Fetches assignments for the student's courses if there are any
+		if (courseIds.length > 0) {
+			assignments = await db.query.Assignments.findMany({
+				where: { CourseId: { in: courseIds } }
+			});
+		}
+		// Fetches submissions made by the student
+		const submissions = await db.query.Submissions.findMany({
+			where: { UserId: user.Id }
 		});
+		// Attaches submissions to the corresponding assignments
+		assignments = assignments.map((assignments) => ({
+			...assignments,
+			Submissions: submissions.filter((submission) => submission.AssignmentId === assignments.Id)
+		}));
 	}
-	
+	// Return user info and fetched assignments
 	return {
 		user,
 		assignments

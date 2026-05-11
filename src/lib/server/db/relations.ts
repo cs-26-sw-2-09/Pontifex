@@ -18,9 +18,13 @@ export const relations = defineRelations(schema, (r) => ({
 			to: r.Course.Id.through(r.UserToCourses.CourseId)
 		}),
 		UserInfo: r.many.UserInfo(),
-		HandedInAssignments: r.many.HandedInAssignments({
+		Submissions: r.many.Submissions({
 			from: r.User.Id,
-			to: r.HandedInAssignments.UserId
+			to: r.Submissions.UserId
+		}),
+		Review: r.many.Review({
+			from: r.User.Id,
+			to: r.Review.TeacherId
 		})
 	},
 	UserInfo: {
@@ -34,19 +38,29 @@ export const relations = defineRelations(schema, (r) => ({
 			from: r.Assignments.CourseId,
 			to: r.Course.Id
 		}),
-		HandedInAssignments: r.many.HandedInAssignments({
+		Submissions: r.many.Submissions({
 			from: r.Assignments.Id,
-			to: r.HandedInAssignments.AssignmentId
+			to: r.Submissions.AssignmentId
 		})
 	},
-	HandedInAssignments: {
+	Submissions: {
 		User: r.one.User({
-			from: r.HandedInAssignments.UserId,
+			from: r.Submissions.UserId,
 			to: r.User.Id
 		}),
 		Assignment: r.one.Assignments({
-			from: r.HandedInAssignments.AssignmentId,
+			from: r.Submissions.AssignmentId,
 			to: r.Assignments.Id
+		})
+	},
+	Review: {
+		Teacher: r.one.User({
+			from: r.Review.TeacherId,
+			to: r.User.Id
+		}),
+		Submission: r.one.Submissions({
+			from: r.Review.SubmissionsId,
+			to: r.Submissions.Id
 		})
 	}
 }));
