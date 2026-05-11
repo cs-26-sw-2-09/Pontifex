@@ -57,7 +57,7 @@ export async function seed() {
 		console.log(
 			`Inserting handed in assignment for user ${handedInAssignment.UserId} for assignment ${handedInAssignment.AssignmentId}`
 		);
-		await db.insert(Schema.HandedInAssignments).values({
+		await db.insert(Schema.Submissions).values({
 			Id: handedInAssignment.Id,
 			AssignmentId: handedInAssignment.AssignmentId,
 			UserId: handedInAssignment.UserId,
