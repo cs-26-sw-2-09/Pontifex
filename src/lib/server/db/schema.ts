@@ -64,7 +64,7 @@ export const Assignments = pgTable("assignments", {
 	DueDate: timestamp().notNull()
 });
 
-export const HandedInAssignments = pgTable("handed_in_assignments", {
+export const Submissions = pgTable("submissions", {
 	Id: serial().primaryKey(),
 	UserId: integer()
 		.notNull()
@@ -72,35 +72,18 @@ export const HandedInAssignments = pgTable("handed_in_assignments", {
 	AssignmentId: integer()
 		.notNull()
 		.references(() => Assignments.Id, { onDelete: "cascade" }),
-	HandInDate: timestamp().defaultNow().notNull(),
-	Grade: integer(),
-	Feedback: text(),
+	SubmissionDate: timestamp().defaultNow().notNull(),
 	AssignmentText: text()
 });
 
-//export const UserRelations = relations(User, ({ one, many }) => ({
-//  UserInfo: one(UserInfo),
-//  Courses: many(Course, { relationName: "student" })
-//}));
-//
-//export const UserInfoRelations = relations(UserInfo, ({ one }) => ({
-//  User: one(User, {
-//    fields: [UserInfo.UserId],
-//    references: [User.Id]
-//  })
-//}));
-//
-//export const CourseRelations = relations(Course, ({ one, many }) => ({
-//  Teacher: one(User, {
-//    fields: [Course.TeacherId],
-//    references: [User.Id]
-//  }),
-//  Students: many(User, { relationName: "student" })
-//}));
-//
-//export const PermissionsRelations = relations(Permissions, ({ one }) => ({
-//  User: one(User, {
-//    fields: [Permissions.UserId],
-//    references: [User.Id]
-//  })
-//}));
+export const Review = pgTable("review", {
+	Id: serial().primaryKey(),
+	SubmissionsId: integer()
+		.notNull()
+		.references(() => Submissions.Id),
+	TeacherId: integer()
+		.notNull()
+		.references(() => User.Id),
+	Grade: integer(),
+	Feedback: integer()
+});
