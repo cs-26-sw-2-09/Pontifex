@@ -4,7 +4,7 @@ import * as Schema from "../lib/server/db/schema.ts";
 import { relations } from "../lib/server/db/relations.ts";
 import Assignments from "./Seed Data/assignments.json" with { type: "json" };
 import Courses from "./Seed Data/courses.json" with { type: "json" };
-import HandedInAssignments from "./Seed Data/handed_in_assignments.json" with { type: "json" };
+import Submissions from "./Seed Data/submission.json" with { type: "json" };
 import UserInfo from "./Seed Data/user_info.json" with { type: "json" };
 import UserToCourses from "./Seed Data/user_to_courses.json" with { type: "json" };
 import Users from "./Seed Data/users.json" with { type: "json" };
