@@ -117,3 +117,16 @@ export async function UpdateUser(userData: UserType) {
 export async function DeleteUser(userId: number) {
 	await db.delete(User).where(eq(User.Id, userId));
 }
+
+export async function GetCourseFromId(courseId: number, WithExtra: boolean = false) {
+	const course = await db.query.Course.findFirst({
+		where: {
+			Id: courseId
+		},
+		with: {
+			Assignments: WithExtra,
+			Users: WithExtra
+		}
+	});
+	return course;
+}

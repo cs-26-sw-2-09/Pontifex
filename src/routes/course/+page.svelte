@@ -11,7 +11,9 @@
 <div class="">
 	<ul class="box-border bg-gray-700">
 		{#each data.courses as course (course.Id)}
-			<li class="border-10 p-2 text-center text-[25px] text-white">{course.Name}</li>
+			<li class="border-10 p-2 text-center text-[25px] text-white">
+				<a href="/course/{course.Id}">{course.Name}</a>
+			</li>
 		{/each}
 	</ul>
 </div>
