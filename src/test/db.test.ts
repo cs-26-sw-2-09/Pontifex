@@ -107,8 +107,8 @@ describe("Get all users with role of Student", () => {
 						Description: null
 					},
 					{
-						Id: 9,
-						Name: "Biology",
+						Id: 2,
+						Name: "Math",
 						Description: null
 					},
 					{
@@ -122,8 +122,8 @@ describe("Get all users with role of Student", () => {
 						Description: null
 					},
 					{
-						Id: 2,
-						Name: "Math",
+						Id: 9,
+						Name: "Biology",
 						Description: null
 					}
 				]
@@ -199,18 +199,8 @@ describe("Get all users with role of Student", () => {
 				Role: "Student",
 				Course: [
 					{
-						Id: 5,
-						Name: "History",
-						Description: null
-					},
-					{
-						Id: 7,
-						Name: "Physics",
-						Description: null
-					},
-					{
-						Id: 6,
-						Name: "Danish",
+						Id: 1,
+						Name: "English",
 						Description: null
 					},
 					{
@@ -219,8 +209,18 @@ describe("Get all users with role of Student", () => {
 						Description: null
 					},
 					{
-						Id: 1,
-						Name: "English",
+						Id: 5,
+						Name: "History",
+						Description: null
+					},
+					{
+						Id: 6,
+						Name: "Danish",
+						Description: null
+					},
+					{
+						Id: 7,
+						Name: "Physics",
 						Description: null
 					}
 				]
@@ -231,8 +231,8 @@ describe("Get all users with role of Student", () => {
 				Role: "Student",
 				Course: [
 					{
-						Id: 3,
-						Name: "Programming",
+						Id: 1,
+						Name: "English",
 						Description: null
 					},
 					{
@@ -241,13 +241,13 @@ describe("Get all users with role of Student", () => {
 						Description: null
 					},
 					{
-						Id: 7,
-						Name: "Physics",
+						Id: 3,
+						Name: "Programming",
 						Description: null
 					},
 					{
-						Id: 1,
-						Name: "English",
+						Id: 7,
+						Name: "Physics",
 						Description: null
 					}
 				]
@@ -354,18 +354,8 @@ describe("Get all users with role of Student", () => {
 				Role: "Student",
 				Course: [
 					{
-						Id: 9,
-						Name: "Biology",
-						Description: null
-					},
-					{
-						Id: 8,
-						Name: "Chemistry",
-						Description: null
-					},
-					{
-						Id: 7,
-						Name: "Physics",
+						Id: 5,
+						Name: "History",
 						Description: null
 					},
 					{
@@ -374,8 +364,18 @@ describe("Get all users with role of Student", () => {
 						Description: null
 					},
 					{
-						Id: 5,
-						Name: "History",
+						Id: 7,
+						Name: "Physics",
+						Description: null
+					},
+					{
+						Id: 8,
+						Name: "Chemistry",
+						Description: null
+					},
+					{
+						Id: 9,
+						Name: "Biology",
 						Description: null
 					}
 				]
