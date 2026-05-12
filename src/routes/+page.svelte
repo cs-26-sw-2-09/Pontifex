@@ -2,7 +2,7 @@
 	let { data } = $props();
 </script>
 
-<div class="flex h-screen flex-col items-center justify-center gap-10 text-center">
+<div class="-mt-20 flex min-h-screen flex-col items-center justify-center gap-10 text-center">
 	<div>
 		<h1 class="text-5xl font-bold text-gray-100">Lectio Pontifex</h1>
 		<h2 class="text-2xl font-light text-gray-200">Who are you?</h2>
