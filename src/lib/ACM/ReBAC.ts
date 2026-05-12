@@ -10,9 +10,6 @@ import {
 	type Assignments,
 	type Submissions
 } from "$lib/types.js";
-import { LogModule } from "$lib/Logs/LogModule.js";
-
-const logModule = new LogModule();
 
 export async function HasAccess(
 	User: UserType,
