@@ -24,7 +24,7 @@
 						<option value={student.Id}>{student.Name}</option>
 					{/each}
 				</select>
-				<input type="hidden" name="role" value="Student" id="SelectedStudent" />
+				<input type="hidden" name="role" value="Student" />
 				<button
 					onclick={() => (activeFormId = "student-login")}
 					command="show-modal"
