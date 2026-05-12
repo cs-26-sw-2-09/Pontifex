@@ -1,5 +1,5 @@
 <script lang="ts">
-	let { formId = "" } = $props();
+	let { formId = "", name = "" } = $props();
 </script>
 
 <el-dialog>
@@ -43,7 +43,7 @@
 							<h3 id="dialog-title" class="text-base font-semibold text-white">Pinky Promise</h3>
 							<div class="mt-2">
 								<p class="text-sm text-gray-400">
-									Do you solemnly swear that you are who you say you are?
+									Do you solemnly swear that you are {name}?
 								</p>
 							</div>
 						</div>
