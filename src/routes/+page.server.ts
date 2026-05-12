@@ -27,7 +27,7 @@ export const actions: Actions = {
 		const id = data.get("id");
 		if (!id) error(400, "ID not found");
 		const role = data.get("role") as string;
-		await logModule.writeLoginLog(parseInt(id.toString()), "Unknown", role as Role);
+		//await logModule.writeLoginLog(parseInt(id.toString()), "Unknown", role as Role);
 		// cookie is set
 		cookies.set("user", id.toString(), {
 			path: "/",
