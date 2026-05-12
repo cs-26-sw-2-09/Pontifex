@@ -2,6 +2,9 @@ import { GetUsersWithRole } from "$lib/server/db";
 import type { PageServerLoad, Actions } from "./$types";
 import { Role } from "$lib/types";
 import { redirect, error } from "@sveltejs/kit";
+import { LogModule } from "$lib/Logs/LogModule.js";
+
+const logModule = new LogModule();
 
 // Fetches all users parallelly using promise.all into students, teachers, admin
 export const load: PageServerLoad = async () => {
@@ -24,6 +27,7 @@ export const actions: Actions = {
 		const id = data.get("id");
 		if (!id) error(400, "ID not found");
 		const role = data.get("role") as string;
+		await logModule.writeLoginLog(parseInt(id.toString()), "Unknown", role as Role);
 		// cookie is set
 		cookies.set("user", id.toString(), {
 			path: "/",
