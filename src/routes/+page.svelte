@@ -1,5 +1,7 @@
 <script lang="ts">
 	import Auth from "$lib/Components/Auth.svelte";
+	import { validateHeaderValue } from "http";
+	import { forEachChild } from "typescript";
 	let { data } = $props();
 </script>
 
@@ -31,7 +33,7 @@
 					class="rounded-xl border border-blue-400 px-6 py-2 text-blue-400 shadow-md transition hover:bg-blue-400 hover:text-slate-900"
 				>
 					Login
-					<Auth />
+					<Auth name="TEST" />
 				</button>
 			</form>
 
@@ -56,7 +58,7 @@
 					class="rounded-xl border border-emerald-400 px-6 py-2 text-emerald-400 shadow-md transition hover:bg-emerald-400 hover:text-slate-900"
 				>
 					Login
-					<Auth />
+					<Auth name="TEST" />
 				</button>
 			</form>
 
@@ -78,17 +80,9 @@
 					class="rounded-xl border border-red-400 px-6 py-2 text-red-400 shadow-md transition hover:bg-red-400 hover:text-slate-900"
 				>
 					Login
-					<Auth />
+					<Auth name="TEST" />
 				</button>
 			</form>
 		</div>
-
-		<button
-			command="show-modal"
-			commandfor="dialog"
-			class="rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white inset-ring inset-ring-white/5 hover:bg-white/20"
-			>Open dialog</button
-		>
-		<Auth />
 	</div>
 </div>

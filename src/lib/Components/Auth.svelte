@@ -1,3 +1,7 @@
+<script lang="ts">
+	export let name: string;
+</script>
+
 <el-dialog>
 	<dialog
 		id="dialog"
@@ -38,7 +42,7 @@
 						<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
 							<h3 id="dialog-title" class="text-base font-semibold text-white">Pinky Promise</h3>
 							<div class="mt-2">
-								<p class="text-sm text-gray-400">Do you solemnly swear that you are this person?</p>
+								<p class="text-sm text-gray-400">Do you solemnly swear that you are {name}?</p>
 							</div>
 						</div>
 					</div>
