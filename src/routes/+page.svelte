@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Auth from "$lib/Components/Auth.svelte";
+	let activeFormId = $state("");
 	let { data } = $props();
 </script>
 
@@ -13,7 +14,7 @@
 		</div>
 
 		<div class="flex gap-6">
-			<form method="POST" action="?/login" class="flex flex-col gap-2">
+			<form method="POST" action="?/login" id="student-login" class="flex flex-col gap-2">
 				<p class="text-center text-sm font-medium text-blue-400">Student</p>
 				<select
 					name="id"
@@ -25,6 +26,7 @@
 				</select>
 				<input type="hidden" name="role" value="Student" id="SelectedStudent" />
 				<button
+					onclick={() => (activeFormId = "student-login")}
 					command="show-modal"
 					commandfor="dialog"
 					type="button"
@@ -32,10 +34,9 @@
 				>
 					Login
 				</button>
-				<Auth />
 			</form>
 
-			<form method="POST" action="?/login" class="flex flex-col gap-2">
+			<form method="POST" action="?/login" id="teacher-login" class="flex flex-col gap-2">
 				<p class="text-center text-sm font-medium text-emerald-400">Teacher</p>
 				<select
 					name="id"
@@ -50,6 +51,7 @@
 				</select>
 				<input type="hidden" name="role" value="Teacher" />
 				<button
+					onclick={() => (activeFormId = "teacher-login")}
 					command="show-modal"
 					commandfor="dialog"
 					type="button"
@@ -57,10 +59,9 @@
 				>
 					Login
 				</button>
-				<Auth />
 			</form>
 
-			<form method="POST" action="?/login" class="flex flex-col gap-2">
+			<form method="POST" action="?/login" id="admin-login" class="flex flex-col gap-2">
 				<p class="text-center text-sm font-medium text-red-400">Admin</p>
 				<select
 					name="id"
@@ -72,6 +73,7 @@
 				</select>
 				<input type="hidden" name="role" value="Admin" />
 				<button
+					onclick={() => (activeFormId = "admin-login")}
 					command="show-modal"
 					commandfor="dialog"
 					type="button"
@@ -79,8 +81,8 @@
 				>
 					Login
 				</button>
-				<Auth />
 			</form>
+			<Auth formId={activeFormId} />
 		</div>
 	</div>
 </div>
