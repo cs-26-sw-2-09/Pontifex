@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Auth from "$lib/Components/Auth.svelte";
 	let activeFormId = $state("");
-	let name = $state("");
 	let { data } = $props();
 </script>
 
