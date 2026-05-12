@@ -10,9 +10,9 @@
 	Assignments for {data.user?.Name}
 </h1>
 
-{#if data.assignments.length > 0}
+{#if data.Assignments!.length > 0}
 	<ul role="list" class="mx-auto max-w-3xl space-y-6">
-		{#each data.assignments as assignment (assignment.Id)}
+		{#each data.Assignments as assignment, index (assignment.Id)}
 			<a href={`/assignments/${assignment.Id}`} class="block">
 				<li class="rounded-2xl bg-gray-700 p-6 shadow-lg transition-all hover:bg-gray-600">
 					<div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -40,9 +40,9 @@
 						<!-- RIGHT -->
 						<div class="min-w-52 text-right text-sm text-gray-300">
 							<!-- ================= ADMIN ================= -->
-							{#if data.user?.Role === "Admin"}
+							{#if data.user?.Role === "Admin" || data.user?.Role === "Teacher"}
 								<p class="mt-1 text-blue-400">
-									Submissions ({assignment.Submissions?.length ?? 0})
+									Submissions ({assignment.Submissions?.length})
 								</p>
 
 								{#if assignment.Submissions?.length}
@@ -58,51 +58,22 @@
 									</div>
 								{/if}
 
-								{#if assignment.NotSubmitted?.length}
+								{#if data.notSubmitted[index]?.length}
 									<div class="mt-3">
 										<p class="text-xs text-gray-400">
-											Not submitted ({assignment.NotSubmitted.length})
+											Not submitted ({data.notSubmitted[index]?.length})
 										</p>
 										<ul class="text-sm text-red-300">
-											{#each assignment.NotSubmitted as user (user.Id)}
+											{#each data.notSubmitted[index] as user (user.Id)}
 												<li>{user.Name}</li>
 											{/each}
 										</ul>
 									</div>
 								{/if}
 
-								{#if !assignment.Submissions && !assignment.NotSubmitted}
+								{#if !assignment.Submissions && !data.notSubmitted[index]}
 									<p class="mt-2 text-xs text-gray-400">No detailed submission data available</p>
 								{/if}
-							{/if}
-
-							<!-- ================= TEACHER ================= -->
-							{#if data.user?.Role === "Teacher"}
-								<p class="font-semibold text-blue-400">
-									Submitted ({assignment.Submissions?.length ?? 0})
-								</p>
-
-								{#if assignment.Submissions?.length}
-									<ul class="mt-2 text-sm text-green-300">
-										{#each assignment.Submissions as sub (sub.Id)}
-											<li>{sub.User?.Name ?? "Unknown user"}</li>
-										{/each}
-									</ul>
-								{/if}
-
-								<div class="mt-3">
-									<p class="text-xs text-gray-400">
-										Not submitted ({assignment.NotSubmitted?.length ?? 0})
-									</p>
-
-									{#if assignment.NotSubmitted?.length}
-										<ul class="text-sm text-red-300">
-											{#each assignment.NotSubmitted as user (user.Id)}
-												<li>{user.Name}</li>
-											{/each}
-										</ul>
-									{/if}
-								</div>
 							{/if}
 
 							<!-- ================= STUDENT ================= -->

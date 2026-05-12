@@ -1,171 +1,102 @@
 import { db, GetUserFromId, GetCoursesFromUserId } from "$lib/server/db";
 import type { PageServerLoad } from "./$types";
 import { redirect } from "@sveltejs/kit";
-import type { Assignments, Submissions } from "$lib/types";
+import type { Assignments, Submissions, UserType } from "$lib/types";
 import { Role } from "$lib/types";
 
-type AssignmentView = Assignments & {
-	Submissions?: Submissions[];
-	NotSubmitted?: import("$lib/types").UserType[];
-};
-
 export const load: PageServerLoad = async ({ cookies }) => {
+	// Check if user is logged in
 	const userId = cookies.get("user");
 	if (!userId) throw redirect(303, "/");
 
+	// Check if user exists
 	const user = await GetUserFromId(Number(userId));
 	if (!user) throw redirect(303, "/");
 
-	let assignments: AssignmentView[] = [];
-
-	// ---------------- ADMIN ----------------
-	if (user.Role === Role.Admin) {
-		const allAssignments = await db.query.Assignments.findMany();
-
-		const allSubmissions = await db.query.Submissions.findMany();
-
-		const allStudents = await db.query.User.findMany({
-			where: { Role: Role.Student }
-		});
-
-		const enrollments = await db.query.UserToCourses.findMany();
-
-		// Map course -> studentIds
-		const courseMap = new Map<number, number[]>();
-
-		for (const e of enrollments) {
-			if (!e.CourseId || !e.UserId) continue;
-
-			if (!courseMap.has(e.CourseId)) {
-				courseMap.set(e.CourseId, []);
-			}
-
-			courseMap.get(e.CourseId)!.push(e.UserId);
-		}
-
-		const studentMap = new Map(allStudents.map((submission) => [submission.Id, submission]));
-
-		assignments = allAssignments.map((assignment) => {
-			const submissions = allSubmissions
-				.filter((submission) => submission.AssignmentId === assignment.Id)
-				.map((submission) => ({
-					...submission,
-					User: studentMap.get(submission.UserId)
-				}));
-
-			const submittedIds = new Set(submissions.map((submission) => submission.UserId));
-
-			const enrolledIds = courseMap.get(assignment.CourseId) ?? [];
-
-			const enrolledStudents = enrolledIds.map((id) => studentMap.get(id)).filter(Boolean);
-
-			const notSubmitted = enrolledStudents.filter(
-				(submission) => !submittedIds.has(submission!.Id)
-			);
-
-			return {
-				...assignment,
-				Submissions: submissions,
-				NotSubmitted: notSubmitted
-			};
-		});
-	}
-
-	// ---------------- TEACHER ----------------
-	else if (user.Role === Role.Teacher) {
-		const teacherAssignments = await db.query.Assignments.findMany({
-			where: { TeacherId: user.Id }
-		});
-
-		const assignmentIds = teacherAssignments.map((assignments) => assignments.Id);
-		const courseIds = [
-			...new Set(teacherAssignments.map((assignments) => assignments.CourseId).filter(Boolean))
-		] as number[];
-
-		const submissions = await db.query.Submissions.findMany({
-			where: { AssignmentId: { in: assignmentIds } }
-		});
-
-		const students = await db.query.User.findMany({
-			where: { Role: Role.Student }
-		});
-
-		const submittedUserIds = submissions
-			.map((submission) => submission.UserId)
-			.filter(Boolean) as number[];
-
-		const submittedUsers = await db.query.User.findMany({
-			where: { Id: { in: submittedUserIds } }
-		});
-
-		const userMap = new Map(submittedUsers.map((user) => [user.Id, user]));
-
-		const enrollments = await db.query.UserToCourses.findMany({
-			where: { CourseId: { in: courseIds } }
-		});
-
-		const courseMap = new Map<number, number[]>();
-
-		for (const e of enrollments) {
-			if (!e.CourseId || !e.UserId) continue;
-
-			if (!courseMap.has(e.CourseId)) {
-				courseMap.set(e.CourseId, []);
-			}
-
-			courseMap.get(e.CourseId)!.push(e.UserId);
-		}
-
-		assignments = teacherAssignments.map((assignment) => {
-			const assignmentSubmissions = submissions
-				.filter((s) => s.AssignmentId === assignment.Id)
-				.map((s) => ({
-					...s,
-					User: userMap.get(s.UserId)
-				}));
-
-			const submitted = new Set(assignmentSubmissions.map((s) => s.UserId));
-			const enrolledIds = courseMap.get(assignment.CourseId) ?? [];
-
-			const enrolledStudents = students.filter((submission) => enrolledIds.includes(submission.Id));
-
-			const notSubmitted = enrolledStudents.filter((submissions) => !submitted.has(submissions.Id));
-
-			return {
-				...assignment,
-				Submissions: assignmentSubmissions,
-				NotSubmitted: notSubmitted
-			};
-		});
-	}
-
 	// ---------------- STUDENT ----------------
-	else if (user.Role === Role.Student) {
-		const courses = await GetCoursesFromUserId(Number(userId));
-		const courseIds = courses.map((courses) => courses.Id);
-
-		if (courseIds.length > 0) {
-			const courseAssignments = await db.query.Assignments.findMany({
-				where: {
-					CourseId: { in: courseIds }
+	if (user.Role === Role.Student) {
+		const Courses = await GetCoursesFromUserId(Number(userId));
+		// Get a list of all courses the student is enrolled in
+		const CourseIds = Courses.map((course) => course.Id);
+		// Get a list of all assignments for those courses
+		let Assignments = await db.query.Assignments.findMany({
+			where: {
+				CourseId: {
+					in: CourseIds
 				}
-			});
-
-			const submissions = await db.query.Submissions.findMany({
-				where: { UserId: user.Id }
-			});
-
-			assignments = courseAssignments.map((assignments) => ({
-				...assignments,
-				Submissions: submissions.filter(
-					(submissions) => submissions.AssignmentId === assignments.Id
-				)
-			}));
-		}
+			}
+		});
+		// Return the assignments
+		return {
+			Assignments
+		};
 	}
 
+	// ------------ ADMIN / TEACHER -------------
+	let Assignments: Assignments[] = [];
+
+	// ------------ ADMIN -------------
+	if (user.Role === Role.Admin) {
+		// Get a list of all assignments with all data
+		Assignments = await db.query.Assignments.findMany({
+			with: {
+				Submissions: {
+					with: {
+						User: true
+					}
+				},
+				Course: {
+					with: {
+						Users: true
+					}
+				}
+			}
+		});
+	}
+
+	// ------------ TEACHER -------------
+	if (user.Role === Role.Teacher) {
+		// Get a list of all assignments for the teacher with all data
+		Assignments = await db.query.Assignments.findMany({
+			where: {
+				TeacherId: Number(userId)
+			},
+			with: {
+				Submissions: {
+					with: {
+						User: true
+					}
+				},
+				Course: {
+					with: {
+						Users: true
+					}
+				}
+			}
+		});
+	}
+	// Get a list of all students for each assignment
+	// It starts by getting a list of all users for each course
+	// Then it filters out so its only students
+	// Then we have an array of students for each assignment
+	let StudentUsers = Assignments.map((assignment) => assignment.Course?.Users).map((Users) =>
+		Users?.filter((user: UserType) => user.Role === Role.Student)
+	);
+
+	// Get a list of all students who have not submitted for each assignment
+	let notSubmitted = StudentUsers.map((users, index) => {
+		// Get a list of all students who have submitted for the assignment
+		const submitted = Assignments[index].Submissions!.map((submission) => submission.UserId);
+		// Filter out the students who have submitted from the list of all students
+		const notSubmitted = users?.filter((user: UserType) => !submitted.includes(user.Id));
+		// Return the list of students who have not submitted for the assignment
+		return notSubmitted;
+	});
+
+	// return the assignments and the users
 	return {
+		Assignments,
 		user,
-		assignments
+		notSubmitted
 	};
 };
