@@ -1,7 +1,5 @@
 <script lang="ts">
 	import Auth from "$lib/Components/Auth.svelte";
-	import { validateHeaderValue } from "http";
-	import { forEachChild } from "typescript";
 	let { data } = $props();
 </script>
 
@@ -25,7 +23,7 @@
 						<option value={student.Id}>{student.Name}</option>
 					{/each}
 				</select>
-				<input type="hidden" name="role" value="Student" />
+				<input type="hidden" name="role" value="Student" id="SelectedStudent" />
 				<button
 					command="show-modal"
 					commandfor="dialog"
@@ -33,8 +31,8 @@
 					class="rounded-xl border border-blue-400 px-6 py-2 text-blue-400 shadow-md transition hover:bg-blue-400 hover:text-slate-900"
 				>
 					Login
-					<Auth name="TEST" />
 				</button>
+				<Auth />
 			</form>
 
 			<form method="POST" action="?/login" class="flex flex-col gap-2">
@@ -58,8 +56,8 @@
 					class="rounded-xl border border-emerald-400 px-6 py-2 text-emerald-400 shadow-md transition hover:bg-emerald-400 hover:text-slate-900"
 				>
 					Login
-					<Auth name="TEST" />
 				</button>
+				<Auth />
 			</form>
 
 			<form method="POST" action="?/login" class="flex flex-col gap-2">
@@ -80,8 +78,8 @@
 					class="rounded-xl border border-red-400 px-6 py-2 text-red-400 shadow-md transition hover:bg-red-400 hover:text-slate-900"
 				>
 					Login
-					<Auth name="TEST" />
 				</button>
+				<Auth />
 			</form>
 		</div>
 	</div>
