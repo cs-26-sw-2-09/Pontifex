@@ -4,7 +4,7 @@ import * as Schema from "../lib/server/db/schema.ts";
 import { relations } from "../lib/server/db/relations.ts";
 import Assignments from "./Seed Data/assignments.json" with { type: "json" };
 import Courses from "./Seed Data/courses.json" with { type: "json" };
-import HandedInAssignments from "./Seed Data/handed_in_assignments.json" with { type: "json" };
+import Submissions from "./Seed Data/submission.json" with { type: "json" };
 import UserInfo from "./Seed Data/user_info.json" with { type: "json" };
 import UserToCourses from "./Seed Data/user_to_courses.json" with { type: "json" };
 import Users from "./Seed Data/users.json" with { type: "json" };
@@ -52,19 +52,19 @@ export async function seed() {
 		});
 	}
 
-	// Inserting handed in assignments
-	for (const handedInAssignment of HandedInAssignments) {
+	// Inserting submission
+	for (const submission of Submissions) {
 		console.log(
-			`Inserting handed in assignment for user ${handedInAssignment.UserId} for assignment ${handedInAssignment.AssignmentId}`
+			`Inserting submission for user ${submission.UserId} for assignment ${submission.AssignmentId}`
 		);
 		await db.insert(Schema.Submissions).values({
-			Id: handedInAssignment.Id,
-			AssignmentId: handedInAssignment.AssignmentId,
-			UserId: handedInAssignment.UserId,
-			HandInDate: new Date(handedInAssignment.HandInDate),
-			AssignmentText: handedInAssignment.AssignmentText,
-			Grade: handedInAssignment.Grade,
-			Feedback: handedInAssignment.Feedback
+			Id: submission.Id,
+			AssignmentId: submission.AssignmentId,
+			UserId: submission.UserId,
+			HandInDate: new Date(submission.HandInDate),
+			AssignmentText: submission.AssignmentText,
+			Grade: submission.Grade,
+			Feedback: submission.Feedback
 		});
 	}
 

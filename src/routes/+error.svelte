@@ -9,7 +9,7 @@
 	<div class="text-center">
 		<p class="text-lg font-semibold text-indigo-400">{page.status}</p>
 		<h1 class="mt-4 text-5xl font-semibold tracking-tight text-balance text-white sm:text-7xl">
-			Page {page.error?.message}
+			{page.error?.message}
 		</h1>
 		<p class="mt-6 text-lg font-medium text-pretty text-gray-400 sm:text-xl/8">
 			Sorry, we couldn’t find the page you’re looking for.

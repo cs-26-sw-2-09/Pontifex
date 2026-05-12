@@ -65,9 +65,7 @@
 
 								<div class="flex items-center justify-between border-t border-gray-700 pt-4">
 									<span class="text-sm text-gray-400"> View course </span>
-
 									<span class="text-xl text-gray-400 transition group-hover:translate-x-1">
-										→
 									</span>
 								</div>
 							</div>
@@ -77,7 +75,6 @@
 			{:else}
 				<div class="rounded-xl border border-dashed border-gray-700 p-10 text-center">
 					<h3 class="text-lg font-semibold text-white">No courses found</h3>
-
 					<p class="mt-2 text-sm text-gray-400">You are not currently enrolled in any courses.</p>
 				</div>
 			{/if}
