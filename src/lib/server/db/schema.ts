@@ -85,5 +85,5 @@ export const Review = pgTable("review", {
 		.notNull()
 		.references(() => User.Id),
 	Grade: integer(),
-	Feedback: integer()
+	Feedback: text()
 });

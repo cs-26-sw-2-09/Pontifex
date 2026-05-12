@@ -1,17 +1,23 @@
 import { GetUsersWithRole } from "$lib/server/db";
 import type { PageServerLoad, Actions } from "./$types";
 import { Role } from "$lib/types";
-import { redirect, error } from "@sveltejs/kit";
+import { redirect } from "@sveltejs/kit";
+import { error as SVKError } from "@sveltejs/kit";
 
 // Fetches all users parallelly using promise.all into students, teachers, admin
 export const load: PageServerLoad = async () => {
-	const [students, teachers, admins] = await Promise.all([
-		GetUsersWithRole(Role.Student),
-		GetUsersWithRole(Role.Teacher),
-		GetUsersWithRole(Role.Admin)
-	]);
-
-	return { students, teachers, admins };
+	try {
+		// Check if the database connection is established by trying to fetch users with a role
+		const [students, teachers, admins] = await Promise.all([
+			GetUsersWithRole(Role.Student),
+			GetUsersWithRole(Role.Teacher),
+			GetUsersWithRole(Role.Admin)
+		]);
+		return { students, teachers, admins };
+	} catch (err) {
+		console.error("Failed to fetch users:", err);
+		throw SVKError(500, "Database connection failed \n");
+	}
 };
 
 // Requests the cookies, checks id's and gets the data from +page.svelte
@@ -22,9 +28,9 @@ export const actions: Actions = {
 	login: async ({ request, cookies }) => {
 		const data = await request.formData();
 		const id = data.get("id");
-		if (!id) error(400, "ID not found");
 		const role = data.get("role") as string;
 		// cookie is set
+		if (!id) throw SVKError(400, "ID is required");
 		cookies.set("user", id.toString(), {
 			path: "/",
 			httpOnly: true,
