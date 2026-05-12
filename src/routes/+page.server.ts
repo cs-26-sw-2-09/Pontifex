@@ -24,6 +24,9 @@ export const actions: Actions = {
 		const id = data.get("id");
 		if (!id) error(400, "ID not found");
 		const role = data.get("role") as string;
+
+		
+
 		// cookie is set
 		cookies.set("user", id.toString(), {
 			path: "/",
