@@ -5,7 +5,7 @@
 		"Name": "The day in a life of blank",
 		"Description": "Write stuff",
 		"DueDate": "2026-05-28 12:00:00",
-		"TeacherId": 3
+		"TeacherId": 6
 	},
 	{
 		"Id": 2,
@@ -14,5 +14,53 @@
 		"Description": "Math assignment",
 		"DueDate": "2026-05-27 00:00:00",
 		"TeacherId": 10
+	},
+	{
+		"Id": 4,
+		"CourseId": 3,
+		"Name": "Make a calculator",
+		"Description": "Write it in C",
+		"DueDate": "2026-06-01 23:59:00",
+		"TeacherId": 10
+	},
+	{
+		"Id": 5,
+		"CourseId": 5,
+		"Name": "What happened in WW2",
+		"Description": "How and Why WW2?\t",
+		"DueDate": "2026-05-28 23:59:00",
+		"TeacherId": 6
+	},
+	{
+		"Id": 6,
+		"CourseId": 6,
+		"Name": "Write an essay",
+		"Description": "Write an essay about where you want to be in 10 years",
+		"DueDate": "2026-06-15 23:59:00",
+		"TeacherId": 3
+	},
+	{
+		"Id": 7,
+		"CourseId": 7,
+		"Name": "Motion and Forces",
+		"Description": "A toy car is released from the top of a ramp at different heights. Record its time to reach the bottom, calculate the average speed, and plot a graph of speed versus ramp height.",
+		"DueDate": "2026-07-12 23:59:00",
+		"TeacherId": 3
+	},
+	{
+		"Id": 8,
+		"CourseId": 8,
+		"Name": "Workshop 3: Acid-Base Reactions",
+		"Description": "Asnwer the question in the assignment",
+		"DueDate": "2026-06-21 23:59:00",
+		"TeacherId": 18
+	},
+	{
+		"Id": 9,
+		"CourseId": 9,
+		"Name": "Photosynthesis",
+		"Description": "Make a drawing explaining photosynthesis",
+		"DueDate": "2026-05-26 23:59:00",
+		"TeacherId": 18
 	}
 ]
