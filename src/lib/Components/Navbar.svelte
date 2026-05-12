@@ -3,15 +3,12 @@
 	import { resolve } from "$app/paths";
 	import type { Role } from "$lib/types";
 	export let role: Role;
-	// function logout(){
-	// 	deleteUserCookie();
-	// 	goto(resolve("/"));
-	// }
+	export let userId: number;
 </script>
 
 <!-- Include this script tag or install `@tailwindplus/elements` via npm: -->
 <nav
-	class="relative mb-6 bg-gray-800 after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-white/10"
+	class="absolute top-0 left-0 w-full bg-gray-800 after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-white/10"
 >
 	<div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
 		<div class="relative flex h-16 items-center justify-between">
@@ -58,7 +55,7 @@
 					<div class="flex space-x-4">
 						<!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
 						<a
-							href={resolve(role ? `/${role.toLowerCase()}` : '/')}
+							href={resolve(role ? `/${role.toLowerCase()}` : "/")}
 							aria-current="page"
 							class="rounded-md bg-gray-950/50 px-3 py-2 text-sm font-medium text-white">Home</a
 						>
@@ -108,7 +105,7 @@
 						class="w-48 origin-top-right rounded-md bg-gray-800 py-1 outline -outline-offset-1 outline-white/10 transition transition-discrete [--anchor-gap:--spacing(2)] data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
 					>
 						<a
-							href={resolve("/profile")}
+							href={resolve(`/profile/${userId}`)}
 							class="block px-4 py-2 text-sm text-gray-200 focus:bg-white/5 focus:outline-hidden"
 							>Your profile</a
 						>
@@ -130,7 +127,7 @@
 		<div class="space-y-1 px-2 pt-2 pb-3">
 			<!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
 			<a
-				href={resolve(role ? `/${role.toLowerCase()}` : '/')}
+				href={resolve(role ? `/${role.toLowerCase()}` : "/")}
 				aria-current="page"
 				class="block rounded-md bg-gray-950/50 px-3 py-2 text-base font-medium text-white">Home</a
 			>
