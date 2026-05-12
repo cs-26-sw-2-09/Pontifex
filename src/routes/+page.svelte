@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Auth from "$lib/Components/Auth.svelte";
 	let { data } = $props();
 </script>
 
@@ -72,5 +73,13 @@
 				</button>
 			</form>
 		</div>
+
+		<button
+			command="show-modal"
+			commandfor="dialog"
+			class="rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white inset-ring inset-ring-white/5 hover:bg-white/20"
+			>Open dialog</button
+		>
+		<Auth />
 	</div>
 </div>
