@@ -25,10 +25,13 @@
 				</select>
 				<input type="hidden" name="role" value="Student" />
 				<button
-					type="submit"
+					command="show-modal"
+					commandfor="dialog"
+					type="button"
 					class="rounded-xl border border-blue-400 px-6 py-2 text-blue-400 shadow-md transition hover:bg-blue-400 hover:text-slate-900"
 				>
 					Login
+					<Auth />
 				</button>
 			</form>
 
@@ -47,10 +50,13 @@
 				</select>
 				<input type="hidden" name="role" value="Teacher" />
 				<button
-					type="submit"
+					command="show-modal"
+					commandfor="dialog"
+					type="button"
 					class="rounded-xl border border-emerald-400 px-6 py-2 text-emerald-400 shadow-md transition hover:bg-emerald-400 hover:text-slate-900"
 				>
 					Login
+					<Auth />
 				</button>
 			</form>
 
@@ -66,10 +72,13 @@
 				</select>
 				<input type="hidden" name="role" value="Admin" />
 				<button
-					type="submit"
+					command="show-modal"
+					commandfor="dialog"
+					type="button"
 					class="rounded-xl border border-red-400 px-6 py-2 text-red-400 shadow-md transition hover:bg-red-400 hover:text-slate-900"
 				>
 					Login
+					<Auth />
 				</button>
 			</form>
 		</div>
