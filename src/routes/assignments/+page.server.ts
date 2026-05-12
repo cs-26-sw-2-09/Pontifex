@@ -59,7 +59,9 @@ export const load: PageServerLoad = async ({ cookies }) => {
 
 			const enrolledStudents = enrolledIds.map((id) => studentMap.get(id)).filter(Boolean);
 
-			const notSubmitted = enrolledStudents.filter((submission) => !submittedIds.has(submission!.Id));
+			const notSubmitted = enrolledStudents.filter(
+				(submission) => !submittedIds.has(submission!.Id)
+			);
 
 			return {
 				...assignment,

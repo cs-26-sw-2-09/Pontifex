@@ -13,126 +13,128 @@
 {#if data.assignments.length > 0}
 	<ul role="list" class="mx-auto max-w-3xl space-y-6">
 		{#each data.assignments as assignment (assignment.Id)}
-			<li class="rounded-2xl bg-gray-700 p-6 shadow-lg transition-all hover:bg-gray-600">
-				<div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-					<!-- LEFT -->
-					<div class="flex flex-1 gap-4">
-						<div class="flex h-14 w-14 items-center justify-center rounded-full bg-gray-800">
-							<!-- icon -->
-						</div>
+			<a href={`/assignments/${assignment.Id}`} class="block">
+				<li class="rounded-2xl bg-gray-700 p-6 shadow-lg transition-all hover:bg-gray-600">
+					<div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+						<!-- LEFT -->
+						<div class="flex flex-1 gap-4">
+							<div class="flex h-14 w-14 items-center justify-center rounded-full bg-gray-800">
+								<!-- icon -->
+							</div>
 
-						<div class="flex-1">
-							<p class="text-xl font-semibold text-white">
-								{assignment.Name}
-							</p>
-
-							<p class="wrap-break-words mt-1 text-gray-300">
-								{assignment.Description}
-							</p>
-
-							<p class="mt-2 text-sm text-gray-400">
-								Course ID: {assignment.CourseId}
-							</p>
-						</div>
-					</div>
-
-					<!-- RIGHT -->
-					<div class="min-w-52 text-right text-sm text-gray-300">
-						<!-- ================= ADMIN ================= -->
-						{#if data.user?.Role === "Admin"}
-							<p class="mt-1 text-blue-400">
-								Submissions ({assignment.Submissions?.length ?? 0})
-							</p>
-
-							{#if assignment.Submissions?.length}
-								<div class="mt-2">
-									<p class="text-xs text-gray-400">Submitted by:</p>
-									<ul class="text-sm text-green-300">
-										{#each assignment.Submissions as sub (sub.Id)}
-											<li>
-												{sub.User?.Name ?? "Unknown user"}
-											</li>
-										{/each}
-									</ul>
-								</div>
-							{/if}
-
-							{#if assignment.NotSubmitted?.length}
-								<div class="mt-3">
-									<p class="text-xs text-gray-400">
-										Not submitted ({assignment.NotSubmitted.length})
-									</p>
-									<ul class="text-sm text-red-300">
-										{#each assignment.NotSubmitted as user (user.Id)}
-											<li>{user.Name}</li>
-										{/each}
-									</ul>
-								</div>
-							{/if}
-
-							{#if !assignment.Submissions && !assignment.NotSubmitted}
-								<p class="mt-2 text-xs text-gray-400">No detailed submission data available</p>
-							{/if}
-						{/if}
-
-						<!-- ================= TEACHER ================= -->
-						{#if data.user?.Role === "Teacher"}
-							<p class="font-semibold text-blue-400">
-								Submitted ({assignment.Submissions?.length ?? 0})
-							</p>
-
-							{#if assignment.Submissions?.length}
-								<ul class="mt-2 text-sm text-green-300">
-									{#each assignment.Submissions as sub (sub.Id)}
-										<li>{sub.User?.Name ?? "Unknown user"}</li>
-									{/each}
-								</ul>
-							{/if}
-
-							<div class="mt-3">
-								<p class="text-xs text-gray-400">
-									Not submitted ({assignment.NotSubmitted?.length ?? 0})
+							<div class="flex-1">
+								<p class="text-xl font-semibold text-white">
+									{assignment.Name}
 								</p>
 
+								<p class="wrap-break-words mt-1 text-gray-300">
+									{assignment.Description}
+								</p>
+
+								<p class="mt-2 text-sm text-gray-400">
+									Course ID: {assignment.CourseId}
+								</p>
+							</div>
+						</div>
+
+						<!-- RIGHT -->
+						<div class="min-w-52 text-right text-sm text-gray-300">
+							<!-- ================= ADMIN ================= -->
+							{#if data.user?.Role === "Admin"}
+								<p class="mt-1 text-blue-400">
+									Submissions ({assignment.Submissions?.length ?? 0})
+								</p>
+
+								{#if assignment.Submissions?.length}
+									<div class="mt-2">
+										<p class="text-xs text-gray-400">Submitted by:</p>
+										<ul class="text-sm text-green-300">
+											{#each assignment.Submissions as sub (sub.Id)}
+												<li>
+													{sub.User?.Name ?? "Unknown user"}
+												</li>
+											{/each}
+										</ul>
+									</div>
+								{/if}
+
 								{#if assignment.NotSubmitted?.length}
-									<ul class="text-sm text-red-300">
-										{#each assignment.NotSubmitted as user (user.Id)}
-											<li>{user.Name}</li>
+									<div class="mt-3">
+										<p class="text-xs text-gray-400">
+											Not submitted ({assignment.NotSubmitted.length})
+										</p>
+										<ul class="text-sm text-red-300">
+											{#each assignment.NotSubmitted as user (user.Id)}
+												<li>{user.Name}</li>
+											{/each}
+										</ul>
+									</div>
+								{/if}
+
+								{#if !assignment.Submissions && !assignment.NotSubmitted}
+									<p class="mt-2 text-xs text-gray-400">No detailed submission data available</p>
+								{/if}
+							{/if}
+
+							<!-- ================= TEACHER ================= -->
+							{#if data.user?.Role === "Teacher"}
+								<p class="font-semibold text-blue-400">
+									Submitted ({assignment.Submissions?.length ?? 0})
+								</p>
+
+								{#if assignment.Submissions?.length}
+									<ul class="mt-2 text-sm text-green-300">
+										{#each assignment.Submissions as sub (sub.Id)}
+											<li>{sub.User?.Name ?? "Unknown user"}</li>
 										{/each}
 									</ul>
 								{/if}
-							</div>
-						{/if}
 
-						<!-- ================= STUDENT ================= -->
-						{#if data.user?.Role === "Student"}
-							{#if assignment.Submissions?.length}
-								<p>
-									Submitted:
-									<span class="font-semibold text-green-400">
-										{new Date(assignment.Submissions[0].SubmissionDate).toLocaleDateString()}
-									</span>
-								</p>
+								<div class="mt-3">
+									<p class="text-xs text-gray-400">
+										Not submitted ({assignment.NotSubmitted?.length ?? 0})
+									</p>
 
-								<span class="mt-1 inline-block rounded bg-green-600 px-3 py-1 text-white">
-									Submitted
-								</span>
-							{:else}
-								<p>
-									Due:
-									<span class="font-semibold text-yellow-400">
-										{new Date(assignment.DueDate).toLocaleDateString()}
-									</span>
-								</p>
-
-								<span class="mt-1 inline-block rounded bg-red-600 px-3 py-1 text-white">
-									Not submitted
-								</span>
+									{#if assignment.NotSubmitted?.length}
+										<ul class="text-sm text-red-300">
+											{#each assignment.NotSubmitted as user (user.Id)}
+												<li>{user.Name}</li>
+											{/each}
+										</ul>
+									{/if}
+								</div>
 							{/if}
-						{/if}
+
+							<!-- ================= STUDENT ================= -->
+							{#if data.user?.Role === "Student"}
+								{#if assignment.Submissions?.length}
+									<p>
+										Submitted:
+										<span class="font-semibold text-green-400">
+											{new Date(assignment.Submissions[0].SubmissionDate).toLocaleDateString()}
+										</span>
+									</p>
+
+									<span class="mt-1 inline-block rounded bg-green-600 px-3 py-1 text-white">
+										Submitted
+									</span>
+								{:else}
+									<p>
+										Due:
+										<span class="font-semibold text-yellow-400">
+											{new Date(assignment.DueDate).toLocaleDateString()}
+										</span>
+									</p>
+
+									<span class="mt-1 inline-block rounded bg-red-600 px-3 py-1 text-white">
+										Not submitted
+									</span>
+								{/if}
+							{/if}
+						</div>
 					</div>
-				</div>
-			</li>
+				</li>
+			</a>
 		{/each}
 	</ul>
 {:else}
