@@ -1,7 +1,7 @@
 import { db, GetUserFromId, GetCoursesFromUserId } from "$lib/server/db";
 import type { PageServerLoad } from "./$types";
 import { redirect } from "@sveltejs/kit";
-import type { Assignments, Submissions, UserType } from "$lib/types";
+import type { Assignments, UserType } from "$lib/types";
 import { Role } from "$lib/types";
 
 export const load: PageServerLoad = async ({ cookies }) => {
@@ -19,7 +19,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
 		// Get a list of all courses the student is enrolled in
 		const CourseIds = Courses.map((course) => course.Id);
 		// Get a list of all assignments for those courses
-		let Assignments = await db.query.Assignments.findMany({
+		const Assignments = await db.query.Assignments.findMany({
 			where: {
 				CourseId: {
 					in: CourseIds
@@ -79,12 +79,12 @@ export const load: PageServerLoad = async ({ cookies }) => {
 	// It starts by getting a list of all users for each course
 	// Then it filters out so its only students
 	// Then we have an array of students for each assignment
-	let StudentUsers = Assignments.map((assignment) => assignment.Course?.Users).map((Users) =>
+	const StudentUsers = Assignments.map((assignment) => assignment.Course?.Users).map((Users) =>
 		Users?.filter((user: UserType) => user.Role === Role.Student)
 	);
 
 	// Get a list of all students who have not submitted for each assignment
-	let notSubmitted = StudentUsers.map((users, index) => {
+	const notSubmitted = StudentUsers.map((users, index) => {
 		// Get a list of all students who have submitted for the assignment
 		const submitted = Assignments[index].Submissions!.map((submission) => submission.UserId);
 		// Filter out the students who have submitted from the list of all students

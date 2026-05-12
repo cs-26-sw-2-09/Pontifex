@@ -1,5 +1,6 @@
 <script lang="ts">
 	let { data } = $props();
+	import { resolve } from "$app/paths";
 
 	import Navbar from "$lib/Components/Navbar.svelte";
 </script>
@@ -13,7 +14,7 @@
 {#if data.Assignments!.length > 0}
 	<ul role="list" class="mx-auto max-w-3xl space-y-6">
 		{#each data.Assignments as assignment, index (assignment.Id)}
-			<a href={`/assignments/${assignment.Id}`} class="block">
+			<a href={resolve(`/assignments/${assignment.Id}`)} class="block">
 				<li class="rounded-2xl bg-gray-700 p-6 shadow-lg transition-all hover:bg-gray-600">
 					<div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
 						<!-- LEFT -->
