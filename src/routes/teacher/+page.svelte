@@ -3,7 +3,7 @@
 	let { data } = $props();
 </script>
 
-<Navbar role={data.Role!} />
+<Navbar role={data.Role!} userId={data!.Id} />
 <h1 class="text-center text-4xl font-bold text-gray-100">Welcome, {data.Name}!</h1>
 
 <div class="m-10 grid grid-cols-3 content-start gap-4">
