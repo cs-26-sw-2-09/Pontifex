@@ -21,7 +21,6 @@ export const load: PageServerLoad = async () => {
 export const actions: Actions = {
 	login: async ({ request, cookies }) => {
 		const data = await request.formData();
-		console.log(data);
 		const id = data.get("id");
 		if (!id) error(400, "ID not found");
 		const role = data.get("role") as string;
