@@ -6,11 +6,14 @@ import { Role, type UserType } from "$lib/types";
 // gets the cookie, if not redirected to frontpage
 export const load: PageServerLoad = async ({ cookies }) => {
 	const users: UserType[] = [];
-	users.push(...(await GetUsersWithRole(Role.Student, true)));
-	users.push(...(await GetUsersWithRole(Role.Teacher, true)));
+	users.push(...((await GetUsersWithRole(Role.Student, true)) ?? []));
+	users.push(...((await GetUsersWithRole(Role.Teacher, true)) ?? []));
 	const userId: number = Number(cookies.get("user"));
 
 	const user = await GetUserFromId(userId, false);
+	if (user === undefined) {
+		redirect(303, "/");
+	}
 
 	if (!userId || user?.Role !== Role.Admin) {
 		redirect(303, "/");

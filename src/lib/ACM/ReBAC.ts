@@ -8,7 +8,7 @@ import {
 	type Course,
 	type UserToCourse,
 	type Assignments,
-	type HandedInAssignment
+	type Submissions
 } from "$lib/types.js";
 
 export async function HasAccess(
@@ -27,8 +27,8 @@ export async function HasAccess(
 			return await HasAccessToCourse(User, Action, Resource.Course!);
 		case ResourceEnum.Assignment:
 			return await HasAccessToAssignment(User, Action, Resource.Assignment!);
-		case ResourceEnum.HandedInAssignment:
-			return await HasAccessToHandedIn(User, Action, Resource.HandedInAssignment!);
+		case ResourceEnum.Submission:
+			return await HasAccessToSubmission(User, Action, Resource.Submission!);
 		default:
 			return false;
 	}
@@ -146,37 +146,31 @@ export async function HasAccessToAssignment(
 	return false;
 }
 
-export async function HasAccessToHandedIn(
+export async function HasAccessToSubmission(
 	user: UserType,
 	action: Actions,
-	HandIn: HandedInAssignment
+	Submission: Submissions
 ): Promise<boolean> {
 	// This checks if the user is trying to access their own hand in, if so return true
-	if (user.Id === HandIn.UserId) return true;
+	if (user.Id === Submission.UserId) return true;
 
 	const Assignment = await db.query.Assignments.findFirst({
 		where: {
-			Id: HandIn.AssignmentId
+			Id: Submission.AssignmentId
 		}
 	});
 
 	if (!Assignment) return false;
 
 	// Get the course relation for the user and the course of the assignment
-	const UserCourse: UserToCourse | undefined = await db.query.UserToCourses.findFirst({
-		where: {
-			UserId: user.Id,
-			CourseId: Assignment?.CourseId ?? undefined
-		}
-	});
+	//const UserCourse: UserToCourse | undefined = await db.query.UserToCourses.findFirst({
+	//	where: {
+	//		UserId: user.Id,
+	//		CourseId: Assignment?.CourseId ?? undefined
+	//	}
+	//});
 
-	// This checks multiple things
-	// If the user is a teacher trying to read a hand in, this is granted
-	// If the user is a teacher trying to write to the hand in, and if they have a relation with the course, this is granted
-	if (user.Role === Role.Teacher) {
-		if (action === Actions.Read) return true;
-		if (action === Actions.Write && UserCourse) return true;
-	}
+	// There is no access to teachers.
 
 	// Default denies access
 	return false;

@@ -129,14 +129,14 @@ describe("Student check ReBAC", () => {
 	it("Student read a hand in assignment they do not have access to", async () => {
 		const User: UserType = await GetUserFromId(5, true);
 		const Action = Actions.Read;
-		const HandIn = await db.query.HandedInAssignments.findFirst({
+		const Submission = await db.query.Submissions.findFirst({
 			where: {
 				Id: 2
 			}
 		});
 		const Resource: Resource = {
-			ResourceEnum: ResourceEnum.HandedInAssignment,
-			HandedInAssignment: HandIn!
+			ResourceEnum: ResourceEnum.Submission,
+			Submission: Submission!
 		};
 
 		expect(await HasAccess(User, Action, Resource)).toBe(false);
@@ -145,14 +145,14 @@ describe("Student check ReBAC", () => {
 	it("Student read a hand in assignment they have access to", async () => {
 		const User: UserType = await GetUserFromId(5, true);
 		const Action = Actions.Read;
-		const HandIn = await db.query.HandedInAssignments.findFirst({
+		const Submission = await db.query.Submissions.findFirst({
 			where: {
 				Id: 1
 			}
 		});
 		const Resource: Resource = {
-			ResourceEnum: ResourceEnum.HandedInAssignment,
-			HandedInAssignment: HandIn!
+			ResourceEnum: ResourceEnum.Submission,
+			Submission: Submission!
 		};
 
 		expect(await HasAccess(User, Action, Resource)).toBe(true);
@@ -161,14 +161,14 @@ describe("Student check ReBAC", () => {
 	it("Student write a hand in assignment they have access to", async () => {
 		const User: UserType = await GetUserFromId(5, true);
 		const Action = Actions.Write;
-		const HandIn = await db.query.HandedInAssignments.findFirst({
+		const HandIn = await db.query.Submissions.findFirst({
 			where: {
 				Id: 1
 			}
 		});
 		const Resource: Resource = {
-			ResourceEnum: ResourceEnum.HandedInAssignment,
-			HandedInAssignment: HandIn!
+			ResourceEnum: ResourceEnum.Submission,
+			Submission: HandIn!
 		};
 
 		expect(await HasAccess(User, Action, Resource)).toBe(true);
@@ -177,14 +177,14 @@ describe("Student check ReBAC", () => {
 	it("Student write a hand in assignment they do not have access to", async () => {
 		const User: UserType = await GetUserFromId(5, true);
 		const Action = Actions.Write;
-		const HandIn = await db.query.HandedInAssignments.findFirst({
+		const HandIn = await db.query.Submissions.findFirst({
 			where: {
 				Id: 2
 			}
 		});
 		const Resource: Resource = {
-			ResourceEnum: ResourceEnum.HandedInAssignment,
-			HandedInAssignment: HandIn!
+			ResourceEnum: ResourceEnum.Submission,
+			Submission: HandIn!
 		};
 
 		expect(await HasAccess(User, Action, Resource)).toBe(false);
