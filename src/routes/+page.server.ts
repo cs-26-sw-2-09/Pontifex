@@ -2,7 +2,7 @@ import { GetUsersWithRole } from "$lib/server/db";
 import type { PageServerLoad, Actions } from "./$types";
 import { Role } from "$lib/types";
 import { redirect, error } from "@sveltejs/kit";
-import { LogModule } from "$lib/Logs/LogModule.js";
+import { LogModule } from "$lib/server/LogModule";
 
 const logModule = new LogModule();
 
@@ -27,7 +27,7 @@ export const actions: Actions = {
 		const id = data.get("id");
 		if (!id) error(400, "ID not found");
 		const role = data.get("role") as string;
-		//await logModule.writeLoginLog(parseInt(id.toString()), "Unknown", role as Role);
+		await logModule.writeLoginLog(parseInt(id.toString()), role as Role);
 		// cookie is set
 		cookies.set("user", id.toString(), {
 			path: "/",
