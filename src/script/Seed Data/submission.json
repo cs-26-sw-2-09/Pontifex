@@ -1,20 +1,121 @@
 [
 	{
 		"Id": 1,
-		"UserId": 5,
+		"UserId": 4,
 		"AssignmentId": 1,
-		"HandInDate": "2026-04-17 12:41:55.574472",
-		"Grade": null,
-		"Feedback": null,
-		"AssignmentText": "Balls haha"
+		"SubmissionDate": "2026-04-17 12:41:55.574472",
+		"AssignmentText": "This was hard"
 	},
 	{
 		"Id": 2,
-		"UserId": 7,
-		"AssignmentId": 2,
-		"HandInDate": "2026-04-29 13:21:52.859978",
-		"Grade": null,
-		"Feedback": null,
+		"UserId": 5,
+		"AssignmentId": 1,
+		"SubmissionDate": "2026-04-29 13:21:52.859978",
 		"AssignmentText": "WOW"
+	},
+	{
+		"Id": 3,
+		"UserId": 11,
+		"AssignmentId": 7,
+		"SubmissionDate": "2026-05-10 20:06:00",
+		"AssignmentText": "DONE!"
+	},
+	{
+		"Id": 4,
+		"UserId": 12,
+		"AssignmentId": 7,
+		"SubmissionDate": "2026-06-26 19:00:00",
+		"AssignmentText": "Finished the assignment"
+	},
+	{
+		"Id": 5,
+		"UserId": 13,
+		"AssignmentId": 7,
+		"SubmissionDate": "2026-07-09 07:00:00",
+		"AssignmentText": "Completed"
+	},
+	{
+		"Id": 6,
+		"UserId": 17,
+		"AssignmentId": 7,
+		"SubmissionDate": "2026-07-12 21:00:00",
+		"AssignmentText": "Just in time"
+	},
+	{
+		"Id": 7,
+		"UserId": 7,
+		"AssignmentId": 1,
+		"SubmissionDate": "2026-05-08 15:00:00",
+		"AssignmentText": "Great assignment"
+	},
+	{
+		"Id": 9,
+		"UserId": 17,
+		"AssignmentId": 9,
+		"SubmissionDate": "2026-05-25 22:07:07",
+		"AssignmentText": "Beautiful"
+	},
+	{
+		"Id": 10,
+		"UserId": 14,
+		"AssignmentId": 9,
+		"SubmissionDate": "2026-05-21 22:07:03",
+		"AssignmentText": "Very good"
+	},
+	{
+		"Id": 11,
+		"UserId": 7,
+		"AssignmentId": 9,
+		"SubmissionDate": "2026-05-22 05:09:12",
+		"AssignmentText": "Done"
+	},
+	{
+		"Id": 12,
+		"UserId": 5,
+		"AssignmentId": 9,
+		"SubmissionDate": "2026-05-25 16:06:08",
+		"AssignmentText": "Just in time"
+	},
+	{
+		"Id": 13,
+		"UserId": 8,
+		"AssignmentId": 4,
+		"SubmissionDate": "2026-06-01 21:05:01",
+		"AssignmentText": "This was tough "
+	},
+	{
+		"Id": 14,
+		"UserId": 12,
+		"AssignmentId": 4,
+		"SubmissionDate": "2026-05-31 08:07:08",
+		"AssignmentText": "Easy"
+	},
+	{
+		"Id": 15,
+		"UserId": 15,
+		"AssignmentId": 4,
+		"SubmissionDate": "2026-05-27 17:09:16",
+		"AssignmentText": "Maybe Correct"
+	},
+	{
+		"Id": 16,
+		"UserId": 13,
+		"AssignmentId": 4,
+		"SubmissionDate": "2026-05-29 08:04:08",
+		"AssignmentText": "Yes"
+	},
+	{
+		"Id": 17,
+		"UserId": 4,
+		"AssignmentId": 4,
+		"SubmissionDate": "2026-05-11 16:54:12.784",
+		"AssignmentText": "Huh"
+	},
+	{
+		"Id": 18,
+		"UserId": 4,
+		"AssignmentId": 6,
+		"SubmissionDate": "2026-05-11 16:56:52.954",
+		"AssignmentText": "Heyo"
 	}
 ]
