@@ -170,14 +170,17 @@ export async function HasAccessToSubmission(
 
   if (!Assignment) return false;
 
+  if (user.Id === Assignment.TeacherId && action === Actions.Read) return true;
+
+  if (user.Id != Submission.UserId) return false
+
   if (
-    !Review &&
+    Review &&
     (action === Actions.Write || action === Actions.Delete) &&
     new Date() < Assignment?.DueDate
   )
     return true;
 
-  if (user.Id === Assignment.TeacherId && action === Actions.Read) return true;
 
   // Default denies access
   return false;
