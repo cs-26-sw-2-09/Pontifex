@@ -8,7 +8,8 @@ import {
 	type Course,
 	type UserToCourse,
 	type Assignments,
-	type Submissions
+	type Submissions,
+	type Review
 } from "$lib/types.js";
 
 export async function HasAccess(
@@ -152,8 +153,12 @@ export async function HasAccessToSubmission(
 	Submission: Submissions
 ): Promise<boolean> {
 	// This checks if the user is trying to access their own hand in, if so return true
-	if (user.Id === Submission.UserId) return true;
-
+	if (user.Id === Submission.UserId && action === Actions.Read) return true;
+	const Review = await db.query.Review.findFirst({
+		where: {
+			SubmissionsId: Submission.Id
+		}
+	});
 	const Assignment = await db.query.Assignments.findFirst({
 		where: {
 			Id: Submission.AssignmentId
@@ -162,15 +167,36 @@ export async function HasAccessToSubmission(
 
 	if (!Assignment) return false;
 
-	// Get the course relation for the user and the course of the assignment
-	//const UserCourse: UserToCourse | undefined = await db.query.UserToCourses.findFirst({
-	//	where: {
-	//		UserId: user.Id,
-	//		CourseId: Assignment?.CourseId ?? undefined
-	//	}
-	//});
+	if (
+		!Review &&
+		(action === Actions.Write || action === Actions.Delete) &&
+		new Date() < Assignment?.DueDate
+	)
+		return true;
 
-	// There is no access to teachers.
+	if (user.Id === Assignment.TeacherId && action === Actions.Read) return true;
+
+	// Default denies access
+	return false;
+}
+
+export async function HasAccessToReview(
+	user: UserType,
+	action: Actions,
+	Review: Review
+): Promise<boolean> {
+	// A teacher is allowed everything with their own review
+	if (user.Id === Review.TeacherId) return true;
+
+	const Submission = await db.query.Submissions.findFirst({
+		where: {
+			Id: Review.SubmissionsId
+		}
+	});
+
+	if (!Submission) return false;
+
+	if (user.Id === Submission.UserId && action == Actions.Read) return true;
 
 	// Default denies access
 	return false;
