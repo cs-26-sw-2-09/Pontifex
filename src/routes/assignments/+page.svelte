@@ -7,7 +7,7 @@
 
 <Navbar role={data.user?.Role} userId={data.user?.Id} />
 
-<h1 class="mb-10 text-center text-[42px] font-semibold">
+<h1 class="mb-10 text-center text-4xl font-semibold">
 	Assignments for {data.user?.Name}
 </h1>
 
@@ -108,5 +108,5 @@
 		{/each}
 	</ul>
 {:else}
-	<p class="mt-10 text-center text-lg">No assignments found.</p>
+	<p class="text-center text-lg">No assignments found.</p>
 {/if}

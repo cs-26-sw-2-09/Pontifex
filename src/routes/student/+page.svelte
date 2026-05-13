@@ -4,7 +4,7 @@
 </script>
 
 <Navbar role={data.Role!} userId={data!.Id} />
-<h1 class="mb-10 text-center text-[42px] font-semibold">Welcome, {data.Name}!</h1>
+<h1 class="mb-10 text-center text-4xl font-semibold">Welcome, {data.Name}!</h1>
 
 <div class="m-10 grid grid-cols-3 content-start gap-4">
 	<div

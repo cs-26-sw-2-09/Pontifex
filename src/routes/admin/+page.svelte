@@ -13,7 +13,7 @@
 
 <Navbar role={data.currentUser!.Role} userId={data.currentUser!.Id} />
 
-<h1 class="mb-10 text-center text-[42px] font-semibold">
+<h1 class="mb-10 text-center text-4xl font-semibold">
 	Welcome, {data.currentUser?.Name}!
 </h1>
 
