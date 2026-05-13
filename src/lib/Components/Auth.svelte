@@ -43,7 +43,7 @@
 							<h3 id="dialog-title" class="text-base font-semibold text-white">Pinky Promise</h3>
 							<div class="mt-2">
 								<p class="text-sm text-gray-400">
-									Do you solemnly swear that you are the chosen user?
+									Do you pinky promise that you are the chosen user? 
 								</p>
 							</div>
 						</div>
