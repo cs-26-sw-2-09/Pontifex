@@ -35,7 +35,7 @@ describe("Student check ReBAC", () => {
 		const Action = Actions.Read;
 		const Course: Course = await db.query.Course.findFirst({
 			where: {
-				Id: 2
+				Id: 5
 			}
 		});
 		const Resource: Resource = {
@@ -99,7 +99,7 @@ describe("Student check ReBAC", () => {
 		const Action = Actions.Read;
 		const Assignments: Assignments = await db.query.Assignments.findFirst({
 			where: {
-				Id: 2
+				Id: 5
 			}
 		});
 		const Resource: Resource = {
@@ -131,7 +131,7 @@ describe("Student check ReBAC", () => {
 		const Action = Actions.Read;
 		const Submission = await db.query.Submissions.findFirst({
 			where: {
-				Id: 2
+				Id: 4
 			}
 		});
 		const Resource: Resource = {
@@ -147,7 +147,7 @@ describe("Student check ReBAC", () => {
 		const Action = Actions.Read;
 		const Submission = await db.query.Submissions.findFirst({
 			where: {
-				Id: 1
+				Id: 2
 			}
 		});
 		const Resource: Resource = {
@@ -163,7 +163,7 @@ describe("Student check ReBAC", () => {
 		const Action = Actions.Write;
 		const HandIn = await db.query.Submissions.findFirst({
 			where: {
-				Id: 1
+				Id: 2
 			}
 		});
 		const Resource: Resource = {
@@ -179,7 +179,7 @@ describe("Student check ReBAC", () => {
 		const Action = Actions.Write;
 		const HandIn = await db.query.Submissions.findFirst({
 			where: {
-				Id: 2
+				Id: 1
 			}
 		});
 		const Resource: Resource = {

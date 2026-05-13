@@ -59,7 +59,7 @@
 					<div class="space-y-3">
 						{#each assignments as assignment (assignment.Id)}
 							<a
-								href={resolve(`/course/${data.course?.Id}/assignment/${assignment.Id}`)}
+								href={resolve(`/assignments/${assignment.Id}`)}
 								class="block rounded-xl border border-gray-700 bg-gray-800 p-4 transition hover:border-gray-500 hover:bg-gray-700"
 							>
 								<div class="flex items-center justify-between gap-4">
