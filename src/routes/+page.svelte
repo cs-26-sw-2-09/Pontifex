@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Auth from "$lib/Components/Auth.svelte";
+	let activeFormId = $state("");
 	let { data } = $props();
 </script>
 
@@ -12,7 +14,7 @@
 		</div>
 
 		<div class="flex gap-6">
-			<form method="POST" action="?/login" class="flex flex-col gap-2">
+			<form method="POST" action="?/login" id="student-login" class="flex flex-col gap-2">
 				<p class="text-center text-sm font-medium text-blue-400">Student</p>
 				<select
 					name="id"
@@ -24,14 +26,17 @@
 				</select>
 				<input type="hidden" name="role" value="Student" />
 				<button
-					type="submit"
+					onclick={() => (activeFormId = "student-login")}
+					command="show-modal"
+					commandfor="dialog"
+					type="button"
 					class="rounded-xl border border-blue-400 px-6 py-2 text-blue-400 shadow-md transition hover:bg-blue-400 hover:text-slate-900"
 				>
 					Login
 				</button>
 			</form>
 
-			<form method="POST" action="?/login" class="flex flex-col gap-2">
+			<form method="POST" action="?/login" id="teacher-login" class="flex flex-col gap-2">
 				<p class="text-center text-sm font-medium text-emerald-400">Teacher</p>
 				<select
 					name="id"
@@ -46,14 +51,17 @@
 				</select>
 				<input type="hidden" name="role" value="Teacher" />
 				<button
-					type="submit"
+					onclick={() => (activeFormId = "teacher-login")}
+					command="show-modal"
+					commandfor="dialog"
+					type="button"
 					class="rounded-xl border border-emerald-400 px-6 py-2 text-emerald-400 shadow-md transition hover:bg-emerald-400 hover:text-slate-900"
 				>
 					Login
 				</button>
 			</form>
 
-			<form method="POST" action="?/login" class="flex flex-col gap-2">
+			<form method="POST" action="?/login" id="admin-login" class="flex flex-col gap-2">
 				<p class="text-center text-sm font-medium text-red-400">Admin</p>
 				<select
 					name="id"
@@ -65,12 +73,16 @@
 				</select>
 				<input type="hidden" name="role" value="Admin" />
 				<button
-					type="submit"
+					onclick={() => (activeFormId = "admin-login")}
+					command="show-modal"
+					commandfor="dialog"
+					type="button"
 					class="rounded-xl border border-red-400 px-6 py-2 text-red-400 shadow-md transition hover:bg-red-400 hover:text-slate-900"
 				>
 					Login
 				</button>
 			</form>
+			<Auth formId={activeFormId} />
 		</div>
 	</div>
 </div>
