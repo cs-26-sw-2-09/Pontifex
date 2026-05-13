@@ -126,7 +126,7 @@ describe("Student check ReBAC", () => {
 		expect(await HasAccess(User, Action, Resource)).toBe(false);
 	});
 
-	it("Student read a hand in assignment they do not have access to", async () => {
+	it("Student read a submission assignment they do not have access to", async () => {
 		const User: UserType = await GetUserFromId(5, true);
 		const Action = Actions.Read;
 		const Submission = await db.query.Submissions.findFirst({
@@ -142,7 +142,7 @@ describe("Student check ReBAC", () => {
 		expect(await HasAccess(User, Action, Resource)).toBe(false);
 	});
 
-	it("Student read a hand in assignment they have access to", async () => {
+	it("Student read a submission assignment they have access to", async () => {
 		const User: UserType = await GetUserFromId(5, true);
 		const Action = Actions.Read;
 		const Submission = await db.query.Submissions.findFirst({
@@ -158,33 +158,33 @@ describe("Student check ReBAC", () => {
 		expect(await HasAccess(User, Action, Resource)).toBe(true);
 	});
 
-	it("Student write a hand in assignment they have access to", async () => {
+	it("Student write a submission assignment they have access to", async () => {
 		const User: UserType = await GetUserFromId(5, true);
 		const Action = Actions.Write;
-		const HandIn = await db.query.Submissions.findFirst({
+		const Submission = await db.query.Submissions.findFirst({
 			where: {
 				Id: 2
 			}
 		});
 		const Resource: Resource = {
 			ResourceEnum: ResourceEnum.Submission,
-			Submission: HandIn!
+			Submission: Submission!
 		};
 
 		expect(await HasAccess(User, Action, Resource)).toBe(true);
 	});
 
-	it("Student write a hand in assignment they do not have access to", async () => {
+	it("Student write a submission assignment they do not have access to", async () => {
 		const User: UserType = await GetUserFromId(5, true);
 		const Action = Actions.Write;
-		const HandIn = await db.query.Submissions.findFirst({
+		const Submission = await db.query.Submissions.findFirst({
 			where: {
 				Id: 1
 			}
 		});
 		const Resource: Resource = {
 			ResourceEnum: ResourceEnum.Submission,
-			Submission: HandIn!
+			Submission: Submission!
 		};
 
 		expect(await HasAccess(User, Action, Resource)).toBe(false);
