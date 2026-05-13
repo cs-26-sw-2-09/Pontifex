@@ -15,7 +15,7 @@
 	<section class="mx-auto max-w-6xl rounded-2xl border border-gray-700 bg-gray-900 p-8 shadow-lg">
 		<p class="text-sm font-medium tracking-wide text-gray-400 uppercase">Course overview</p>
 
-		<h1 class="mt-2 text-4xl font-bold text-white">These are your courses</h1>
+		<h1 class="mt-2 text-4xl font-bold">These are your courses</h1>
 
 		<p class="mt-4 max-w-3xl text-gray-300">
 			Select a course to view assignments, enrolled users, and course details.
@@ -32,7 +32,7 @@
 	<section class="mx-auto mt-8 max-w-6xl">
 		<div class="rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow-lg">
 			<div class="mb-5 flex items-center justify-between">
-				<h2 class="text-2xl font-bold text-white">Courses</h2>
+				<h2 class="text-2xl font-bold">Courses</h2>
 
 				<span class="text-sm text-gray-400">
 					{courses.length} total
@@ -76,7 +76,7 @@
 				</div>
 			{:else}
 				<div class="rounded-xl border border-dashed border-gray-700 p-10 text-center">
-					<h3 class="text-lg font-semibold text-white">No courses found</h3>
+					<h3 class="text-lg font-semibold">No courses found</h3>
 
 					<p class="mt-2 text-sm text-gray-400">You are not currently enrolled in any courses.</p>
 				</div>

@@ -3,6 +3,7 @@ import type { PageServerLoad } from "./$types";
 import { redirect } from "@sveltejs/kit";
 import type { Assignments, UserType } from "$lib/types";
 import { Role } from "$lib/types";
+import { Submissions } from "$lib/server/db/schema";
 
 export const load: PageServerLoad = async ({ cookies }) => {
 	// Check if user is logged in
@@ -18,16 +19,25 @@ export const load: PageServerLoad = async ({ cookies }) => {
 		const Courses = await GetCoursesFromUserId(Number(userId));
 		// Get a list of all courses the student is enrolled in
 		const CourseIds = Courses.map((course) => course.Id);
-		// Get a list of all assignments for those courses
+		// Get a list of all assignments for those courses, including this student's submissions
 		const Assignments = await db.query.Assignments.findMany({
 			where: {
 				CourseId: {
 					in: CourseIds
 				}
+			},
+			with: {
+				Submissions: {
+					where: {
+						UserId: Number(userId)
+					}
+				}
 			}
 		});
+
 		// Return the assignments
 		return {
+			user,
 			Assignments
 		};
 	}
@@ -92,7 +102,6 @@ export const load: PageServerLoad = async ({ cookies }) => {
 		// Return the list of students who have not submitted for the assignment
 		return notSubmitted;
 	});
-
 	// return the assignments and the users
 	return {
 		Assignments,
