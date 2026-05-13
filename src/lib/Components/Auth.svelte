@@ -43,8 +43,13 @@
 							<h3 id="dialog-title" class="text-base font-semibold text-white">Pinky Promise</h3>
 							<div class="mt-2">
 								<p class="text-sm text-gray-400">
-									Do you pinky promise that you are the chosen user? 
+									Do you pinky promise that you are the chosen user?
 								</p>
+								<img
+									class=" align-middle"
+									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACsUlEQVR4nO2ZS2sUQRSFP5Wg8QEuoqBR3CQgCURFhBACiiPizh/iDxB8oBCJgo+FEkwUXEWCiYrGuBMfCxeCKxdRUcQXEhN8TYSIqC0FZ6Boumd6YlVPt/SBC1Oneqru6aq693Y3FChQwDXWAWNAWXYNaCeHIj4BQcgM10qOMCbHb8lxYxPirpAjlOW0fffXi/tKjhDIkvKZRVAIyRiCQsh/IKQDuGkl0Bvi2oBR4CMwrd/tnv2v6XCFvw18szL+LoXlcAI13OcIvgx0ZUFInI0Da2XjFn/dSqxXrZvRcCHGsRZgFXDB4k1pE06gxtZY/Gpxs1kQstniWuZxpoK0gkYtB5bXeX1S3jlcOVYIcYVCSJ6FLLb4P8BL4BywPU9CmoE7CRJlCViUYPyGCdmv9itgB7AU2AYcB16ExMwAF4E9WRTyRO2dMeNsAvqAyZiV6vLkf6zDcfy02ksSjNkJHLHEB8Bv4BiwwKHvVR2u4EOopnqsttlW9WAjMCAh5v/9pCxkWPyExBxV+40OdL13djfwA/gFbCFFIa3WqkTZa+AM0AMsTDhXv/47iAdUiyqmDD+vVXgPXAIOA29DokzfWeUTO/SG0aHrn6ctJA5mW3UDJxWObVGPqmy7Zl3zHQ9wEee3Kp9UHnWNyCisVL95dHYOlwnrlMY6HdPfo34TljMtpNsKBFHoU/8QGRdizsZD4EFEX5MEzicXJUJatdA+zfPUV3afjXk2d4kVwJTm2etrkmcpFHUnNEfUlnOGyruqg57G3wDM6UHMlP3eUJKQKW0B1xjW+JdJAfesb4YuD2KvVmJOK+MdbdaX3VFHK2Pewr/TmKZyTg29lhjzWeCQyu16olmTBBwAvmis+zUKSW8rczfBC4akNgIso4EoqYyYtPJMEvupFxEjvrJ3gQL8O/4CE6p4fJbv8YIAAAAASUVORK5CYII="
+									alt="promise"
+								/>
 							</div>
 						</div>
 					</div>
