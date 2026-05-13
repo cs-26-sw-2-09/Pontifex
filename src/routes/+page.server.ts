@@ -31,15 +31,18 @@ export const actions: Actions = {
 		const id = data.get("id");
 		const role = data.get("role") as string;
 		if (!id || !role) throw SVKError(400, "ID and role are required");
-		await Log.Login(parseInt(id.toString()), role as Role);
 		// cookie is set
-		if (!id) throw SVKError(400, "ID is required");
+		if (!id) {
+			await Log.Error(new Error("ID is required", { cause: 400 }));
+			throw SVKError(400, "ID is required");
+		}
 		cookies.set("user", id.toString(), {
 			path: "/",
 			httpOnly: true,
 			sameSite: "strict",
 			maxAge: 60 * 60 * 24 * 30
 		});
+		await Log.Login(parseInt(id.toString()), role as Role);
 		// finds the role and converts to lowercase and then it redirects to the role page
 		redirect(303, `/${role.toLowerCase()}`);
 	}

@@ -11,6 +11,7 @@ import {
 	type Submissions,
 	type Review
 } from "$lib/types.js";
+import { Log } from "$lib/server/LogModule.js";
 
 export async function HasAccess(
 	User: UserType,
@@ -18,7 +19,10 @@ export async function HasAccess(
 	Resource: Resource
 ): Promise<boolean> {
 	// Allows admin to bypass all checks and return true
-	if (User.Role === Role.Admin) return true;
+	if (User.Role === Role.Admin) {
+		await Log.Access("Admin access granted", User, Action, Resource, true);
+		return true;
+	}
 
 	// Check if attribute school Id matches
 	switch (Resource.ResourceEnum) {

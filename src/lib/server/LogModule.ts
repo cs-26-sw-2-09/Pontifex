@@ -1,4 +1,4 @@
-import type { UserType, Role } from "$lib/types";
+import type { UserType, Role, Actions, Resource } from "$lib/types";
 import path from "path";
 import { mkdir, appendFile } from "fs/promises";
 
@@ -31,17 +31,18 @@ class LogModule {
 	public async Access(
 		message: string,
 		currentUser: UserType,
-		requestAction: string,
-		requestResource: string
+		requestAction: Actions,
+		requestResource: Resource,
+		requestResult: boolean
 	): Promise<void> {
 		const time = this.GetTime();
-		const logMessage = `${time} - ${message} - User: ${currentUser.Name} - Role: ${currentUser.Role} - Action: ${requestAction} - Resource: ${requestResource}\n`;
+		const logMessage = `${time} - ${message} - User: ${currentUser.Name} - Role: ${currentUser.Role} - Action: ${requestAction} - Resource: ${requestResource} - Result: ${requestResult}\n`;
 		await this.appendLogMessage(logMessage, this.logFilePath);
 	}
 	// Write error log message to log file
-	public async Error(message: string, error: Error): Promise<void> {
+	public async Error(error: Error): Promise<void> {
 		const time = this.GetTime();
-		const logMessage = `${time} - ${message} - Error: ${error.message}\n`;
+		const logMessage = `${time} - ${error.cause} - Error: ${error.message}\n`;
 		await this.appendLogMessage(logMessage, this.logFilePath);
 	}
 
