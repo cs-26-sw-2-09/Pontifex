@@ -2,7 +2,7 @@ import type { UserType, Role } from "$lib/types";
 import path from "path";
 import { mkdir, appendFile } from "fs/promises";
 
-export class LogModule {
+class LogModule {
 	// Private Readonly Property to store the file path
 	private readonly logFilePath: string;
 
@@ -21,14 +21,14 @@ export class LogModule {
 	}
 
 	// Write User Login to log file
-	public async writeLoginLog(userId: number, userRole: Role): Promise<void> {
+	public async Login(userId: number, userRole: Role): Promise<void> {
 		const time = this.GetTime();
 		const logMessage = `${time} - User Login - UserId: ${userId} - Role: ${userRole}\n`;
-		await appendLogMessage(logMessage, this.logFilePath);
+		await this.appendLogMessage(logMessage, this.logFilePath);
 	}
 
 	// Write acces log message to log file
-	public async writeAccessLog(
+	public async Access(
 		message: string,
 		currentUser: UserType,
 		requestAction: string,
@@ -36,25 +36,28 @@ export class LogModule {
 	): Promise<void> {
 		const time = this.GetTime();
 		const logMessage = `${time} - ${message} - User: ${currentUser.Name} - Role: ${currentUser.Role} - Action: ${requestAction} - Resource: ${requestResource}\n`;
-		await appendLogMessage(logMessage, this.logFilePath);
+		await this.appendLogMessage(logMessage, this.logFilePath);
 	}
 	// Write error log message to log file
-	public async writeErrorLog(message: string, error: Error): Promise<void> {
+	public async Error(message: string, error: Error): Promise<void> {
 		const time = this.GetTime();
 		const logMessage = `${time} - ${message} - Error: ${error.message}\n`;
-		await appendLogMessage(logMessage, this.logFilePath);
+		await this.appendLogMessage(logMessage, this.logFilePath);
+	}
+
+	// Async function to append log messages to the log file, ensuring the directory exists and handling any errors that may occur during the file writing process
+	// This function
+	private async appendLogMessage(logMessage: string, logFilePath: string): Promise<void> {
+		try {
+			// Ensuring the directory exists before writing to the log file, if it doesn't exist it will be created
+			// recursive: true creates all missing folders in the path.
+			await mkdir(path.dirname(logFilePath), { recursive: true });
+			// Using appendFile to add the log message to the file, if using writeFile it would overwrite the file each time
+			await appendFile(logFilePath, logMessage, "utf-8");
+		} catch (err) {
+			console.error("Error writing to log file:", err);
+		}
 	}
 }
-// Async function to append log messages to the log file, ensuring the directory exists and handling any errors that may occur during the file writing process
-// This function
-async function appendLogMessage(logMessage: string, logFilePath: string): Promise<void> {
-	try {
-		// Ensuring the directory exists before writing to the log file, if it doesn't exist it will be created
-		// recursive: true creates all missing folders in the path.
-		await mkdir(path.dirname(logFilePath), { recursive: true });
-		// Using appendFile to add the log message to the file, if using writeFile it would overwrite the file each time
-		await appendFile(logFilePath, logMessage, "utf-8");
-	} catch (err) {
-		console.error("Error writing to log file:", err);
-	}
-}
+
+export const Log = new LogModule();

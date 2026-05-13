@@ -1,10 +1,9 @@
 import { GetUsersWithRole } from "$lib/server/db";
 import type { PageServerLoad, Actions } from "./$types";
 import { Role } from "$lib/types";
-import { LogModule } from "$lib/server/LogModule";
+import { Log } from "$lib/server/LogModule";
 import { redirect } from "@sveltejs/kit";
 import { error as SVKError } from "@sveltejs/kit";
-const logModule = new LogModule();
 
 // Fetches all users parallelly using promise.all into students, teachers, admin
 export const load: PageServerLoad = async () => {
@@ -31,7 +30,8 @@ export const actions: Actions = {
 		const data = await request.formData();
 		const id = data.get("id");
 		const role = data.get("role") as string;
-		await logModule.writeLoginLog(parseInt(id.toString()), role as Role);
+		if (!id || !role) throw SVKError(400, "ID and role are required");
+		await Log.Login(parseInt(id.toString()), role as Role);
 		// cookie is set
 		if (!id) throw SVKError(400, "ID is required");
 		cookies.set("user", id.toString(), {
