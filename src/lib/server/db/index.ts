@@ -23,7 +23,11 @@ export async function GetUserFromId(
 		},
 		with: {
 			UserInfo: withUserInfo,
-			Course: true
+			Course: {
+				orderBy: {
+					Id: "asc"
+				}
+			}
 		}
 	}) as unknown as UserType | undefined; // Type assertion to match the expected return type
 }
@@ -41,7 +45,11 @@ export async function GetUsersWithRole(
 		},
 		with: {
 			UserInfo: withUserInfo,
-			Course: true
+			Course: {
+				orderBy: {
+					Id: "asc"
+				}
+			}
 		}
 	}) as unknown as UserType[] | undefined; // Type assertion to match the expected return type
 }
