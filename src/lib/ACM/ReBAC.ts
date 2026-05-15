@@ -180,6 +180,7 @@ export async function HasAccessToSubmission(
 
   if (user.Id != Submission.UserId) return false;
   console.log("User is the owner of the submission");
+  console.log("Overdue: ", new Date() < Assignment?.DueDate)
 
   if (
     Review &&
