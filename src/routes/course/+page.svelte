@@ -65,8 +65,7 @@
 
 								<div class="flex items-center justify-between border-t border-gray-700 pt-4">
 									<span class="text-sm text-gray-400"> View course </span>
-									<span class="text-xl text-gray-400 transition group-hover:translate-x-1">
-									</span>
+									<span class="text-xl text-gray-400 transition group-hover:translate-x-1"> </span>
 								</div>
 							</div>
 						</a>
