@@ -1,6 +1,7 @@
 import type { PageServerLoad } from "./$types";
 import { GetCourseFromId, GetUserFromId } from "$lib/server/db";
 import { redirect } from "@sveltejs/kit";
+import { Role } from "$lib/types";
 
 export const load: PageServerLoad = async ({ cookies, params }) => {
 	const userId: number = Number(cookies.get("user"));
@@ -8,6 +9,8 @@ export const load: PageServerLoad = async ({ cookies, params }) => {
 		redirect(303, "/");
 	}
 	const course = await GetCourseFromId(Number(params.id), true);
+	// filter course Users //remove admin users
+	//console.log(course);
 	const user = await GetUserFromId(userId, true);
 	return { course, user };
 };

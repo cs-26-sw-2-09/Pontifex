@@ -5,7 +5,7 @@
 	import { resolve } from "$app/paths";
 
 	export let data: PageData;
-
+	const currentUser = data.currentUser;
 	const user = data.user;
 	const userInfo = data.user?.UserInfo?.[0];
 	const courses = data.user?.Course ?? [];
@@ -14,7 +14,7 @@
 	}
 </script>
 
-<Navbar role={user!.Role} userId={user!.Id} />
+<Navbar role={currentUser!.Role} userId={currentUser!.Id} />
 {#if user === undefined}
 	<div class="flex min-h-screen items-center justify-center bg-gray-950 text-gray-100">
 		<p class="text-xl">User not found.</p>
