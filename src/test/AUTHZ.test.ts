@@ -163,7 +163,7 @@ describe("Student check ReBAC", () => {
     const Action = Actions.Write;
     const Submission = await db.query.Submissions.findFirst({
       where: {
-        Id: 2
+        Id: 12
       }
     });
     const Resource: Resource = {
