@@ -1,8 +1,9 @@
 import { db, GetUserFromId, GetCoursesFromUserId } from "$lib/server/db";
 import type { PageServerLoad } from "./$types";
-import { redirect } from "@sveltejs/kit";
+import { error, redirect } from "@sveltejs/kit";
 import type { Assignments, UserType } from "$lib/types";
-import { Role } from "$lib/types";
+import { Actions, Role } from "$lib/types";
+import { HasAccessToAssignment } from "$lib/ACM/ReBAC";
 
 export const load: PageServerLoad = async ({ cookies }) => {
 	// Check if user is logged in
@@ -32,6 +33,11 @@ export const load: PageServerLoad = async ({ cookies }) => {
 					}
 				}
 			}
+		});
+
+		Assignments.forEach(async (assignment) => {
+			if (!(await HasAccessToAssignment(user, Actions.Read, assignment)))
+				throw error(403, "You do not have access to this assignment");
 		});
 
 		// Return the assignments
@@ -102,6 +108,10 @@ export const load: PageServerLoad = async ({ cookies }) => {
 		return notSubmitted;
 	});
 	// return the assignments and the users
+	Assignments.forEach(async (assignment) => {
+		if (!(await HasAccessToAssignment(user, Actions.Read, assignment)))
+			throw error(403, "You do not have access to this assignment");
+	});
 	return {
 		Assignments,
 		user,

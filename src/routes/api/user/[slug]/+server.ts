@@ -1,15 +1,22 @@
-// localhost:8123/api/user/123/
-//
-// Get param on get function
-// the param is a number of the if of the user
-// Get the info about the user
-// Check if the user is allowed the info
-
+import { HasAccessToProfile } from "$lib/ACM/ReBAC.js";
 import { GetUserFromId } from "$lib/server/db/index.js";
+import { Actions } from "$lib/types.js";
+import { error, redirect } from "@sveltejs/kit";
 
 // Return allowed data
-export async function GET({ params }) {
-	//const { Users } = await import("$lib/index");
+export async function GET({ params, cookies }) {
+	const userId: number = Number(cookies.get("user"));
+
+	if (!userId) {
+		redirect(303, "/");
+	}
+
+	// fetches user from database
+	const user = await GetUserFromId(Number(userId));
+
+	if (!user) {
+		redirect(303, "/");
+	}
 	// Checks if Id is number else returns response Id not number,
 	const Id = Number(params.slug);
 	if (isNaN(Id)) {
@@ -41,6 +48,8 @@ export async function GET({ params }) {
 	}
 
 	// Check for allowed data (later)
+	if (!(await HasAccessToProfile(user, Actions.Read, ResUser)))
+		throw error(403, "You do not have access to this assignment");
 
 	// Return data
 	return new Response(JSON.stringify(ResUser), {
