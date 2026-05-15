@@ -183,7 +183,7 @@ export async function HasAccessToSubmission(
   console.log("Is it before due date: ", new Date() < Assignment?.DueDate)
 
   if (
-    Review &&
+    !Review &&
     (action === Actions.Write || action === Actions.Delete) &&
     new Date() < Assignment?.DueDate
   )
