@@ -12,150 +12,79 @@ import Review from "./Seed Data/review.json" with { type: "json" };
 
 // This function will see the database with the data from the JSON files.
 export async function seed() {
-	console.log("Seeding database...");
-	await db.insert(Schema.User).values(
-		Users.map((user) => ({
-			Name: user.Name,
-			Role: user.Role as Role,
-			Id: user.Id
-		}))
-	);
-	console.log("Inserted users");
+  console.log("Seeding database...");
+  await db.insert(Schema.User).values(
+    Users.map((user) => ({
+      Name: user.Name,
+      Role: user.Role as Role,
+      Id: user.Id
+    }))
+  );
+  console.log("Inserted users");
 
-	await db.insert(Schema.UserInfo).values(
-		UserInfo.map((userInfo) => ({
-			Id: userInfo.Id,
-			UserId: userInfo.UserId,
-			Gender: userInfo.Gender as Genders,
-			Birthdate: new Date(userInfo.Birthdate).toISOString(),
-			Address: userInfo.Address,
-			CPR: userInfo.CPR,
-			Email: userInfo.Email,
-			PhoneNumber: userInfo.PhoneNumber
-		}))
-	);
-	console.log("Inserted user info");
+  await db.insert(Schema.UserInfo).values(
+    UserInfo.map((userInfo) => ({
+      Id: userInfo.Id,
+      UserId: userInfo.UserId,
+      Gender: userInfo.Gender as Genders,
+      Birthdate: new Date(userInfo.Birthdate).toISOString(),
+      Address: userInfo.Address,
+      CPR: userInfo.CPR,
+      Email: userInfo.Email,
+      PhoneNumber: userInfo.PhoneNumber
+    }))
+  );
+  console.log("Inserted user info");
 
-	await db.insert(Schema.Course).values(
-		Courses.map((course) => ({
-			Id: course.Id,
-			Name: course.Name,
-			Description: course.Description
-		}))
-	);
-	console.log("Inserted courses");
+  await db.insert(Schema.Course).values(
+    Courses.map((course) => ({
+      Id: course.Id,
+      Name: course.Name,
+      Description: course.Description
+    }))
+  );
+  console.log("Inserted courses");
 
-	await db.insert(Schema.UserToCourses).values(
-		UserToCourses.map((userToCourse) => ({
-			UserId: userToCourse.UserId,
-			CourseId: userToCourse.CourseId
-		}))
-	);
-	console.log("Linked users to courses");
+  await db.insert(Schema.UserToCourses).values(
+    UserToCourses.map((userToCourse) => ({
+      UserId: userToCourse.UserId,
+      CourseId: userToCourse.CourseId
+    }))
+  );
+  console.log("Linked users to courses");
 
-	await db.insert(Schema.Assignments).values(
-		Assignments.map((assignment) => ({
-			Id: assignment.Id,
-			CourseId: assignment.CourseId,
-			Name: assignment.Name,
-			Description: assignment.Description,
-			DueDate: new Date(assignment.DueDate)
-		}))
-	);
-	console.log("Inserted assignments");
+  await db.insert(Schema.Assignments).values(
+    Assignments.map((assignment) => ({
+      Id: assignment.Id,
+      CourseId: assignment.CourseId,
+      Name: assignment.Name,
+      Description: assignment.Description,
+      DueDate: new Date(assignment.DueDate)
+    }))
+  );
+  console.log("Inserted assignments");
 
-	await db.insert(Schema.Submissions).values(
-		Submissions.map((submission) => ({
-			Id: submission.Id,
-			AssignmentId: submission.AssignmentId,
-			UserId: submission.UserId,
-			SubmissionDate: new Date(submission.SubmissionDate),
-			AssignmentText: submission.AssignmentText
-		}))
-	);
-	console.log("Inserted submissions");
+  await db.insert(Schema.Submissions).values(
+    Submissions.map((submission) => ({
+      Id: submission.Id,
+      AssignmentId: submission.AssignmentId,
+      UserId: submission.UserId,
+      SubmissionDate: new Date(submission.SubmissionDate),
+      AssignmentText: submission.AssignmentText
+    }))
+  );
+  console.log("Inserted submissions");
 
-	await db.insert(Schema.Review).values(
-		Review.map((review) => ({
-			Id: review.Id,
-			SubmissionsId: review.SubmissionsId,
-			TeacherId: review.TeacherId,
-			Feedback: review.Feedback,
-			Grade: review.Grade
-		}))
-	);
-	console.log("Inserted reviews");
-	//// Inserting users
-	//for (const user of Users) {
-	//	console.log(`Inserting user: ${user.Name} with role ${user.Role}`);
-	//	await db.insert(Schema.User).values({
-	//		Name: user.Name,
-	//		Role: user.Role as Role,
-	//		Id: user.Id
-	//	});
-	//}
-
-	//// Inserting courses
-	//for (const course of Courses) {
-	//  console.log(`Inserting course: ${course.Name}`);
-	//  await db.insert(Schema.Course).values({
-	//    Id: course.Id,
-	//    Name: course.Name,
-	//    Description: course.Description
-	//  });
-	//}
-
-	//// Inserting assignments
-	//for (const assignment of Assignments) {
-	//  console.log(`Inserting assignment: ${assignment.Name} for course ${assignment.CourseId}`);
-	//  await db.insert(Schema.Assignments).values({
-	//    Id: assignment.Id,
-	//    CourseId: assignment.CourseId,
-	//    Name: assignment.Name,
-	//    Description: assignment.Description,
-	//    DueDate: new Date(assignment.DueDate)
-	//  });
-	//}
-
-	//// Linking users to courses
-	//for (const userToCourse of UserToCourses) {
-	//  console.log(`Linking user ${userToCourse.UserId} to course ${userToCourse.CourseId}`);
-	//  await db.insert(Schema.UserToCourses).values({
-	//    UserId: userToCourse.UserId,
-	//    CourseId: userToCourse.CourseId
-	//  });
-	//}
-
-	//// Inserting submission
-	//for (const submission of Submissions) {
-	//  console.log(
-	//    `Inserting submission for user ${submission.UserId} for assignment ${submission.AssignmentId}`
-	//  );
-	//  await db.insert(Schema.Submissions).values({
-	//    Id: submission.Id,
-	//    AssignmentId: submission.AssignmentId,
-	//    UserId: submission.UserId,
-	//    HandInDate: new Date(submission.HandInDate),
-	//    AssignmentText: submission.AssignmentText,
-	//    Grade: submission.Grade,
-	//    Feedback: submission.Feedback
-	//  });
-	//}
-
-	//// Inserting user info
-	//for (const userInfo of UserInfo) {
-	//  console.log(`Inserting user info for user ${userInfo.UserId}`);
-	//  await db.insert(Schema.UserInfo).values({
-	//    Id: userInfo.Id,
-	//    UserId: userInfo.UserId,
-	//    Gender: userInfo.Gender as Genders,
-	//    Birthdate: new Date(userInfo.Birthdate),
-	//    Address: userInfo.Address,
-	//    CPR: userInfo.CPR,
-	//    Email: userInfo.Email,
-	//    PhoneNumber: userInfo.PhoneNumber
-	//  });
-	//}
+  await db.insert(Schema.Review).values(
+    Review.map((review) => ({
+      Id: review.Id,
+      SubmissionsId: review.SubmissionsId,
+      TeacherId: review.TeacherId,
+      Feedback: review.Feedback,
+      Grade: review.Grade
+    }))
+  );
+  console.log("Inserted reviews");
 }
 
 // Creating a connection to the datbase using the CI credentials.
@@ -164,6 +93,6 @@ export const db = drizzle("postgres://user:password@localhost:5432/db-name", { r
 
 // Run the seed function and exit the process when it's done.
 seed().then(() => {
-	console.log("Seeding complete");
-	process.exit(0);
+  console.log("Seeding complete");
+  process.exit(0);
 });
