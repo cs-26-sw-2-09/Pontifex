@@ -3,7 +3,7 @@ import type { PageServerLoad } from "./$types";
 import { error, redirect } from "@sveltejs/kit";
 import type { Assignments, UserType } from "$lib/types";
 import { Actions, Role } from "$lib/types";
-import { HasAccessToAssignment } from "$lib/ACM/ReBAC";
+import { HasAccessToAssignment } from "$lib/acm";
 
 export const load: PageServerLoad = async ({ cookies }) => {
 	// Check if user is logged in

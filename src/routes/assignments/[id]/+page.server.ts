@@ -2,7 +2,7 @@ import type { PageServerLoad } from "./$types";
 import { db, GetUserFromId } from "$lib/server/db";
 import { redirect } from "@sveltejs/kit";
 import { Review, Submissions } from "$lib/server/db/schema";
-import { HasAccessToAssignment } from "$lib/ACM/ReBAC.js";
+import { HasAccessToAssignment } from "$lib/acm";
 import { Actions } from "$lib/types.js";
 import { error } from "@sveltejs/kit";
 

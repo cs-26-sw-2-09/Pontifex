@@ -85,20 +85,3 @@ export enum Actions {
 	Write,
 	Delete
 }
-
-// Reasource to handle AUTH what the user is trying to visit of type ResourceType it includes the requested information.
-export interface Resource {
-	ResourceEnum: ResourceEnum;
-	Profile?: UserType;
-	Course?: Course;
-	Assignment?: Assignments;
-	Submission?: Submissions;
-	Review?: Review;
-}
-
-export enum ResourceEnum {
-	Profile = "Profile",
-	Course = "Course",
-	Assignment = "Assignment",
-	Submission = "Submission"
-}

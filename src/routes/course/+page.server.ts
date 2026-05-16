@@ -1,7 +1,7 @@
 import type { PageServerLoad } from "./$types";
 import { GetCoursesFromUserId, GetUserFromId } from "$lib/server/db";
 import { error, redirect } from "@sveltejs/kit";
-import { HasAccessToCourse } from "$lib/ACM/ReBAC";
+import { HasAccessToCourse } from "$lib/acm";
 import { Actions } from "$lib/types";
 
 export const load: PageServerLoad = async ({ cookies }) => {

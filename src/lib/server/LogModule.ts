@@ -1,4 +1,4 @@
-import type { UserType, Role, Actions, Resource } from "$lib/types";
+import type { UserType, Role, Actions, Resource, Course, Review, Submissions } from "$lib/types";
 import path from "path";
 import { mkdir, appendFile } from "fs/promises";
 
@@ -32,7 +32,7 @@ class LogModule {
 		message: string,
 		currentUser: UserType,
 		requestAction: Actions,
-		requestResource: Resource,
+		requestResource: UserType | Course | Review | Submissions,
 		requestResult: boolean
 	): Promise<void> {
 		const time = this.GetTime();

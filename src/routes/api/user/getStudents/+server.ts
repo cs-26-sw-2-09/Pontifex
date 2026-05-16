@@ -5,7 +5,7 @@
 
 //initial commit
 
-import { HasAccessToProfile } from "$lib/ACM/ReBAC";
+import { HasAccessToProfile } from "$lib/acm";
 import { GetUserFromId, GetUsersWithRole } from "$lib/server/db";
 import { Actions, Role } from "$lib/types";
 import { error, redirect } from "@sveltejs/kit";

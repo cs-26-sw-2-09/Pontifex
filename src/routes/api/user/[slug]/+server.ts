@@ -1,4 +1,4 @@
-import { HasAccessToProfile } from "$lib/ACM/ReBAC.js";
+import { HasAccessToProfile } from "$lib/acm";
 import { GetUserFromId } from "$lib/server/db/index.js";
 import { Actions } from "$lib/types.js";
 import { error, redirect } from "@sveltejs/kit";

@@ -1,12 +1,16 @@
 // import { type UserType, Role, actions, ResourceType } from "$lib/types.js";
-import { HasAccess } from "$lib/ACM/ReBAC";
+import {
+	HasAccessToAssignment,
+	HasAccessToCourse,
+	HasAccessToProfile,
+	HasAccessToSubmission
+} from "$lib/acm";
 import { db, GetUserFromId } from "$lib/server/db";
 import {
 	Actions,
-	ResourceEnum,
 	type Assignments,
 	type Course,
-	type Resource,
+	type Submissions,
 	type UserType
 } from "$lib/types";
 import { describe, it, expect } from "vitest";
@@ -14,7 +18,7 @@ import { describe, it, expect } from "vitest";
 // import * as db from "$lib/server/db";
 
 //base test for succes in PR
-describe("Student check ReBAC", () => {
+describe("Student check ACM", () => {
 	it("Student has a course", async () => {
 		const User: UserType = await GetUserFromId(5, true);
 		const Action = Actions.Read;
@@ -23,12 +27,8 @@ describe("Student check ReBAC", () => {
 				Id: 1
 			}
 		});
-		const Resource: Resource = {
-			ResourceEnum: ResourceEnum.Course,
-			Course: Course
-		};
 
-		expect(await HasAccess(User, Action, Resource)).toBe(true);
+		expect(await HasAccessToCourse(User, Action, Course)).toBe(true);
 	});
 	it("Student does not have a course", async () => {
 		const User: UserType = await GetUserFromId(5, true);
@@ -38,12 +38,8 @@ describe("Student check ReBAC", () => {
 				Id: 5
 			}
 		});
-		const Resource: Resource = {
-			ResourceEnum: ResourceEnum.Course,
-			Course: Course
-		};
 
-		expect(await HasAccess(User, Action, Resource)).toBe(false);
+		expect(await HasAccessToCourse(User, Action, Course)).toBe(false);
 	});
 
 	it("Student write to a course", async () => {
@@ -54,12 +50,8 @@ describe("Student check ReBAC", () => {
 				Id: 1
 			}
 		});
-		const Resource: Resource = {
-			ResourceEnum: ResourceEnum.Course,
-			Course: Course
-		};
 
-		expect(await HasAccess(User, Action, Resource)).toBe(false);
+		expect(await HasAccessToCourse(User, Action, Course)).toBe(false);
 	});
 
 	it("Student read to an assignment", async () => {
@@ -70,12 +62,8 @@ describe("Student check ReBAC", () => {
 				Id: 1
 			}
 		});
-		const Resource: Resource = {
-			ResourceEnum: ResourceEnum.Assignment,
-			Assignment: Assignments!
-		};
 
-		expect(await HasAccess(User, Action, Resource)).toBe(true);
+		expect(await HasAccessToAssignment(User, Action, Assignments)).toBe(true);
 	});
 
 	it("Student write to an assignment", async () => {
@@ -86,12 +74,8 @@ describe("Student check ReBAC", () => {
 				Id: 1
 			}
 		});
-		const Resource: Resource = {
-			ResourceEnum: ResourceEnum.Assignment,
-			Assignment: Assignments!
-		};
 
-		expect(await HasAccess(User, Action, Resource)).toBe(false);
+		expect(await HasAccessToAssignment(User, Action, Assignments)).toBe(false);
 	});
 
 	it("Student read to an assignment they do not have access to", async () => {
@@ -102,12 +86,8 @@ describe("Student check ReBAC", () => {
 				Id: 5
 			}
 		});
-		const Resource: Resource = {
-			ResourceEnum: ResourceEnum.Assignment,
-			Assignment: Assignments!
-		};
 
-		expect(await HasAccess(User, Action, Resource)).toBe(false);
+		expect(await HasAccessToAssignment(User, Action, Assignments)).toBe(false);
 	});
 
 	it("Student write to an assignment they do not have access to", async () => {
@@ -118,76 +98,56 @@ describe("Student check ReBAC", () => {
 				Id: 2
 			}
 		});
-		const Resource: Resource = {
-			ResourceEnum: ResourceEnum.Assignment,
-			Assignment: Assignments!
-		};
 
-		expect(await HasAccess(User, Action, Resource)).toBe(false);
+		expect(await HasAccessToAssignment(User, Action, Assignments)).toBe(false);
 	});
 
 	it("Student read a submission they do not have access to", async () => {
 		const User: UserType = await GetUserFromId(5, true);
 		const Action = Actions.Read;
-		const Submission = await db.query.Submissions.findFirst({
+		const Submission: Submissions = await db.query.Submissions.findFirst({
 			where: {
 				Id: 4
 			}
 		});
-		const Resource: Resource = {
-			ResourceEnum: ResourceEnum.Submission,
-			Submission: Submission!
-		};
 
-		expect(await HasAccess(User, Action, Resource)).toBe(false);
+		expect(await HasAccessToSubmission(User, Action, Submission)).toBe(false);
 	});
 
 	it("Student read a submission they have access to", async () => {
 		const User: UserType = await GetUserFromId(5, true);
 		const Action = Actions.Read;
-		const Submission = await db.query.Submissions.findFirst({
+		const Submission: Submissions = await db.query.Submissions.findFirst({
 			where: {
 				Id: 2
 			}
 		});
-		const Resource: Resource = {
-			ResourceEnum: ResourceEnum.Submission,
-			Submission: Submission!
-		};
 
-		expect(await HasAccess(User, Action, Resource)).toBe(true);
+		expect(await HasAccessToSubmission(User, Action, Submission)).toBe(true);
 	});
 
 	it("Student write a submission they have access to", async () => {
 		const User: UserType = await GetUserFromId(5, true);
 		const Action = Actions.Write;
-		const Submission = await db.query.Submissions.findFirst({
+		const Submission: Submissions = await db.query.Submissions.findFirst({
 			where: {
 				Id: 12
 			}
 		});
-		const Resource: Resource = {
-			ResourceEnum: ResourceEnum.Submission,
-			Submission: Submission!
-		};
 
-		expect(await HasAccess(User, Action, Resource)).toBe(true);
+		expect(await HasAccessToSubmission(User, Action, Submission)).toBe(true);
 	});
 
 	it("Student write a submission they do not have access to", async () => {
 		const User: UserType = await GetUserFromId(5, true);
 		const Action = Actions.Write;
-		const Submission = await db.query.Submissions.findFirst({
+		const Submission: Submissions = await db.query.Submissions.findFirst({
 			where: {
 				Id: 1
 			}
 		});
-		const Resource: Resource = {
-			ResourceEnum: ResourceEnum.Submission,
-			Submission: Submission!
-		};
 
-		expect(await HasAccess(User, Action, Resource)).toBe(false);
+		expect(await HasAccessToSubmission(User, Action, Submission)).toBe(false);
 	});
 
 	it("Student write a submission after a review has been made", async () => {
@@ -198,12 +158,8 @@ describe("Student check ReBAC", () => {
 				Id: 2
 			}
 		});
-		const Resource: Resource = {
-			ResourceEnum: ResourceEnum.Submission,
-			Submission: Submission!
-		};
 
-		expect(await HasAccess(User, Action, Resource)).toBe(false);
+		expect(await HasAccessToSubmission(User, Action, Submission)).toBe(false);
 	});
 });
 
@@ -216,12 +172,8 @@ describe("Teacher check ReBAC", () => {
 				Id: 2
 			}
 		});
-		const Resource: Resource = {
-			ResourceEnum: ResourceEnum.Course,
-			Course: Course
-		};
 
-		expect(await HasAccess(User, Action, Resource)).toBe(true);
+		expect(await HasAccessToCourse(User, Action, Course)).toBe(true);
 	});
 	it("Teacher write has a course", async () => {
 		const User: UserType = await GetUserFromId(10, true);
@@ -231,12 +183,8 @@ describe("Teacher check ReBAC", () => {
 				Id: 2
 			}
 		});
-		const Resource: Resource = {
-			ResourceEnum: ResourceEnum.Course,
-			Course: Course
-		};
 
-		expect(await HasAccess(User, Action, Resource)).toBe(true);
+		expect(await HasAccessToCourse(User, Action, Course)).toBe(true);
 	});
 	it("Teacher write does not have a course", async () => {
 		const User: UserType = await GetUserFromId(10, true);
@@ -246,12 +194,8 @@ describe("Teacher check ReBAC", () => {
 				Id: 1
 			}
 		});
-		const Resource: Resource = {
-			ResourceEnum: ResourceEnum.Course,
-			Course: Course
-		};
 
-		expect(await HasAccess(User, Action, Resource)).toBe(false);
+		expect(await HasAccessToCourse(User, Action, Course)).toBe(false);
 	});
 	it("Teacher read does not have a course", async () => {
 		const User: UserType = await GetUserFromId(10, true);
@@ -261,12 +205,8 @@ describe("Teacher check ReBAC", () => {
 				Id: 1
 			}
 		});
-		const Resource: Resource = {
-			ResourceEnum: ResourceEnum.Course,
-			Course: Course
-		};
 
-		expect(await HasAccess(User, Action, Resource)).toBe(true);
+		expect(await HasAccessToCourse(User, Action, Course)).toBe(true);
 	});
 });
 describe("Admin check ReBAC", () => {
@@ -278,12 +218,8 @@ describe("Admin check ReBAC", () => {
 				Id: 1
 			}
 		});
-		const Resource: Resource = {
-			ResourceEnum: ResourceEnum.Course,
-			Course: Course
-		};
 
-		expect(await HasAccess(User, Action, Resource)).toBe(true);
+		expect(await HasAccessToCourse(User, Action, Course)).toBe(true);
 	});
 	it("Admin write course", async () => {
 		const User: UserType = await GetUserFromId(1, true);
@@ -293,11 +229,7 @@ describe("Admin check ReBAC", () => {
 				Id: 1
 			}
 		});
-		const Resource: Resource = {
-			ResourceEnum: ResourceEnum.Course,
-			Course: Course
-		};
 
-		expect(await HasAccess(User, Action, Resource)).toBe(true);
+		expect(await HasAccessToCourse(User, Action, Course)).toBe(true);
 	});
 });
