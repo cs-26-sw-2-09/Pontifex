@@ -1,10 +1,5 @@
 // import { type UserType, Role, actions, ResourceType } from "$lib/types.js";
-import {
-	HasAccessToAssignment,
-	HasAccessToCourse,
-	HasAccessToProfile,
-	HasAccessToSubmission
-} from "$lib/acm";
+import { HasAccessToAssignment, HasAccessToCourse, HasAccessToSubmission } from "$lib/acm";
 import { db, GetUserFromId } from "$lib/server/db";
 import {
 	Actions,
