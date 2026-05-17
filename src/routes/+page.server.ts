@@ -28,21 +28,21 @@ export const load: PageServerLoad = async () => {
 export const actions: Actions = {
 	login: async ({ request, cookies }) => {
 		const data = await request.formData();
-		const id = data.get("id");
+		const id = data.get("id") as string; // gets the id and converts to type string to be used in cookies.set
 		const role = data.get("role") as string;
-		if (!id || !role) throw SVKError(400, "ID and role are required");
-		// cookie is set
-		if (!id) {
+		if (!id || !role) {
 			await Log.Error(new Error("ID is required", { cause: 400 }));
-			throw SVKError(400, "ID is required");
+			throw SVKError(400, "ID and role are required");
 		}
-		cookies.set("user", id.toString(), {
+		// cookie is set with the user Id
+		cookies.set("user", id, {
 			path: "/",
 			httpOnly: true,
 			sameSite: "strict",
 			maxAge: 60 * 60 * 24 * 30
 		});
-		await Log.Login(parseInt(id.toString()), role as Role);
+
+		await Log.Login(parseInt(id), role as Role);
 		// finds the role and converts to lowercase and then it redirects to the role page
 		redirect(303, `/${role.toLowerCase()}`);
 	}
