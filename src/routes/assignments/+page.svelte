@@ -33,10 +33,6 @@
 								<p class="wrap-break-words mt-1">
 									{assignment.Description}
 								</p>
-
-								<p class="mt-2 text-sm">
-									Course ID: {assignment.CourseId}
-								</p>
 							</div>
 						</div>
 

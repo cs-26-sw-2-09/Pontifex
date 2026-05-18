@@ -27,6 +27,9 @@ export const load: PageServerLoad = async ({ cookies, params }) => {
 				}
 			}
 		});
+		if (!assignment) {
+			throw error(404, "Assignment not found");
+		}
 		if (!(await HasAccessToAssignment(user, Actions.Read, assignment)))
 			throw error(403, "You do not have access to this assignment");
 		return { assignment, user };
