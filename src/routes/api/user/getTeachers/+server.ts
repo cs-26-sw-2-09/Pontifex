@@ -28,7 +28,7 @@ export async function GET({ cookies }) {
 		return new Response(
 			JSON.stringify({
 				status: 404,
-				message: "No students found"
+				message: "No teachers found"
 			}),
 			{ status: 404 }
 		);
