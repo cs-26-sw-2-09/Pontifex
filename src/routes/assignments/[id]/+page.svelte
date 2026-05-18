@@ -20,6 +20,21 @@
 					Submitted on: {new Date(data.assignment.Submissions[0].SubmissionDate).toLocaleString()}
 				</p>
 				<p>Your submission: {data.assignment.Submissions[0].AssignmentText}</p>
+				{#if data.Reviews.filter((review) => review.SubmissionsId === data.assignment.Submissions[0].Id).length}
+					<p class="mt-2 text-sm text-green-400">Graded</p>
+					<p class="mt-1 text-gray-300">
+						Feedback: {data.Reviews.find(
+							(review) => review.SubmissionsId === data.assignment.Submissions[0].Id
+						)?.Feedback}
+					</p>
+					<p class="mt-1 text-gray-300">
+						Grade: {data.Reviews.find(
+							(review) => review.SubmissionsId === data.assignment.Submissions[0].Id
+						)?.Grade}
+					</p>
+				{:else}
+					<p class="mt-2 text-sm text-yellow-400">Not graded yet</p>
+				{/if}
 			{:else}
 				<!-- Input form to submit assignment -->
 				<!-- It is just a text input -->
@@ -56,11 +71,22 @@
 							<p class="mt-1 text-sm text-gray-400">
 								Submitted on: {new Date(submission.SubmissionDate).toLocaleString()}
 							</p>
-							<!-- Add a form to grade the submission with feedback -->
-							<form method="POST" action="?/grade" class="mt-4">
-								<input type="hidden" name="submissionId" value={submission.Id} />
-								<label for="grade-{submission.Id}" class="block text-sm font-medium">Grade:</label>
-								{#if data.user!.Role === Role.Teacher}
+							{#if data.Reviews.filter((review) => review.SubmissionsId === submission.Id).length}
+								<p class="mt-2 text-sm text-green-400">Already graded</p>
+								<p class="mt-1 text-gray-300">
+									Feedback: {data.Reviews.find((review) => review.SubmissionsId === submission.Id)
+										?.Feedback}
+								</p>
+								<p class="mt-1 text-gray-300">
+									Grade: {data.Reviews.find((review) => review.SubmissionsId === submission.Id)
+										?.Grade}
+								</p>
+							{:else}
+								<!-- Add a form to grade the submission with feedback -->
+								<form method="POST" action="?/grade" class="mt-4">
+									<input type="hidden" name="submissionId" value={submission.Id} />
+									<label for="grade-{submission.Id}" class="block text-sm font-medium">Grade:</label
+									>
 									<div class="mt-1 text-gray-950">
 										<input
 											type="text"
@@ -71,13 +97,14 @@
 										/>
 										<input
 											type="number"
-											name="Grade"
+											name="grade"
 											id="grade-{submission.Id}"
 											class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
 											placeholder="Enter grade here (1-5)"
 											min="1"
 											max="5"
 										/>
+										<input type="hidden" name="SubId" value={submission.Id} />
 									</div>
 									<button
 										type="submit"
@@ -85,8 +112,8 @@
 									>
 										Grade Submission
 									</button>
-								{/if}
-							</form>
+								</form>
+							{/if}
 						</li>
 					{/each}
 				</ul>

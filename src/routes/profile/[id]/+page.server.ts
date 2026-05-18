@@ -15,7 +15,7 @@ export const load: PageServerLoad = async ({ cookies, params }) => {
 
 	const user = await GetUserFromId(Number(params.id), true);
 	if (!user) {
-		redirect(303, "/");
+		throw error(404, "User not found");
 	}
 	if (!(await HasAccessToProfile(currentUser, Actions.Read, user)))
 		throw error(403, "You do not have access to this profile");

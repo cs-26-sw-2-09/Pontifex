@@ -26,11 +26,11 @@ export async function HasAccessToProfile(
 	if (User.Id === Profile.Id && Action === Actions.Read) return true;
 
 	// Checks if the user is of type teacher and the actions is read, if so return true
-	if (User.Role === Role.Teacher && Action === Actions.Read) {
+	if (User.Role === Role.Teacher) {
 		// 2 scenarios
 		// 1. A teacher trying to get a students info
 		// 2. A teacher trying to get the info of another teacher
-		if (Profile.Role === Role.Student) {
+		if (Profile.Role === Role.Student && Action === Actions.Read) {
 			// Get the courses for the student and teacher, check if any match
 			const StudentCourses = await db.query.UserToCourses.findMany({
 				where: {
@@ -42,14 +42,15 @@ export async function HasAccessToProfile(
 					UserId: User.Id
 				}
 			});
+
+			// If any of the courses match, return true, else return false
 			return StudentCourses.some((SCourse) =>
 				TeacherCourses.some((TCourse) => TCourse.CourseId == SCourse.CourseId)
 			);
 		}
-		if (Profile.Role == Role.Teacher) {
-			// TODO: Discuss how this will be handled
-			return false;
-		}
+
+		// If the teacher is trying to write to their own profile, return true
+		if (Profile.Id === User.Id && Action === Actions.Write) return true;
 	}
 	return false;
 }
@@ -117,7 +118,7 @@ export async function HasAccessToAssignment(
 	// If the user is a teacher trying to write to the assignment, and if they have a relation with the course, this is granted
 	if (User.Role === Role.Teacher) {
 		if (Action === Actions.Read) return true;
-		if (Action === Actions.Write && UserCourse) return true;
+		if (Action === Actions.Write && Assignment.TeacherId == User.Id) return true;
 	}
 
 	// This checks if the user has a relation with the course
@@ -142,6 +143,8 @@ export async function HasAccessToSubmission(
 	}
 	// This checks if the user is trying to access their own hand in, if so return true
 	if (User.Id === Submission.UserId && Action === Actions.Read) return true;
+
+	// Fetch the review and assignment related to the submission
 	const Review = await db.query.Review.findFirst({
 		where: {
 			SubmissionsId: Submission.Id
@@ -153,12 +156,18 @@ export async function HasAccessToSubmission(
 		}
 	});
 
+	// If the assignment doesn't exist, something is wrong, so we return false
 	if (!Assignment) return false;
 
+	// This checks if the user is the teacher of the assignment and trying to read the submission, if so return true
 	if (User.Id === Assignment.TeacherId && Action === Actions.Read) return true;
 
+	// This checks if the user not is the student who made the submission
 	if (User.Id != Submission.UserId) return false;
 
+	// This checks if the action is write or delete
+	// If there is no review it can be edited or deleted, if there is a review it can not be edited or deleted
+	// Also checks if the current date is before the due date of the assignment, if the due date has passed, the submission can not be edited or deleted
 	if (
 		!Review &&
 		(Action === Actions.Write || Action === Actions.Delete) &&
@@ -180,17 +189,24 @@ export async function HasAccessToReview(
 		await Log.Access("Admin access granted", User, Action, Review, true);
 		return true;
 	}
-	// A teacher is allowed everything with their own review
-	if (User.Id === Review.TeacherId) return true;
 
+	// Fetching the submission related to the review
 	const Submission = await db.query.Submissions.findFirst({
 		where: {
 			Id: Review.SubmissionsId
+		},
+		with: {
+			Assignment: true
 		}
 	});
 
+	// If the submission doesn't exist, something is wrong, so we return false
 	if (!Submission) return false;
 
+	//
+	if (User.Id === Submission.Assignment?.TeacherId) return true;
+
+	// If the user made the submission, they can read the review, but not write or delete it
 	if (User.Id === Submission.UserId && Action == Actions.Read) return true;
 
 	// Default denies access

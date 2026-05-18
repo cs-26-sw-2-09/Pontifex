@@ -12,6 +12,13 @@ export const load: PageServerLoad = async ({ cookies, params }) => {
 	const course = await GetCourseFromId(Number(params.id), true);
 	const user = await GetUserFromId(userId, true);
 
+	if (!course) {
+		throw error(404, "Course not found");
+	}
+	if (!user) {
+		redirect(303, "/");
+	}
+
 	// Check if user has access to course, if not throw 403 error
 	if (!(await HasAccessToCourse(user!, Actions.Read, course)))
 		throw error(403, "You do not have access to this course");
