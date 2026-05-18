@@ -18,6 +18,6 @@ export const load: PageServerLoad = async ({ cookies, params }) => {
 		redirect(303, "/");
 	}
 	if (!(await HasAccessToProfile(currentUser, Actions.Read, user)))
-		throw error(403, "You do not have access to this assignment");
+		throw error(403, "You do not have access to this profile");
 	return { user, currentUser };
 };
