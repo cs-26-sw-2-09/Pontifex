@@ -71,54 +71,59 @@ export async function GetCoursesFromUserId(userId: number) {
 	return user?.Course ?? [];
 }
 
-// Creat User and UserInfo in the database,
-// first create the user and then use the created users id to create the userinfo
+// The user is only created if both the user and the user information are created
 export async function CreateUser(userData: UserType): Promise<number> {
-	const createdUser = await db
-		.insert(User)
-		.values({
-			Name: userData.Name,
-			Role: userData.Role
-		})
-		.returning(); // Returns the inserted users ID
-	if (userData.UserInfo) {
-		await db.insert(UserInfo).values({
-			UserId: createdUser[0].Id,
-			Gender: userData.UserInfo[0].Gender,
-			Email: userData.UserInfo[0]?.Email,
-			PhoneNumber: userData.UserInfo[0]?.PhoneNumber,
-			Birthdate: userData.UserInfo[0]?.Birthdate,
-			CPR: userData.UserInfo[0]?.CPR,
-			Address: userData.UserInfo[0]?.Address
-		});
-	}
-	return createdUser[0].Id;
-}
+	return await db.transaction(async (tx) => {
+		const createdUser = await tx
+			.insert(User)
+			.values({
+				Name: userData.Name,
+				Role: userData.Role
+			})
+			.returning();
 
-// Finds and updates a user where the given Id matches the Id in the user table,
-export async function UpdateUser(userData: UserType) {
-	// First Updates Table User with name and role
-	await db
-		.update(User)
-		.set({
-			Name: userData.Name,
-			Role: userData.Role
-		})
-		.where(eq(User.Id, userData.Id));
-	// Second table update of userInfo
-	if (userData.UserInfo) {
-		await db
-			.update(UserInfo)
-			.set({
-				Gender: userData.UserInfo[0]?.Gender,
+		if (userData.UserInfo) {
+			// Check if UserInfo is provided before inserting
+			await tx.insert(UserInfo).values({
+				UserId: createdUser[0].Id,
+				Gender: userData.UserInfo[0].Gender,
 				Email: userData.UserInfo[0]?.Email,
 				PhoneNumber: userData.UserInfo[0]?.PhoneNumber,
 				Birthdate: userData.UserInfo[0]?.Birthdate,
 				CPR: userData.UserInfo[0]?.CPR,
 				Address: userData.UserInfo[0]?.Address
+			});
+		}
+		return createdUser[0].Id;
+	});
+}
+
+// Finds and updates a user where the given Id matches the Id in the user table,
+export async function UpdateUser(userData: UserType) {
+	await db.transaction(async (tx) => {
+		// First Updates Table User with name and role
+		await tx
+			.update(User)
+			.set({
+				Name: userData.Name,
+				Role: userData.Role
 			})
-			.where(eq(UserInfo.UserId, userData.Id));
-	}
+			.where(eq(User.Id, userData.Id));
+		// Second table update of userInfo
+		if (userData.UserInfo) {
+			await tx
+				.update(UserInfo)
+				.set({
+					Gender: userData.UserInfo[0]?.Gender,
+					Email: userData.UserInfo[0]?.Email,
+					PhoneNumber: userData.UserInfo[0]?.PhoneNumber,
+					Birthdate: userData.UserInfo[0]?.Birthdate,
+					CPR: userData.UserInfo[0]?.CPR,
+					Address: userData.UserInfo[0]?.Address
+				})
+				.where(eq(UserInfo.UserId, userData.Id));
+		}
+	});
 }
 
 //Delets a user from the table of Users where the user.Id mathces the userId
