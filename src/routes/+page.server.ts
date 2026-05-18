@@ -29,7 +29,7 @@ export const actions: Actions = {
 	login: async ({ request, cookies }) => {
 		const data = await request.formData();
 		const id = data.get("id") as string; // gets the id and converts to type string to be used in cookies.set
-		const role = data.get("role") as string;
+		const role: Role = data.get("role") as string;
 		if (!id || !role) {
 			await Log.Error(new Error("ID is required", { cause: 400 }));
 			throw SVKError(400, "ID and role are required");
@@ -42,7 +42,7 @@ export const actions: Actions = {
 			maxAge: 60 * 60 * 24 * 30
 		});
 
-		await Log.Login(parseInt(id), role as Role);
+		await Log.Login(parseInt(id), role);
 		// finds the role and converts to lowercase and then it redirects to the role page
 		redirect(303, `/${role.toLowerCase()}`);
 	}
