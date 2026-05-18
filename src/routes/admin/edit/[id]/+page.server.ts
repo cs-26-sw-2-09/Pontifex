@@ -61,7 +61,12 @@ export const actions: Actions = {
 		if (!userId) {
 			return;
 		}
-		await DeleteUser(userId);
+		try {
+			await DeleteUser(userId);
+		} catch (err) {
+			console.error("Error deleting user:", err);
+			throw error(500, "Error deleting user");
+		}
 		redirect(303, "/admin");
 	}
 };
