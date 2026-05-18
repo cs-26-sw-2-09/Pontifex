@@ -47,10 +47,10 @@ export const UserToCourses = pgTable(
 	{
 		UserId: integer()
 			.notNull()
-			.references(() => User.Id),
+			.references(() => User.Id, { onDelete: "cascade" }),
 		CourseId: integer()
 			.notNull()
-			.references(() => Course.Id)
+			.references(() => Course.Id, { onDelete: "cascade" })
 	},
 	(t) => [primaryKey({ columns: [t.UserId, t.CourseId] })]
 );
