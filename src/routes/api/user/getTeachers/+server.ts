@@ -3,21 +3,41 @@
 // Get all teacher ids
 // return all ids as an array
 
-import { GetUsersWithRole } from "$lib/server/db";
-import { Role } from "$lib/types";
+import { HasAccessToProfile } from "$lib/acm";
+import { GetUserFromId, GetUsersWithRole } from "$lib/server/db";
+import { Actions, Role } from "$lib/types";
+import { error, redirect } from "@sveltejs/kit";
 
-export async function GET() {
-	// Insert of test DB,
-	// const { Users } = await import("$lib/index");
+export async function GET({ cookies }) {
+	const userId: number = Number(cookies.get("user"));
 
-	// Filters through users who has the teacher role, then maps the Id to an array of numbers
-	//const teachers: number[] = Users.filter((user) => user.Role === "Teacher").map(
-	//	(teacher) => teacher.Id
-	//);
+	if (!userId) {
+		redirect(303, "/");
+	}
+
+	// fetches user from database
+	const user = await GetUserFromId(Number(userId));
+
+	if (!user) {
+		redirect(303, "/");
+	}
 
 	const teachers = await GetUsersWithRole(Role.Teacher);
 
-	// Retuns Json object including student users ID
+	if (!teachers) {
+		return new Response(
+			JSON.stringify({
+				status: 404,
+				message: "No teachers found"
+			}),
+			{ status: 404 }
+		);
+	}
+
+	teachers.forEach(async (student) => {
+		if (!(await HasAccessToProfile(user, Actions.Read, student)))
+			throw error(403, "You do not have access to this profile");
+	}); // Retuns Json object including student users ID
 	return new Response(JSON.stringify(teachers), {
 		headers: { "Content-Type": "application/json" }
 	});

@@ -1,10 +1,58 @@
 [
-	{ "Id": 1, "SubmissionsId": 1, "TeacherId": 6, "Grade": 7, "Feedback": 0 },
-	{ "Id": 2, "SubmissionsId": 2, "TeacherId": 6, "Grade": 2, "Feedback": 0 },
-	{ "Id": 3, "SubmissionsId": 3, "TeacherId": 3, "Grade": 12, "Feedback": 0 },
-	{ "Id": 4, "SubmissionsId": 4, "TeacherId": 3, "Grade": 4, "Feedback": 0 },
-	{ "Id": 5, "SubmissionsId": 9, "TeacherId": 18, "Grade": 10, "Feedback": 0 },
-	{ "Id": 6, "SubmissionsId": 10, "TeacherId": 18, "Grade": 4, "Feedback": 0 },
-	{ "Id": 7, "SubmissionsId": 13, "TeacherId": 10, "Grade": 12, "Feedback": 0 },
-	{ "Id": 8, "SubmissionsId": 14, "TeacherId": 10, "Grade": 4, "Feedback": 0 }
+	{
+		"Id": 1,
+		"SubmissionsId": 1,
+		"TeacherId": 6,
+		"Grade": 7,
+		"Feedback": "Very good, need to work on your grammar! "
+	},
+	{
+		"Id": 2,
+		"SubmissionsId": 2,
+		"TeacherId": 6,
+		"Grade": 2,
+		"Feedback": "Not good enough, spend more time next assignment"
+	},
+	{
+		"Id": 3,
+		"SubmissionsId": 3,
+		"TeacherId": 3,
+		"Grade": 12,
+		"Feedback": "Excellent!"
+	},
+	{
+		"Id": 4,
+		"SubmissionsId": 4,
+		"TeacherId": 3,
+		"Grade": 4,
+		"Feedback": "Okay! Read the comments and improve for the next assignments!"
+	},
+	{
+		"Id": 5,
+		"SubmissionsId": 9,
+		"TeacherId": 18,
+		"Grade": 10,
+		"Feedback": "Very good!"
+	},
+	{
+		"Id": 6,
+		"SubmissionsId": 10,
+		"TeacherId": 18,
+		"Grade": 4,
+		"Feedback": "Spend more time next time! Not a good drawing!"
+	},
+	{
+		"Id": 7,
+		"SubmissionsId": 13,
+		"TeacherId": 10,
+		"Grade": 12,
+		"Feedback": "splendid!"
+	},
+	{
+		"Id": 8,
+		"SubmissionsId": 14,
+		"TeacherId": 10,
+		"Grade": 4,
+		"Feedback": "Spend more time next time!"
+	}
 ]

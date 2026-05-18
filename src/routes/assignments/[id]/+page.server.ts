@@ -2,6 +2,9 @@ import type { PageServerLoad } from "./$types";
 import { db, GetUserFromId } from "$lib/server/db";
 import { redirect } from "@sveltejs/kit";
 import { Review, Submissions } from "$lib/server/db/schema";
+import { HasAccessToAssignment } from "$lib/acm";
+import { Actions } from "$lib/types.js";
+import { error } from "@sveltejs/kit";
 
 export const load: PageServerLoad = async ({ cookies, params }) => {
 	const userId: number = Number(cookies.get("user"));
@@ -24,7 +27,8 @@ export const load: PageServerLoad = async ({ cookies, params }) => {
 				}
 			}
 		});
-
+		if (!(await HasAccessToAssignment(user, Actions.Read, assignment)))
+			throw error(403, "You do not have access to this assignment");
 		return { assignment, user };
 	} else {
 		const assignment = await db.query.Assignments.findFirst({

@@ -3,56 +3,38 @@ import {
 	type UserType,
 	Role,
 	Actions,
-	type Resource,
-	ResourceEnum,
 	type Course,
 	type UserToCourse,
 	type Assignments,
-	type Submissions
+	type Submissions,
+	type Review
 } from "$lib/types.js";
+import { Log } from "$lib/server/LogModule.js";
 
-export async function HasAccess(
-	User: UserType,
-	Action: Actions,
-	Resource: Resource
-): Promise<boolean> {
-	// Allows admin to bypass all checks and return true
-	if (User.Role === Role.Admin) return true;
-
-	// Check if attribute school Id matches
-	switch (Resource.ResourceEnum) {
-		case ResourceEnum.Profile:
-			return await HasAccessToProfile(User, Action, Resource.Profile!);
-		case ResourceEnum.Course:
-			return await HasAccessToCourse(User, Action, Resource.Course!);
-		case ResourceEnum.Assignment:
-			return await HasAccessToAssignment(User, Action, Resource.Assignment!);
-		case ResourceEnum.Submission:
-			return await HasAccessToSubmission(User, Action, Resource.Submission!);
-		default:
-			return false;
-	}
-}
-
-async function HasAccessToProfile(
+export async function HasAccessToProfile(
 	User: UserType,
 	Action: Actions,
 	// Resource is simplified to type userType since we are testing if the current user has acces to another profile
-	Resource: UserType
+	Profile: UserType
 ): Promise<boolean> {
+	// Allows admin to bypass all checks and return true
+	if (User.Role === Role.Admin) {
+		await Log.Access("Admin access granted", User, Action, Profile, true);
+		return true;
+	}
 	// Checks if the user is trying to access their own profile and the action is read, if so return true
-	if (User.Id === Resource.Id && Action === Actions.Read) return true;
+	if (User.Id === Profile.Id && Action === Actions.Read) return true;
 
 	// Checks if the user is of type teacher and the actions is read, if so return true
 	if (User.Role === Role.Teacher && Action === Actions.Read) {
 		// 2 scenarios
 		// 1. A teacher trying to get a students info
 		// 2. A teacher trying to get the info of another teacher
-		if (Resource.Role === Role.Student) {
+		if (Profile.Role === Role.Student) {
 			// Get the courses for the student and teacher, check if any match
 			const StudentCourses = await db.query.UserToCourses.findMany({
 				where: {
-					UserId: Resource.Id
+					UserId: Profile.Id
 				}
 			});
 			const TeacherCourses = await db.query.UserToCourses.findMany({
@@ -64,7 +46,7 @@ async function HasAccessToProfile(
 				TeacherCourses.some((TCourse) => TCourse.CourseId == SCourse.CourseId)
 			);
 		}
-		if (Resource.Role == Role.Teacher) {
+		if (Profile.Role == Role.Teacher) {
 			// TODO: Discuss how this will be handled
 			return false;
 		}
@@ -72,21 +54,22 @@ async function HasAccessToProfile(
 	return false;
 }
 
-async function HasAccessToCourse(
+export async function HasAccessToCourse(
 	User: UserType,
 	Action: Actions,
 	Course: Course
 ): Promise<boolean> {
+	// Allows admin to bypass all checks and return true
+	if (User.Role === Role.Admin) {
+		await Log.Access("Admin access granted", User, Action, Course, true);
+		return true;
+	}
 	const UserCourse: UserToCourse | undefined = await db.query.UserToCourses.findFirst({
 		where: {
 			UserId: User.Id,
 			CourseId: Course.Id
 		}
 	});
-	//console.log("UserCourse: ", UserCourse);
-	//console.log("User: ", user);
-	//console.log("Course: ", Course);
-	//console.log("Action: ", action);
 
 	// This checks multiple things
 	// If the user is a teacher trying to read a course, this is granted
@@ -99,17 +82,13 @@ async function HasAccessToCourse(
 	// This checks if the user has a relation with the course
 	// The reason for doing it like this, is to make it easier to add more rules later down the line
 	if (UserCourse === undefined) {
-		//console.log("User does not have a relation with the course");
 		return false;
 	}
 
 	// This checks if the user is a student trying to read, this is granded
 	if (User.Role == Role.Student && Action == Actions.Read) {
-		//console.log("User is a student trying to read the course, access granted");
 		return true;
 	}
-
-	//console.log("Default case, access denied");
 
 	// Default denies access and return false
 	return false;
@@ -120,6 +99,11 @@ export async function HasAccessToAssignment(
 	Action: Actions,
 	Assignment: Assignments
 ): Promise<boolean> {
+	// Allows admin to bypass all checks and return true
+	if (User.Role === Role.Admin) {
+		await Log.Access("Admin access granted", User, Action, Assignment, true);
+		return true;
+	}
 	// Get the course relation for the user and the course of the assignment
 	const UserCourse: UserToCourse | undefined = await db.query.UserToCourses.findFirst({
 		where: {
@@ -147,13 +131,22 @@ export async function HasAccessToAssignment(
 }
 
 export async function HasAccessToSubmission(
-	user: UserType,
-	action: Actions,
+	User: UserType,
+	Action: Actions,
 	Submission: Submissions
 ): Promise<boolean> {
+	// Allows admin to bypass all checks and return true
+	if (User.Role === Role.Admin) {
+		await Log.Access("Admin access granted", User, Action, Submission, true);
+		return true;
+	}
 	// This checks if the user is trying to access their own hand in, if so return true
-	if (user.Id === Submission.UserId) return true;
-
+	if (User.Id === Submission.UserId && Action === Actions.Read) return true;
+	const Review = await db.query.Review.findFirst({
+		where: {
+			SubmissionsId: Submission.Id
+		}
+	});
 	const Assignment = await db.query.Assignments.findFirst({
 		where: {
 			Id: Submission.AssignmentId
@@ -162,15 +155,43 @@ export async function HasAccessToSubmission(
 
 	if (!Assignment) return false;
 
-	// Get the course relation for the user and the course of the assignment
-	//const UserCourse: UserToCourse | undefined = await db.query.UserToCourses.findFirst({
-	//	where: {
-	//		UserId: user.Id,
-	//		CourseId: Assignment?.CourseId ?? undefined
-	//	}
-	//});
+	if (User.Id === Assignment.TeacherId && Action === Actions.Read) return true;
 
-	// There is no access to teachers.
+	if (User.Id != Submission.UserId) return false;
+
+	if (
+		!Review &&
+		(Action === Actions.Write || Action === Actions.Delete) &&
+		new Date() < Assignment?.DueDate
+	)
+		return true;
+
+	// Default denies access
+	return false;
+}
+
+export async function HasAccessToReview(
+	User: UserType,
+	Action: Actions,
+	Review: Review
+): Promise<boolean> {
+	// Allows admin to bypass all checks and return true
+	if (User.Role === Role.Admin) {
+		await Log.Access("Admin access granted", User, Action, Review, true);
+		return true;
+	}
+	// A teacher is allowed everything with their own review
+	if (User.Id === Review.TeacherId) return true;
+
+	const Submission = await db.query.Submissions.findFirst({
+		where: {
+			Id: Review.SubmissionsId
+		}
+	});
+
+	if (!Submission) return false;
+
+	if (User.Id === Submission.UserId && Action == Actions.Read) return true;
 
 	// Default denies access
 	return false;
