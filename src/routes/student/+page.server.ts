@@ -11,7 +11,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
 	}
 
 	const user = await GetUserFromId(Number(userId));
-	if (user === undefined) {
+	if (!user) {
 		redirect(303, "/");
 	}
 	return user;
