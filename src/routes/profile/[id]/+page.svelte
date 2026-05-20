@@ -9,7 +9,7 @@
 	const user = data.user;
 	const userInfo = data.user?.UserInfo?.[0];
 	const courses = data.user?.Course ?? [];
-	if (data.user === undefined) {
+	if (!data.user) {
 		redirect(303, "/");
 	}
 </script>

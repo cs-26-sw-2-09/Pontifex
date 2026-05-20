@@ -45,7 +45,7 @@ export async function HasAccessToProfile(
 
 			// If any of the courses match, return true, else return false
 			return StudentCourses.some((SCourse) =>
-				TeacherCourses.some((TCourse) => TCourse.CourseId == SCourse.CourseId)
+				TeacherCourses.some((TCourse) => TCourse.CourseId === SCourse.CourseId)
 			);
 		}
 
@@ -75,19 +75,19 @@ export async function HasAccessToCourse(
 	// This checks multiple things
 	// If the user is a teacher trying to read a course, this is granted
 	// If the user is a teacher trying to write to the course, and if they have a relation with the course, this is granted
-	if (User.Role == Role.Teacher) {
-		if (Action == Actions.Read) return true;
-		if (Action == Actions.Write && UserCourse) return true;
+	if (User.Role === Role.Teacher) {
+		if (Action === Actions.Read) return true;
+		if (Action === Actions.Write && UserCourse) return true;
 	}
 
 	// This checks if the user has a relation with the course
 	// The reason for doing it like this, is to make it easier to add more rules later down the line
-	if (UserCourse === undefined) {
+	if (!UserCourse) {
 		return false;
 	}
 
 	// This checks if the user is a student trying to read, this is granded
-	if (User.Role == Role.Student && Action == Actions.Read) {
+	if (User.Role === Role.Student && Action === Actions.Read) {
 		return true;
 	}
 
@@ -118,11 +118,11 @@ export async function HasAccessToAssignment(
 	// If the user is a teacher trying to write to the assignment, and if they have a relation with the course, this is granted
 	if (User.Role === Role.Teacher) {
 		if (Action === Actions.Read) return true;
-		if (Action === Actions.Write && Assignment.TeacherId == User.Id) return true;
+		if (Action === Actions.Write && Assignment.TeacherId === User.Id) return true;
 	}
 
 	// This checks if the user has a relation with the course
-	if (UserCourse === undefined) return false;
+	if (!UserCourse) return false; // Tak andreas
 
 	// This checks if the user is a student trying to read, this is granded
 	if (User.Role === Role.Student && Action === Actions.Read) return true;
@@ -207,7 +207,7 @@ export async function HasAccessToReview(
 	if (User.Id === Submission.Assignment?.TeacherId) return true;
 
 	// If the user made the submission, they can read the review, but not write or delete it
-	if (User.Id === Submission.UserId && Action == Actions.Read) return true;
+	if (User.Id === Submission.UserId && Action === Actions.Read) return true;
 
 	// Default denies access
 	return false;

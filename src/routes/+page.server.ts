@@ -3,7 +3,7 @@ import type { PageServerLoad, Actions } from "./$types";
 import { Role } from "$lib/types";
 import { Log } from "$lib/server/LogModule";
 import { redirect } from "@sveltejs/kit";
-import { error as SVKError } from "@sveltejs/kit";
+import { error } from "@sveltejs/kit";
 
 // Fetches all users parallelly using promise.all into students, teachers, admin
 export const load: PageServerLoad = async () => {
@@ -17,7 +17,7 @@ export const load: PageServerLoad = async () => {
 		return { students, teachers, admins };
 	} catch (err) {
 		console.error("Failed to fetch users:", err);
-		throw SVKError(500, "Database connection failed \n");
+		throw error(500, "Database connection failed \n");
 	}
 };
 
@@ -32,7 +32,7 @@ export const actions: Actions = {
 		const role: Role = data.get("role") as string;
 		if (!id || !role) {
 			await Log.Error(new Error("ID is required", { cause: 400 }));
-			throw SVKError(400, "ID and role are required");
+			throw error(400, "ID and role are required");
 		}
 		// cookie is set with the user Id
 		cookies.set("user", id, {
